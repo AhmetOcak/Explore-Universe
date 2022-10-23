@@ -1,0 +1,176 @@
+{
+  "all": [
+    {
+      "planets": [
+        {
+          "name": "Mercury",
+          "description": "From the surface of Mercury, the Sun would appear more than three times as large as it does when viewed from Earth, and the sunlight would be as much as seven times brighter. Despite its proximity to the Sun, Mercury is not the hottest planet in our solar system – that title belongs to nearby Venus, thanks to its dense atmosphere.Because of Mercury's elliptical – egg-shaped – orbit, and sluggish rotation, the Sun appears to rise briefly, set, and rise again from some parts of the planet's surface. The same thing happens in reverse at sunset.",
+          "radius": 2439.7,
+          "distance_from_sun": 58000000
+        },
+        {
+          "name": "Venus",
+          "description": "Venus is the second planet from the Sun and is Earth’s closest planetary neighbor. It’s one of the four inner, terrestrial (or rocky) planets, and it’s often called Earth’s twin because it’s similar in size and density. These are not identical twins, however – there are radical differences between the two worlds. Venus has a thick, toxic atmosphere filled with carbon dioxide and it’s perpetually shrouded in thick, yellowish clouds of sulfuric acid that trap heat, causing a runaway greenhouse effect. It’s the hottest planet in our solar system, even though Mercury is closer to the Sun. Surface temperatures on Venus are about 900 degrees Fahrenheit (475 degrees Celsius) – hot enough to melt lead. The surface is a rusty color and it’s peppered with intensely crunched mountains and thousands of large volcanoes. Scientists think it’s possible some volcanoes are still active.",
+          "radius": 6051.8,
+          "distance_from_sun": 67000000
+        },
+        {
+          "name": "Earth",
+          "description": "Our home planet is the third planet from the Sun, and the only place we know of so far that’s inhabited by living things. While Earth is only the fifth largest planet in the solar system, it is the only world in our solar system with liquid water on the surface. Just slightly larger than nearby Venus, Earth is the biggest of the four planets closest to the Sun, all of which are made of rock and metal. The name Earth is at least 1,000 years old. All of the planets, except for Earth, were named after Greek and Roman gods and goddesses. However, the name Earth is a Germanic word, which simply means “the ground.”",
+          "radius": "6371.0",
+          "distance_from_sun": 92000000
+        },
+        {
+          "name": "Mars",
+          "description": "Mars is the fourth planet from the Sun – a dusty, cold, desert world with a very thin atmosphere. Mars is also a dynamic planet with seasons, polar ice caps, canyons, extinct volcanoes, and evidence that it was even more active in the past. Mars is one of the most explored bodies in our solar system, and it's the only planet where we've sent rovers to roam the alien landscape.",
+          "radius": 3390.0,
+          "distance_from_sun": 142000000
+        },
+        {
+          "name": "Jupiter",
+          "description": "Jupiter is the fifth planet from our Sun and is, by far, the largest planet in the solar system – more than twice as massive as all the other planets combined. Jupiter's stripes and swirls are actually cold, windy clouds of ammonia and water, floating in an atmosphere of hydrogen and helium. Jupiter’s iconic Great Red Spot is a giant storm bigger than Earth that has raged for hundreds of years. Jupiter is surrounded by dozens of moons. Jupiter also has several rings, but unlike the famous rings of Saturn, Jupiter’s rings are very faint and made of dust, not ice.",
+          "radius": 699111.0,
+          "distance_from_sun": 778000000
+        },
+        {
+          "name": "Saturn",
+          "description": "Saturn is the sixth planet from the Sun and the second-largest planet in our solar system. Adorned with thousands of beautiful ringlets, Saturn is unique among the planets. It is not the only planet to have rings – made of chunks of ice and rock – but none are as spectacular or as complicated as Saturn's. Like fellow gas giant Jupiter, Saturn is a massive ball made mostly of hydrogen and helium.",
+          "radius": 58332.0,
+          "distance_from_sun": 1400000000
+        },
+        {
+          "name": "Uranus",
+          "description": "Uranus is the seventh planet from the Sun, and has the third-largest diameter in our solar system. It was the first planet found with the aid of a telescope, Uranus was discovered in 1781 by astronomer William Herschel, although he originally thought it was either a comet or a star. It was two years later that the object was universally accepted as a new planet, in part because of observations by astronomer Johann Elert Bode. Herschel tried unsuccessfully to name his discovery Georgium Sidus after King George III. Instead, the scientific community accepted Bode's suggestion to name it Uranus, the Greek god of the sky, as suggested by Bode.​",
+          "radius": 25362.0,
+          "distance_from_sun": 2900000000
+        },
+        {
+          "name": "Neptune",
+          "description": "Dark, cold, and whipped by supersonic winds, ice giant Neptune is the eighth and most distant planet in our solar system. More than 30 times as far from the Sun as Earth, Neptune is the only planet in our solar system not visible to the naked eye and the first predicted by mathematics before its discovery. In 2011 Neptune completed its first 165-year orbit since its discovery in 1846.",
+          "radius": 24622.0,
+          "distance_from_sun": 4500000000
+        },
+        {
+          "name": "Pluto",
+          "description": "Pluto is a dwarf planet in the Kuiper Belt, a donut-shaped region of icy bodies beyond the orbit of Neptune. There may be millions of these icy objects, collectively referred to as Kuiper Belt objects (KBOs) or trans-Neptunian objects (TNOs), in this distant region of our solar system. Pluto – which is smaller than Earth’s Moon – has a heart-shaped glacier that’s the size of Texas and Oklahoma. This fascinating world has blue skies, spinning moons, mountains as high as the Rockies, and it snows – but the snow is red.",
+          "radius": 1151.0,
+          "distance_from_sun": 5900000000
+        }
+      ],
+      "moons": [
+        {
+          "name": "Moon",
+          "description": "The brightest and largest object in our night sky, the Moon makes Earth a more livable planet by moderating our home planet's wobble on its axis, leading to a relatively stable climate. It also causes tides, creating a rhythm that has guided humans for thousands of years. The Moon was likely formed after a Mars-sized body collided with Earth several billion years ago. Earth's only natural satellite is simply called the Moon because people didn't know other moons existed until Galileo Galilei discovered four moons orbiting Jupiter in 1610.",
+          "radius": 1737.5,
+          "distance_from_sun": 150000000
+        },
+        {
+          "name": "Phobos",
+          "description": "Phobos is nearing Mars at a rate of six feet (1.8 meters) every hundred years; at that rate, it will either crash into Mars in 50 million years or break up into a ring. Its most prominent feature is the 6-mile (9.7 kilometer) crater Stickney, its impact causing streak patterns across the moon's surface. Stickney was seen by Mars Global Surveyor to be filled with fine dust, with evidence of boulders sliding down its sloped surface.",
+          "radius": 11267.0,
+          "distance_from_sun": 142000000
+        },
+        {
+          "name": "Europa",
+          "description": "Europa may be the most promising place in our solar system to find present-day environments suitable for some form of life beyond Earth. Scientists are almost certain that hidden beneath the icy surface of Europa is a salty-water ocean thought to contain twice as much water as Earth’s oceans combined. And like Earth, Europa is thought to also contain a rocky mantle and iron core. Europa could have all three of these ingredients, and its ocean may have existed for the whole age of the solar system, long enough for life to begin and evolve there.",
+          "radius": 1560.8,
+          "distance_from_sun": 485000000
+        },
+        {
+          "name": "Titan",
+          "description": "Saturn’s largest moon Titan is an extraordinary and exceptional world. Among our solar system’s more than 150 known moons, Titan is the only one with a substantial atmosphere. And of all the places in the solar system, Titan is the only place besides Earth known to have liquids in the form of rivers, lakes and seas on its surface. Titan is larger than the planet Mercury and is the second largest moon in our solar system. Jupiter's moon Ganymede is just a little bit larger (by about 2 percent). Titan’s atmosphere is made mostly of nitrogen, like Earth’s, but with a surface pressure 50 percent higher than Earth’s. Titan has clouds, rain, rivers, lakes and seas of liquid hydrocarbons like methane and ethane. The largest seas are hundreds of feet deep and hundreds of miles wide. Beneath Titan’s thick crust of water ice is more liquid—an ocean primarily of water rather than methane. Titan’s subsurface water could be a place to harbor life as we know it, while its surface lakes and seas of liquid hydrocarbons could conceivably harbor life that uses different chemistry than we’re used to—that is, life as we don’t yet know it. Titan could also be a lifeless world.",
+          "radius": 2575.0,
+          "distance_from_sun": 886000000
+        },
+        {
+          "name": "Enceladus",
+          "description": "Few worlds in our solar system are as compelling as Saturn’s icy ocean moon Enceladus. A handful of worlds are thought to have liquid water oceans beneath their frozen shell, but Enceladus sprays its ocean out into space where a spacecraft can sample it. From these samples, scientists have determined that Enceladus has most of the chemical ingredients needed for life, and likely has hydrothermal vents spewing out hot, mineral-rich water into its ocean. About as wide as Arizona, Enceladus also has the whitest, most reflective surface in the solar system. The moon creates a ring of its own as it orbits Saturn—its spray of icy particles spreads out into the space around its orbit, circling the planet to form Saturn’s E ring.",
+          "radius": 252.1,
+          "distance_from_sun": 1500000000
+        }
+      ],
+      "comets": [
+        {
+          "name": "Comet 103P",
+          "description": "Comet 103P Hartley (Hartley 2) is a small, oval (or peanut) shaped comet -- its nucleus measures approximately one mile (1.6 kilometers) in diameter. It takes Hartley 2 about 6.47 years to orbit the Sun once. Hartley 2 last reached perihelion (closest approach to the Sun) in 2017. Called hyperactive by the EPOXI mission, comet Hartley 2 spins around one axis, while tumbling around another one. Comet Hartley's core is also not uniform, but is made up of water ice with methanol, carbon dioxide and possibly ethane. The release of these gases occur at different locations on the comet. For example, carbon-dioxide-driven jets shoot from the ends of the comet, with most occurring from the small end. Water vapor is released from the mid-section with very little, or no carbon dioxide or ice.",
+          "radius": 0.57
+        },
+        {
+          "name": "'Oumuamua",
+          "description": "The first confirmed object from another star to visit our solar system, this interstellar interloper appears to be a rocky, cigar-shaped object with a somewhat reddish hue. The object, named ‘Oumuamua by its discoverers, is up to one-quarter mile (400 meters) long and highly-elongated—perhaps 10 times as long as it is wide. That aspect ratio is greater than that of any asteroid or comet observed in our solar system to date. While its elongated shape is quite surprising, and unlike objects seen in our solar system, it may provide new clues into how other solar systems formed.",
+          "radius": 0.2
+        },
+        {
+          "name": "81P Wild",
+          "description": "Comet Wild 2 is known as a fresh periodic comet. Wild 2 orbits the Sun between Mars and Jupiter, but it did not always travel the course of its orbit here. Originally, this comet's orbit lay between that of Uranus and Jupiter. On 10 Sept. 10, 1974, gravitational interactions between this comet and the planet Jupiter pulled the comet's orbit into a new shape. Paul Wild discovered this comet during its first revolution of the Sun on the new orbit.",
+          "radius": 2.5
+        },
+        {
+          "name": "1P Halley",
+          "description": "The comet has since been connected to ancient observations going back more than 2,000 years. It is featured in the famous Bayeux tapestry, which chronicles the Battle of Hastings in 1066. In 1986, an international fleet spacecraft met the comet for an unprecedented study from a variety of vantage points. The science fleet included Japan's Suisei and Sakigake spacecraft, the Soviet Union's Vega 1 and Vega 2 (repurposed after a successful Venus mission), the international ISEE-3 (ICE) spacecraft, and the European Space Agency's Giotto. NASA's Pioneer 7 and Pioneer 12 also contributed to the bounty of science data collected.",
+          "radius": 5.5
+        }
+      ],
+      "meteors": [
+        {
+          "name": "Orionids",
+          "description": "The Orionids, which peak during mid-October each year, are considered to be one of the most beautiful showers of the year. Orionid meteors are known for their brightness and for their speed. These meteors are fast they travel at about 148,000 mph into Earth's atmosphere. Fast meteors can leave glowing trains (incandescent bits of debris in the wake of the meteor) which last for several seconds to minutes. Fast meteors can also sometimes become fireballs: Look for prolonged explosions of light when viewing the Orionid meteor shower.",
+          "velocity": 66
+        },
+        {
+          "name": "Perseids",
+          "description": "The Perseid meteor shower, which peaks in mid-August, is considered the best meteor shower of the year. With swift and bright meteors, Perseids frequently leave long wakes of light and color behind them as they streak through Earth's atmosphere. The Perseids are one of the most plentiful showers with about 50 to 100 meteors seen per hour. They occur with warm summer nighttime weather allowing sky watchers to comfortably view them.",
+          "velocity": 59
+        },
+        {
+          "name": "Leonids",
+          "description": "The Leonids, which peak during mid-November each year, are considered to be a major shower though meteor rates are often as low as about 15 meteors per hour. The Leonids are bright meteors and can also be colorful. They are also fast: Leonids travel at speeds of 44 miles (71 kilometers) per second, and they are considered to be some of the fastest meteors. Every 33 years, or so, viewers on Earth may experience a Leonid storm that can peak with hundreds to thousands of meteors seen per hour depending on the location of the observer.",
+          "velocity": 71
+        },
+        {
+          "name": "Lyrids",
+          "description": "The Lyrids meteor shower, which peaks during late April, is one of the oldest known meteor showers. The Lyrids have been observed for 2,700 years. The first recorded sighting of a Lyrid meteor shower goes back to 687 BC by the Chinese. The Lyrids are known for their fast and bright meteors. Though not as fast or as plentiful as the famous Perseids in August, Lyrids can surprise watchers with as many as 100 meteors seen per hour. Sightings of these heavier showers occurred in 1803 (Virginia), 1922 (Greece), 1945 (Japan), and 1982 (U.S.). In general, 10-20 Lyrid meteors can be seen per hour during their peak.",
+          "velocity": 47
+        }
+      ],
+      "stars": [
+        {
+          "name": "Polaris",
+          "description": "Also known as the North Star (as well as the Pole Star, Lodestar, and sometimes Guiding Star), Polaris is the 45th brightest star in the night sky. It is very close to the north celestial pole, which is why it has been used as a navigational tool in the northern hemisphere for centuries. Scientifically speaking, this star is known as Alpha Ursae Minoris because it is the alpha star in the constellation Ursa Minor (the Little Bear). It’s more than 430 light-years away from Earth, but its luminosity (being a white supergiant) makes it highly visible to us here on Earth. What’s more, rather than being a single supergiant, Polaris is actually a trinary star system, comprised of a main star (alpha UMi Aa) and two smaller companions (alpha UMi B, alpha UMi Ab). These, along with its two distant components (alpha UMi C, alpha UMi D), make it a multistar system."
+        },
+        {
+          "name": "Sirius",
+          "description": "Also known as the Dog Star, because it’s the brightest star in Canis Major (the “Big Dog”), Sirius is also the brightest star in the night sky. The name “Sirius” is derived from the Ancient Greek “Seirios“, which translates to “glowing” or “scorcher”. Whereas it appears to be a single bright star to the naked eye, Sirius is actually a binary star system, consisting of a white main-sequence star named Sirius A, and a faint white dwarf companion named Sirius B. The reason why it is so bright in the sky is due to a combination of its luminosity and distance – at 6.8 light years, it is one of Earth’s nearest neighbors. And in truth, it is actually getting closer. For the next 60,000 years or so, astronomers expect that it will continue to approach our Solar System; at which point, it will begin to recede again."
+        },
+        {
+          "name": "Alpha Centauri System",
+          "description": "Also known as Rigel Kent or Toliman, Alpha Centauri is the brightest star in the southern constellation of Centaurus and the third brightest star in the night sky. It is also the closest star system to Earth, at just a shade over four light-years. But much like Sirius and Polaris, it is actually a multistar system, consisting of Alpha Centauri A, B, and Proxima Centauri (aka. Centauri C). Based on their spectral classifications, Alpha Centauri A is a main sequence white dwarf with roughly 110% of the mass and 151.9% the luminosity of our Sun. Alpha Centauri B is an orange subgiant with 90.7% of the Sun’s mass and 44.5% of its luminosity. Proxima Centauri, the smallest of the three, is a red dwarf roughly 0.12 times the mass of our Sun, and which is the closest of the three to our Solar System."
+        },
+        {
+          "name": "Rigel",
+          "description": "Also known as Beta Orionis, and located between 700 and 900 light years away, Rigel is the brightest star in the constellation Orion and the seventh brightest star in the night sky. Here too, what appears to be a blue supergiant is actually a multistar system. The primary star (Rigel A) is a blue-white supergiant that is 21 times more massive than our sun, and shines with approximately 120,000 times the luminosity. Rigel B is itself a binary system, consisting of two main sequence blue-white subdwarf stars. Rigel B is the more massive of the pair, weighing in at 2.5 Solar masses versus Rigel C’s 1.9. Rigel has been recognized as being a binary since at least 1831 when German astronomer F.G.W. Struve first measured it. A fourth star in the system has been proposed, but it is generally considered that this is a misinterpretation of the main star’s variability."
+        },
+        {
+          "name": "Vega",
+          "description": "Vega is another bright blue star that anchors the otherwise faint Lyra constellation (the Harp). Along with Deneb (from Cygnus) and Altair (from Aquila), it is a part of the Summer Triangle in the Northern hemisphere. It is also the brightest star in the constellation Lyra, the fifth brightest star in the night sky and the second brightest star in the northern celestial hemisphere (after Arcturus). Vega was the first star other than the Sun to be photographed and the first to have its spectrum recorded. It was also one of the first stars whose distance was estimated through parallax measurements, and has served as the baseline for calibrating the photometric brightness scale. Vega’s extensive history of study has led it to be termed “arguably the next most important star in the sky after the Sun.”"
+        },
+        {
+          "name": "Pleiades",
+          "description": "Also known as the “Seven Sisters”, Messier 45 or M45, Pleiades is actually an open star cluster located in the constellation of Taurus. At an average distance of 444 light years from our Sun, it is one of the nearest star clusters to Earth, and the most visible to the naked eye. Though the seven largest stars are the most apparent, the cluster actually consists of over 1,000 confirmed members (along with several unconfirmed binaries). The core radius of the cluster is about 8 light years across, while it measures some 43 light years at the outer edges. It is dominated by young, hot blue stars, though brown dwarfs – which are just a fraction of the Sun’s mass – are believed to account for 25% of its member stars."
+        },
+        {
+          "name": "Antares",
+          "description": "Also known as Alpha Scorpii, Antares is a red supergiant and one of the largest and most luminous observable stars in the nighttime sky. It’s name – which is Greek for “rival to Mars” (aka. Ares) – refers to its reddish appearance, which resembles Mars in some respects. It’s location is also close to the ecliptic, the imaginary band in the sky where the planets, Moon and Sun move. This supergiant is estimated to be 17 times more massive, 850 times larger in terms of diameter, and 10,000 times more luminous than our Sun. Hence why it can be seen with the naked eye, despite being approximately 550 light-years from Earth. The most recent estimates place its age at 12 million years."
+        },
+        {
+          "name": "Canopus",
+          "description": "Also known as Alpha Carinae, this white giant is the brightest star in the southern constellation of Carina and the second brightest star in the nighttime sky. Located over 300 light-years away from Earth, this star is named after the mythological Canopus, the navigator for king Menelaus of Sparta in The Iliad.  Thought it was not visible to the ancient Greeks and Romans, the star was known to the ancient Egyptians, as well as the Navajo, Chinese and ancient Indo-Aryan people. In Vedic literature, Canopus is associated with Agastya, a revered sage who is believed to have lived during the 6th or 7th century BCE. To the Chinese, Canopus was known as the “Star of the Old Man”, and was charted by astronomer Yi Xing in 724 CE."
+        },
+        {
+          "name": "Betelgeuse",
+          "description": "Pronounced “Beetle-juice” (yes, the same as the 1988 Tim Burton movie), this bright red supergiant is roughly 65o light-year from Earth. Also known as Alpha Orionis, it is nevertheless easy to spot in the Orion constellation since it is one of the largest and most luminous stars in the night sky. The star’s name is derived from the Arabic name Ibt al-Jauza’, which literally means “the hand of Orion”. In 1985, Margarita Karovska and colleagues from the Harvard–Smithsonian Center for Astrophysics, announced the discovery of two close companions orbiting Betelgeuse. While this remains unconfirmed, the existence of possible companions remains an intriguing possibility."
+        }
+      ]
+    }
+  ]
+}

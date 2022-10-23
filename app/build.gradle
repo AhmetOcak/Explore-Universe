@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.huawei.agconnect'
 }
 
 android {
@@ -62,23 +63,33 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:1.2.1"
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.2.1"
 
+    // Material 3
+    implementation "androidx.compose.material3:material3:1.0.0-rc01"
+    implementation "androidx.compose.material3:material3-window-size-class:1.0.0-rc01"
+
+    // Coil
+    implementation "io.coil-kt:coil:2.1.0"
+    implementation "io.coil-kt:coil-compose:2.1.0"
+    implementation "io.coil-kt:coil-gif:2.1.0"
+
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
 
     // Compose Navigation
-    implementation "androidx.navigation:navigation-compose:2.5.2"
+    implementation "androidx.navigation:navigation-compose:2.6.0-alpha02"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.3.0"
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
 
+    // Okhttp
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    
     // Dependency Injection
     implementation 'com.google.dagger:hilt-android:2.44'
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     kapt 'com.google.dagger:hilt-compiler:2.44'
-
-    // Location
-    implementation 'com.google.android.gms:play-services-location:20.0.0'
 
     // Room
     implementation 'androidx.room:room-ktx:2.4.3'
@@ -86,4 +97,15 @@ dependencies {
 
     // System UI Controller - Accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.25.1"
+    implementation "com.google.accompanist:accompanist-insets:0.25.1"
+
+    // HMS
+    implementation 'com.huawei.agconnect:agconnect-core:1.7.2.300'
+    // HMS Auth Service
+    implementation 'com.huawei.agconnect:agconnect-auth:1.7.2.300'
+    // HMS Location
+    implementation 'com.huawei.hms:location:6.7.0.300'
+
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.65'
 }
