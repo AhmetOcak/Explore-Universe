@@ -42,37 +42,25 @@ Once you enter the application, all data retrieved from the internet is saved on
 
 ## Outputs 🖼
 
-### Login Screen 
+<p align="left" width="100%">
+  <img src="https://user-images.githubusercontent.com/73544434/197416739-d3cc8238-d747-4faf-aa66-a5e9686557fd.png" width="240" height="480"/>
+  <img src="https://user-images.githubusercontent.com/73544434/197416769-cd1482dc-65de-4ca9-9cdf-d1875b3aa2df.png" width="240" height="480"/>
+  <img src="https://user-images.githubusercontent.com/73544434/197416836-6dbcb2f4-5a4c-4f43-bf5a-f70c23905c46.png" width="240" height="480"/>
+</p>
 
-<img src="https://user-images.githubusercontent.com/73544434/197416739-d3cc8238-d747-4faf-aa66-a5e9686557fd.png" width="240" height="480"/>
 
-### SignUp Screen 
+<p align="left" width="100%">
+  <img src="https://user-images.githubusercontent.com/73544434/197416943-2afb865b-2532-4418-b31b-a02e6be79f0a.png" width="240" height="480"/>
+  <img src="https://user-images.githubusercontent.com/73544434/197416943-2afb865b-2532-4418-b31b-a02e6be79f0a.png" width="240" height="480"/>
+  <img src="https://user-images.githubusercontent.com/73544434/197417364-3f91e3f7-7751-4d2c-b424-5662ae6d8173.png" width="240" height="480"/>
+</p>
 
-<img src="https://user-images.githubusercontent.com/73544434/197416769-cd1482dc-65de-4ca9-9cdf-d1875b3aa2df.png" width="240" height="480"/>
+<p align="left" width="100%">
+  <img src="https://media.giphy.com/media/dyeiHZAd4SbIOKY4IY/giphy.gif" width="240" height="480"/>
+  <img src="https://media.giphy.com/media/PWjXXdpAv8YnWSsyzA/giphy.gif" width="240" height="480"/>
+  <img src="https://user-images.githubusercontent.com/73544434/197416913-c42478e2-c2d5-4685-9fd1-7cb1a0fac614.png" width="240" height="480"/>
+</p>
 
-### Verify Email Screen
-
-<img src="https://user-images.githubusercontent.com/73544434/197416836-6dbcb2f4-5a4c-4f43-bf5a-f70c23905c46.png" width="240" height="480"/>
-
-### Explore Screen
-
-<img src="https://user-images.githubusercontent.com/73544434/197416943-2afb865b-2532-4418-b31b-a02e6be79f0a.png" width="240" height="480"/>
-
-### Space News Screen
-
-<img src="https://user-images.githubusercontent.com/73544434/197416913-c42478e2-c2d5-4685-9fd1-7cb1a0fac614.png" width="240" height="480"/>
-
-### Home Screen
-
-<img src="https://media.giphy.com/media/dyeiHZAd4SbIOKY4IY/giphy.gif" width="240" height="480"/>
-
-### Glossary Screen
-
-<img src="https://user-images.githubusercontent.com/73544434/197416943-2afb865b-2532-4418-b31b-a02e6be79f0a.png" width="240" height="480"/>
-
-### Profile Screen
-
-<img src="https://media.giphy.com/media/PWjXXdpAv8YnWSsyzA/giphy.gif" width="240" height="480"/>
 
 
 
