@@ -1,4 +1,4 @@
-package com.spaceapp.data.di
+package com.spaceapp.core.di
 
 import com.spaceapp.data.datasource.local.db.room.SpaceDatabase
 import com.spaceapp.data.datasource.local.db.room.dao.*

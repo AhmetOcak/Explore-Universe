@@ -1,4 +1,4 @@
-package com.spaceapp.data.di
+package com.spaceapp.core.di
 
 import android.content.Context
 import androidx.room.Room

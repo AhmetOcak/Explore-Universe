@@ -1,4 +1,4 @@
-package com.spaceapp.data.di
+package com.spaceapp.core.di
 
 import android.app.Application
 import com.huawei.hms.location.FusedLocationProviderClient
