@@ -1,6 +1,5 @@
 package com.spaceapp.presentation.signup
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -55,11 +54,9 @@ class SignUpViewModel @Inject constructor(
                         result.data
                             ?.addOnSuccessListener {
                                 _verifyEmailState.value = VerifyEmailState.Success
-                                Log.e("result", it.toString())
                             }
                             ?.addOnFailureListener {
                                 _verifyEmailState.value = VerifyEmailState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
-                                Log.e("result", it.toString())
                             }
                     }
                     is Result.Error -> {
