@@ -12,5 +12,5 @@ class ExploreGalaxyRepositoryImpl @Inject constructor(
 ) : ExploreGalaxyRepository {
 
     override suspend fun getExploreGalaxyDataFromLocal(applicationContext: Context): SpaceObject =
-        exploreGalaxyLocalDataSource.readGlossaryJson(applicationContext = applicationContext).toSpaceObject()
+        exploreGalaxyLocalDataSource.readExploreGalaxyJson(applicationContext = applicationContext).toSpaceObject()
 }

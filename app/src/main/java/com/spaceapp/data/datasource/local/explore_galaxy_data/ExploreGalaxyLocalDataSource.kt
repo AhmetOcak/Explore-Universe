@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class ExploreGalaxyLocalDataSource @Inject constructor() {
 
-    fun readGlossaryJson(applicationContext: Context): SpaceObjectDto {
+    fun readExploreGalaxyJson(applicationContext: Context): SpaceObjectDto {
         val jsonString: String = applicationContext.assets.open("explore_galaxy_data.json")
             .bufferedReader()
             .use { it.readText() }
