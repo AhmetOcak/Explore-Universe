@@ -33,9 +33,14 @@ class LoginViewModel @Inject constructor(
     var password by mutableStateOf("")
         private set
 
-    fun login(login: Login) = viewModelScope.launch(Dispatchers.IO) {
+    fun login() = viewModelScope.launch(Dispatchers.IO) {
         if (checkLoginInfo()) {
-            loginUseCase(login = login).collect() { result ->
+            loginUseCase(
+                login = Login(
+                    userEmail = email,
+                    password = password
+                )
+            ).collect() { result ->
                 when (result) {
                     is Result.Loading -> {
                         _loginState.value = LoginState.Loading
@@ -46,13 +51,11 @@ class LoginViewModel @Inject constructor(
                                 _loginState.value = LoginState.Success
                             }
                             ?.addOnFailureListener {
-                                _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error
-                                )
+                                _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
                             }
                     }
                     is Result.Error -> {
-                        _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error
-                        )
+                        _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
                     }
                 }
             }

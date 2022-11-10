@@ -44,10 +44,14 @@ class SignUpViewModel @Inject constructor(
     var verifyCode by mutableStateOf("")
         private set
 
-    fun verifyEmail(verifyRegisterLogin: VerifyRegisterLogin) =
+    fun verifyEmail() =
         viewModelScope.launch(Dispatchers.IO) {
             if (checkSignUpInfo()) {
-                verifyEmailUseCase(verifyRegisterLogin = verifyRegisterLogin).collect() { result ->
+                verifyEmailUseCase(
+                    verifyRegisterLogin = VerifyRegisterLogin(
+                        userEmail = userEmail
+                    )
+                ).collect() { result ->
                     when (result) {
                         is Result.Loading -> {
                             _verifyEmailState.value = VerifyEmailState.Loading
@@ -58,7 +62,9 @@ class SignUpViewModel @Inject constructor(
                                     _verifyEmailState.value = VerifyEmailState.Success
                                 }
                                 ?.addOnFailureListener {
-                                    _verifyEmailState.value = VerifyEmailState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
+                                    _verifyEmailState.value = VerifyEmailState.Error(
+                                        errorMessage = it.message ?: SignUpResponseMessages.error
+                                    )
                                 }
                         }
                         is Result.Error -> {
@@ -69,8 +75,14 @@ class SignUpViewModel @Inject constructor(
             }
         }
 
-    fun signUp(signUp: SignUp) = viewModelScope.launch(Dispatchers.IO) {
-        signUpUseCase(signUp = signUp).collect() { result ->
+    fun signUp() = viewModelScope.launch(Dispatchers.IO) {
+        signUpUseCase(
+            signUp = SignUp(
+                email = userEmail,
+                password = userPassword,
+                verifyCode = verifyCode
+            )
+        ).collect() { result ->
             when (result) {
                 is Result.Loading -> {
                     _signUpState.value = SignUpState.Loading
@@ -81,11 +93,15 @@ class SignUpViewModel @Inject constructor(
                             _signUpState.value = SignUpState.Success
                         }
                         ?.addOnFailureListener {
-                            _signUpState.value = SignUpState.Error(errorMessage = it.localizedMessage ?: SignUpResponseMessages.error)
+                            _signUpState.value = SignUpState.Error(
+                                errorMessage = it.localizedMessage ?: SignUpResponseMessages.error
+                            )
                         }
                 }
                 is Result.Error -> {
-                    _signUpState.value = SignUpState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                    _signUpState.value = SignUpState.Error(
+                        errorMessage = result.message ?: SignUpResponseMessages.error
+                    )
                 }
             }
         }

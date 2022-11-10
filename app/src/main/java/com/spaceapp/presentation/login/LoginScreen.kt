@@ -20,7 +20,6 @@ import androidx.navigation.NavController
 import com.spaceapp.R
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.core.ui.component.*
-import com.spaceapp.domain.model.Login
 import com.spaceapp.presentation.utils.LoginScreenConstants
 
 private val constants = LoginScreenConstants
@@ -116,12 +115,7 @@ private fun LoginSection(
                         .fillMaxWidth()
                         .padding(top = 24.dp),
                     onClick = {
-                        viewModel.login(
-                            login = Login(
-                                userEmail = viewModel.email,
-                                password = viewModel.password
-                            )
-                        )
+                        viewModel.login()
                     },
                     contentText = constants.button_text
                 )
