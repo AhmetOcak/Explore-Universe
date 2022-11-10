@@ -4,7 +4,6 @@ object LoginScreenConstants {
     const val welcome_title = "EXPLORE UNIVERSE"
     const val email_field = "Email"
     const val password_field = "Password"
-    const val checkbox_text = "Remember me"
     const val forgot_password = "Forgot Password?"
     const val button_text = "Login"
     const val no_account_text = "Don't have a account ?"
@@ -13,16 +12,28 @@ object LoginScreenConstants {
 
 object SignUpScreenConstants {
     const val welcome_title = "JOIN IN EXPLORING THE UNIVERSE"
-    const val user_name_field = "User Name"
     const val email_field = "Email"
     const val password_field = "Password"
     const val confirm_password_field = "Confirm Password"
     const val button_text = "Sign Up"
 }
 
+object ForgotPasswordScreenConstants {
+    const val enter_email = "Please enter your email address to receive a verification code"
+    const val email = "Email Address"
+    const val send_email = "Send"
+    const val enter_new_password = "Please enter your new password and the verification code we sent you. Your new password must be different from previously used password."
+    const val verification_code = "Verification Code"
+    const val new_password = "New Password"
+    const val confirm_password = "Confirm Password"
+    const val save_new_password = "Save"
+    const val success_message = "Your password has been reset successfully."
+    const val return_login_page = "Return Login Page"
+    const val fill_all_fields = "Please fill all fields"
+    const val password_length = "Password length can't be less than 8"
+}
+
 object NewsScreenConstants {
-    const val morning = "MORNING"
-    const val night = "NIGHT"
     const val welcome_subtitle = "Here's your news feed"
     const val latest_news_title = "LATEST NEWS"
     const val news_title = "POPULAR NEWS"
@@ -33,20 +44,9 @@ object ExploreScreenConstants {
     const val title_2 = "Universe Images"
 }
 
-object ExploreDetailScreenConstants {
-    const val size = "size"
-    const val distance_from_sun = "distance from Sun"
-}
-
 object UniverseGlossaryScreenConstants {
     const val search_field_text = "Search a universe term"
     const val title = "Space Terms"
-}
-
-object EditProfileScreenConstants {
-    const val change_photo = "Change Photo"
-    const val topbar_title = "Edit Profile"
-    const val save_button_text = "Save"
 }
 
 object HomeScreenConstants {

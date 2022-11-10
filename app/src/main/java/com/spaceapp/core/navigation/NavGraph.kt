@@ -30,6 +30,7 @@ import com.spaceapp.core.ui.component.BackgroundImage
 import com.spaceapp.core.ui.component.CustomScaffold
 import com.spaceapp.presentation.explore.ExploreScreen
 import com.spaceapp.presentation.explore_detail.ExploreDetailScreen
+import com.spaceapp.presentation.forgot_password.ForgotPasswordScreen
 import com.spaceapp.presentation.home.HomeScreen
 import com.spaceapp.presentation.login.LoginScreen
 import com.spaceapp.presentation.space_news.NewsScreen
@@ -107,6 +108,10 @@ fun NavGraph(
                 }
                 composable(NavScreen.LoginScreen.route) {
                     LoginScreen(navController = navController)
+                    showFab = false
+                }
+                composable(NavScreen.ForgotPasswordScreen.route) {
+                    ForgotPasswordScreen(navController = navController)
                     showFab = false
                 }
                 composable(route = NavScreen.NewsScreen.route) {

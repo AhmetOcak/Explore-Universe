@@ -10,4 +10,5 @@ sealed class NavScreen(val route: String) {
     object NewsDetailScreen : NavScreen(route = NavRoutes.news_detail_screen)
     object ExploreDetailScreen: NavScreen(route = NavRoutes.explore_detail_screen)
     object SignUpScreen: NavScreen(route = NavRoutes.sign_up_screen)
+    object ForgotPasswordScreen: NavScreen(route = NavRoutes.forgot_password_screen)
 }

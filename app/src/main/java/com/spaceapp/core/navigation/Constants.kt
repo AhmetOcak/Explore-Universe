@@ -15,6 +15,7 @@ object NavRoutes {
     const val news_detail_screen = "${NavName.news_detail_screen}/{newsUrl}"
     const val explore_detail_screen = "${NavName.explore_detail_screen_name}/{name}/{description}/{info1}/{info2}"
     const val sign_up_screen = "sign_up_screen"
+    const val forgot_password_screen = "forgot_password"
 }
 
 object BottomNavItemTexts {
