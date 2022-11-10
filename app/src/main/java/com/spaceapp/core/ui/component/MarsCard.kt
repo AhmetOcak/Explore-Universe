@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
+import com.spaceapp.R
 
 @Composable
 fun MarsCard(
@@ -27,6 +28,8 @@ fun MarsCard(
         .data(marsImageUrl)
         .memoryCacheKey(marsImageUrl)
         .diskCacheKey(marsImageUrl)
+        .placeholder(R.drawable.no_image)
+        .error(R.drawable.no_image)
         .build()
 
     Card(
