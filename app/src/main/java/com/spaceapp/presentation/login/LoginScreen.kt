@@ -107,10 +107,14 @@ private fun LoginSection(
                     modifier = modifier,
                     viewModel = viewModel
                 )
+                ForgotPasswordSection(
+                    modifier = modifier,
+                    navController = navController
+                )
                 DefaultButton(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(top = 32.dp),
+                        .padding(top = 24.dp),
                     onClick = {
                         viewModel.login(
                             login = Login(
@@ -182,6 +186,27 @@ private fun EmailPasswordSection(
         leadingIconId = R.drawable.ic_baseline_key,
         value = viewModel.password
     )
+}
+
+@Composable
+private fun ForgotPasswordSection(modifier: Modifier, navController: NavController) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start,
+    ) {
+        TextButton(
+            onClick = {
+                navController.navigate(NavScreen.ForgotPasswordScreen.route)
+            }
+        ) {
+            Text(
+                text = constants.forgot_password,
+                color = MaterialTheme.colors.onPrimary,
+                style = MaterialTheme.typography.h4
+            )
+        }
+    }
 }
 
 @Composable
