@@ -21,7 +21,8 @@ import androidx.navigation.NavController
 import com.spaceapp.R
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.core.ui.component.*
-import com.spaceapp.domain.model.User
+import com.spaceapp.domain.model.SignUp
+import com.spaceapp.domain.model.VerifyRegisterLogin
 import com.spaceapp.presentation.utils.SignUpScreenConstants
 
 private val constants = SignUpScreenConstants
@@ -91,11 +92,11 @@ private fun SignUpContent(
                             onValueChanged = { viewModel.updateVerifyCodeField(newValue = it) },
                             onClick = {
                                 viewModel.signUp(
-                                    user = User(
-                                        userEmail = viewModel.userEmail,
-                                        userPassword = viewModel.userPassword
-                                    ),
-                                    verifyCode = viewModel.verifyCode
+                                    signUp = SignUp(
+                                        email = viewModel.userEmail,
+                                        password = viewModel.userPassword,
+                                        verifyCode = viewModel.verifyCode
+                                    )
                                 )
                             }
                         )
@@ -216,7 +217,11 @@ private fun SignUpButton(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 8.dp),
-        onClick = { viewModel.verifyEmail(email = viewModel.userEmail) },
+        onClick = {
+            viewModel.verifyEmail(
+                verifyRegisterLogin = VerifyRegisterLogin(userEmail = viewModel.userEmail)
+            )
+        },
         contentText = constants.button_text
     )
 }

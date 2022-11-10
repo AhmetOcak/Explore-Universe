@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spaceapp.core.common.EmailController
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.model.User
+import com.spaceapp.domain.model.SignUp
+import com.spaceapp.domain.model.VerifyRegisterLogin
 import com.spaceapp.domain.usecase.hms_auth.SignUpUseCase
 import com.spaceapp.domain.usecase.hms_auth.VerifyEmailUseCase
 import com.spaceapp.presentation.utils.SignUpResponseMessages
@@ -43,35 +44,33 @@ class SignUpViewModel @Inject constructor(
     var verifyCode by mutableStateOf("")
         private set
 
-    fun verifyEmail(email: String) = viewModelScope.launch(Dispatchers.IO) {
-        if (checkSignUpInfo()) {
-            verifyEmailUseCase(email = email).collect() { result ->
-                when (result) {
-                    is Result.Loading -> {
-                        _verifyEmailState.value = VerifyEmailState.Loading
-                    }
-                    is Result.Success -> {
-                        result.data
-                            ?.addOnSuccessListener {
-                                _verifyEmailState.value = VerifyEmailState.Success
-                            }
-                            ?.addOnFailureListener {
-                                _verifyEmailState.value = VerifyEmailState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
-                            }
-                    }
-                    is Result.Error -> {
-                        _verifyEmailState.value = VerifyEmailState.Error(errorMessage = result.message)
+    fun verifyEmail(verifyRegisterLogin: VerifyRegisterLogin) =
+        viewModelScope.launch(Dispatchers.IO) {
+            if (checkSignUpInfo()) {
+                verifyEmailUseCase(verifyRegisterLogin = verifyRegisterLogin).collect() { result ->
+                    when (result) {
+                        is Result.Loading -> {
+                            _verifyEmailState.value = VerifyEmailState.Loading
+                        }
+                        is Result.Success -> {
+                            result.data
+                                ?.addOnSuccessListener {
+                                    _verifyEmailState.value = VerifyEmailState.Success
+                                }
+                                ?.addOnFailureListener {
+                                    _verifyEmailState.value = VerifyEmailState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
+                                }
+                        }
+                        is Result.Error -> {
+                            _verifyEmailState.value = VerifyEmailState.Error(errorMessage = result.message)
+                        }
                     }
                 }
             }
         }
-    }
 
-    fun signUp(user: User, verifyCode: String) = viewModelScope.launch(Dispatchers.IO) {
-        signUpUseCase(
-            user = User(userEmail = user.userEmail, userPassword = user.userPassword),
-            verifyCode = verifyCode
-        ).collect() { result ->
+    fun signUp(signUp: SignUp) = viewModelScope.launch(Dispatchers.IO) {
+        signUpUseCase(signUp = signUp).collect() { result ->
             when (result) {
                 is Result.Loading -> {
                     _signUpState.value = SignUpState.Loading
