@@ -47,12 +47,6 @@ class HomeViewModel @Inject constructor(
     var isPeopleInSpaceDataTakenFromDatabase by mutableStateOf(false)
         private set
 
-    init {
-        getLatestMarsPhotosFromNetwork()
-        getIssPositionFromNetwork()
-        getPeopleInSpaceFromNetwork()
-    }
-
     private fun getLatestMarsPhotosFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
         getLatestMarsPhotoFromNetworkUseCase().collect() { result ->
             when (result) {
@@ -169,10 +163,22 @@ class HomeViewModel @Inject constructor(
                     _peopleInSpaceState.value = PeopleInSpaceState.Success(data = result.data)
                 }
                 is Result.Error -> {
-                    _peopleInSpaceState.value =
-                        PeopleInSpaceState.Error(errorMessage = result.message)
+                    _peopleInSpaceState.value = PeopleInSpaceState.Error(errorMessage = result.message)
                 }
             }
         }
+    }
+
+    fun loadAllData() {
+        getLatestMarsPhotosFromNetwork()
+        getIssPositionFromNetwork()
+        getPeopleInSpaceFromNetwork()
+    }
+
+    // created for splash screen
+    fun isDataReady(): Boolean {
+        return _marsPhotoState.value != MarsPhotoState.Loading &&
+                _whereIsTheIssState.value != WhereIsTheIssState.Loading &&
+                _peopleInSpaceState.value != PeopleInSpaceState.Loading
     }
 }

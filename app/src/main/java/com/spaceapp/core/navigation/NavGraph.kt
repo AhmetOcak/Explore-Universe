@@ -32,6 +32,7 @@ import com.spaceapp.presentation.explore.ExploreScreen
 import com.spaceapp.presentation.explore_detail.ExploreDetailScreen
 import com.spaceapp.presentation.forgot_password.ForgotPasswordScreen
 import com.spaceapp.presentation.home.HomeScreen
+import com.spaceapp.presentation.home.HomeViewModel
 import com.spaceapp.presentation.login.LoginScreen
 import com.spaceapp.presentation.space_news.NewsScreen
 import com.spaceapp.presentation.space_news_detail.NewsDetailScreen
@@ -43,7 +44,8 @@ import com.spaceapp.presentation.universe_glossary.UniverseGlossaryScreen
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
-    startDestination: String
+    startDestination: String,
+    homeViewModel: HomeViewModel
 ) {
     val navController = rememberAnimatedNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -130,7 +132,7 @@ fun NavGraph(
                     ExploreScreen(navController = navController)
                     showFab = true
                 }
-                composable(NavScreen.HomeScreen.route) { HomeScreen() }
+                composable(NavScreen.HomeScreen.route) { HomeScreen(viewModel = homeViewModel) }
                 composable(
                     route = NavScreen.ExploreDetailScreen.route,
                     arguments = listOf(

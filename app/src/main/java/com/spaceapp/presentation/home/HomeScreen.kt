@@ -34,7 +34,7 @@ import com.spaceapp.presentation.utils.HomeScreenConstants
 private val constants = HomeScreenConstants
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
     val marsPhotoState by viewModel.marsPhotoState.collectAsState()
     val whereIsTheIssState by viewModel.whereIsTheIssState.collectAsState()
     val peopleInSpaceState by viewModel.peopleInSpaceState.collectAsState()
