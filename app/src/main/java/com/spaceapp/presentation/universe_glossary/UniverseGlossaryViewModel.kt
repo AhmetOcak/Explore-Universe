@@ -1,6 +1,9 @@
 package com.spaceapp.presentation.universe_glossary
 
 import android.content.Context
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spaceapp.core.common.Result
@@ -22,6 +25,9 @@ class UniverseGlossaryViewModel @Inject constructor(
     private val _glossaryState = MutableStateFlow<GlossaryState>(GlossaryState.Loading)
     val glossaryState = _glossaryState.asStateFlow()
 
+    var search by mutableStateOf("")
+        private set
+
     init {
         getGlossary(applicationContext = applicationContext)
     }
@@ -40,5 +46,9 @@ class UniverseGlossaryViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun updateSearchField(newValue: String) {
+        search = newValue
     }
 }

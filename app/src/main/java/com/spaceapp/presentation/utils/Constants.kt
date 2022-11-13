@@ -47,6 +47,7 @@ object ExploreScreenConstants {
 object UniverseGlossaryScreenConstants {
     const val search_field_text = "Search a universe term"
     const val title = "Space Terms"
+    const val no_result = "Sorry! No result found :("
 }
 
 object HomeScreenConstants {
