@@ -1,22 +1,15 @@
 package com.spaceapp.presentation.explore_detail
 
-import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.spaceapp.domain.usecase.explore_galaxy.GetExploreGalaxyDataUseCase
 import com.spaceapp.presentation.utils.ExploreDetailCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ExploreDetailViewModel @Inject constructor(
-    private val getExploreGalaxyDataUseCase: GetExploreGalaxyDataUseCase,
-    @ApplicationContext context: Context,
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class ExploreDetailViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     private val _categoryState = MutableStateFlow<CategoryState>(CategoryState.Overview)
     val categoryState = _categoryState.asStateFlow()
