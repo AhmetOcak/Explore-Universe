@@ -20,6 +20,13 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField "String", "NASA_API_KEY", "\"${properties.getProperty("NASA_API_KEY")}\""
+        buildConfigField "String", "SPACE_NEWS_API_KEY", "\"${properties.getProperty("SPACE_NEWS_API_KEY")}\""
+        buildConfigField "String", "WEATHER_API_KEY", "\"${properties.getProperty("WEATHER_API_KEY")}\""
     }
 
     buildTypes {
