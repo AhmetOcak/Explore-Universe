@@ -106,7 +106,9 @@ private fun ForgotPasswordSection(
         is VerifyForgotPasswordState.Error -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 ErrorCard(
-                    errorDescription = verifyForgotPasswordState.errorMessage ?: ERROR.UNKNOWN
+                    errorDescription = verifyForgotPasswordState.errorMessage ?: ERROR.UNKNOWN,
+                    isButtonAvailable = true,
+                    onClick = { viewModel.resetState() }
                 )
             }
         }
@@ -185,7 +187,11 @@ private fun ChangePasswordSection(
         }
         is ForgotPasswordState.Error -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                ErrorCard(errorDescription = forgotPasswordState.errorMessage ?: ERROR.UNKNOWN)
+                ErrorCard(
+                    errorDescription = forgotPasswordState.errorMessage ?: ERROR.UNKNOWN,
+                    isButtonAvailable = true,
+                    onClick = { viewModel.resetState() }
+                )
             }
         }
     }

@@ -164,4 +164,10 @@ class SignUpViewModel @Inject constructor(
     fun updateVerifyCodeField(newValue: String) {
         verifyCode = newValue
     }
+
+    // created for error card
+    fun resetState() {
+        _signUpState.value = SignUpState.Nothing
+        _verifyEmailState.value = VerifyEmailState.Nothing
+    }
 }

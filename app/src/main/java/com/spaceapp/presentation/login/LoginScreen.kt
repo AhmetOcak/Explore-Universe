@@ -87,7 +87,11 @@ private fun LoginSection(
         }
         is LoginState.Error -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                ErrorCard(errorDescription = loginState.errorMessage)
+                ErrorCard(
+                    errorDescription = loginState.errorMessage,
+                    isButtonAvailable = true,
+                    onClick = { viewModel.resetState() }
+                )
             }
         }
         is LoginState.Nothing -> {

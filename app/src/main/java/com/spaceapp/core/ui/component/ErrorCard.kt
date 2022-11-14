@@ -3,8 +3,7 @@ package com.spaceapp.core.ui.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +13,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
+import com.spaceapp.core.ui.theme.ErrorColor
 import com.spaceapp.core.ui.theme.TransparentKimberly
+import com.spaceapp.core.ui.theme.White
 
 @Composable
 fun ErrorCard(
@@ -22,12 +23,14 @@ fun ErrorCard(
     errorDescription: String,
     paddingValues: PaddingValues = PaddingValues(16.dp),
     errorIconSize: Dp = 96.dp,
-    height: Dp = 250.dp
+    height: Dp = 250.dp,
+    onClick: () -> Unit = {},
+    isButtonAvailable: Boolean = false
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(height)
+            .height( if(isButtonAvailable) 300.dp else height )
             .padding(paddingValues),
         shape = RoundedCornerShape(15),
         backgroundColor = TransparentKimberly,
@@ -52,6 +55,17 @@ fun ErrorCard(
                 text = errorDescription,
                 textAlign = TextAlign.Center
             )
+            if(isButtonAvailable) {
+                OutlinedButton(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp, start = 32.dp, end = 32.dp),
+                    onClick = onClick,
+                    colors = ButtonDefaults.outlinedButtonColors(backgroundColor = ErrorColor)
+                ) {
+                    Text(text = "OK", style = MaterialTheme.typography.button, color = White)
+                }
+            }
         }
     }
 }

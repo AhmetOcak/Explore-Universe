@@ -156,4 +156,10 @@ class ForgotPasswordViewModel @Inject constructor(
     fun updateVerifyCodeField(newValue: String) {
         verifyCode = newValue
     }
+
+    // created for error card
+    fun resetState() {
+        _forgotPasswordState.value = ForgotPasswordState.Nothing
+        _verifyForgotPasswordState.value = VerifyForgotPasswordState.Nothing
+    }
 }

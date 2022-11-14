@@ -95,4 +95,9 @@ class LoginViewModel @Inject constructor(
     fun resetLoginInputFieldState() {
         _loginInputFieldState.value = LoginInputFieldState.Nothing
     }
+
+    // created for error card
+    fun resetState() {
+        _loginState.value = LoginState.Nothing
+    }
 }

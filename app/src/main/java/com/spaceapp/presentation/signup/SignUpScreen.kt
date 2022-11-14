@@ -79,7 +79,11 @@ private fun SignUpContent(
                             modifier = modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            ErrorCard(errorDescription = signUpState.errorMessage)
+                            ErrorCard(
+                                errorDescription = signUpState.errorMessage,
+                                isButtonAvailable = true,
+                                onClick = { viewModel.resetState() }
+                            )
                         }
                     }
                     is SignUpState.Nothing -> {
@@ -97,7 +101,10 @@ private fun SignUpContent(
             }
             is VerifyEmailState.Error -> {
                 Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    ErrorCard(errorDescription = verifyEmailState.errorMessage.toString())
+                    ErrorCard(
+                        errorDescription = verifyEmailState.errorMessage.toString(),
+                        isButtonAvailable = true,
+                        onClick = { viewModel.resetState() })
                 }
             }
             is VerifyEmailState.Nothing -> {
