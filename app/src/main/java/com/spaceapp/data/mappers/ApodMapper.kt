@@ -2,7 +2,7 @@ package com.spaceapp.data.mappers
 
 import com.spaceapp.data.datasource.local.db.entity.ApodEntity
 import com.spaceapp.data.datasource.remote.apod.entity.ApodDto
-import com.spaceapp.domain.model.Apod
+import com.spaceapp.domain.model.apod.Apod
 
 fun List<ApodDto>.toApod(): List<Apod> {
     return map {

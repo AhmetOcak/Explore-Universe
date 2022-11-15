@@ -22,13 +22,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.spaceapp.R
 import com.spaceapp.core.common.EpochConverter
 import com.spaceapp.core.ui.component.*
-import com.spaceapp.domain.model.Iss
-import com.spaceapp.domain.model.MarsPhoto
-import com.spaceapp.domain.model.PeopleInSpace
+import com.spaceapp.domain.model.where_is_the_iss.Iss
+import com.spaceapp.domain.model.mars_photos.MarsPhoto
+import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 import com.spaceapp.presentation.utils.HomeScreenConstants
 
 private val constants = HomeScreenConstants

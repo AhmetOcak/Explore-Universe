@@ -4,7 +4,7 @@ import com.spaceapp.data.datasource.local.db.PeopleInSpaceLocalDataSource
 import com.spaceapp.data.datasource.remote.people_in_space.PeopleInSpaceRemoteDataSource
 import com.spaceapp.data.mappers.toPeopleInSpace
 import com.spaceapp.data.mappers.toPeopleInSpaceEntity
-import com.spaceapp.domain.model.PeopleInSpace
+import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 import com.spaceapp.domain.repository.PeopleInSpaceRepository
 import javax.inject.Inject
 

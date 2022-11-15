@@ -1,6 +1,6 @@
 package com.spaceapp.domain.repository
 
-import com.spaceapp.domain.model.Iss
+import com.spaceapp.domain.model.where_is_the_iss.Iss
 
 interface WhereIsTheIssRepository {
 

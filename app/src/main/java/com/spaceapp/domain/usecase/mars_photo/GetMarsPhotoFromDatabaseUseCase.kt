@@ -2,7 +2,7 @@ package com.spaceapp.domain.usecase.mars_photo
 
 import com.spaceapp.core.common.Result
 import com.spaceapp.data.repository.MarsPhotosRepositoryImpl
-import com.spaceapp.domain.model.MarsPhoto
+import com.spaceapp.domain.model.mars_photos.MarsPhoto
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

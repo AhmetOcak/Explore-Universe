@@ -4,7 +4,7 @@ import com.spaceapp.data.datasource.local.db.ApodLocalDataSource
 import com.spaceapp.data.datasource.remote.apod.ApodRemoteDataSource
 import com.spaceapp.data.mappers.toApod
 import com.spaceapp.data.mappers.toApodEntity
-import com.spaceapp.domain.model.Apod
+import com.spaceapp.domain.model.apod.Apod
 import com.spaceapp.domain.repository.ApodRepository
 import javax.inject.Inject
 

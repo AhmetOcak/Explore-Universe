@@ -1,6 +1,6 @@
 package com.spaceapp.presentation.home
 
-import com.spaceapp.domain.model.Iss
+import com.spaceapp.domain.model.where_is_the_iss.Iss
 
 sealed interface WhereIsTheIssState {
     data class Success(val data: Iss?) : WhereIsTheIssState

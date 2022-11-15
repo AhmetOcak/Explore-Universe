@@ -4,7 +4,7 @@ import com.spaceapp.data.datasource.local.db.WeatherConditionLocalDataSource
 import com.spaceapp.data.datasource.remote.weather_condition.WeatherConditionRemoteDataSource
 import com.spaceapp.data.mappers.toWeatherCondition
 import com.spaceapp.data.mappers.toWeatherConditionEntity
-import com.spaceapp.domain.model.WeatherCondition
+import com.spaceapp.domain.model.weather_condition.WeatherCondition
 import com.spaceapp.domain.repository.WeatherConditionRepository
 import javax.inject.Inject
 

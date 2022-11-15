@@ -1,6 +1,6 @@
 package com.spaceapp.domain.repository
 
-import com.spaceapp.domain.model.MarsPhoto
+import com.spaceapp.domain.model.mars_photos.MarsPhoto
 
 interface MarsPhotosRepository {
 

@@ -4,7 +4,7 @@ import com.spaceapp.data.datasource.local.db.WhereIsTheIssLocalDataSource
 import com.spaceapp.data.datasource.remote.where_is_the_iss.WhereIsTheIssRemoteDataSource
 import com.spaceapp.data.mappers.toIss
 import com.spaceapp.data.mappers.toIssEntity
-import com.spaceapp.domain.model.Iss
+import com.spaceapp.domain.model.where_is_the_iss.Iss
 import com.spaceapp.domain.repository.WhereIsTheIssRepository
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package com.spaceapp.domain.repository
 
-import com.spaceapp.domain.model.SpaceNews
+import com.spaceapp.domain.model.space_news.SpaceNews
 
 interface SpaceNewsRepository {
 

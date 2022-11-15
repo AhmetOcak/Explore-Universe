@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spaceapp.core.common.EmailController
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.model.SignUp
-import com.spaceapp.domain.model.VerifyRegisterLogin
+import com.spaceapp.domain.model.hms.SignUp
+import com.spaceapp.domain.model.hms.VerifyRegisterLogin
 import com.spaceapp.domain.usecase.hms_auth.SignUpUseCase
 import com.spaceapp.domain.usecase.hms_auth.VerifyEmailUseCase
 import com.spaceapp.presentation.utils.SignUpResponseMessages

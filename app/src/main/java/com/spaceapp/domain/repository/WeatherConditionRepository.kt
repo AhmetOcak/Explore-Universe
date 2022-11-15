@@ -1,6 +1,6 @@
 package com.spaceapp.domain.repository
 
-import com.spaceapp.domain.model.WeatherCondition
+import com.spaceapp.domain.model.weather_condition.WeatherCondition
 
 interface WeatherConditionRepository {
 

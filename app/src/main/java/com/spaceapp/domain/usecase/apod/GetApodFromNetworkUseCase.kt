@@ -1,7 +1,7 @@
 package com.spaceapp.domain.usecase.apod
 
 import com.spaceapp.data.repository.ApodRepositoryImpl
-import com.spaceapp.domain.model.Apod
+import com.spaceapp.domain.model.apod.Apod
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

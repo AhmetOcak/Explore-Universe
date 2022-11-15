@@ -24,7 +24,7 @@ import com.spaceapp.R
 import com.spaceapp.core.ui.component.*
 import com.spaceapp.core.ui.theme.FullTransparentKimberly
 import com.spaceapp.core.ui.theme.TransparentKimberly
-import com.spaceapp.domain.model.Object
+import com.spaceapp.domain.model.explore_galaxy_data.Object
 import com.spaceapp.presentation.utils.ExploreCategories
 import com.spaceapp.presentation.utils.ExploreScreenConstants
 import com.spaceapp.presentation.utils.NoData

@@ -1,6 +1,6 @@
 package com.spaceapp.presentation.universe_glossary
 
-import com.spaceapp.domain.model.Glossary
+import com.spaceapp.domain.model.glossary_data.Glossary
 
 sealed interface GlossaryState {
     data class Success(val data: Glossary?) : GlossaryState

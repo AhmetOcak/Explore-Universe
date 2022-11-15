@@ -1,6 +1,6 @@
 package com.spaceapp.domain.repository
 
-import com.spaceapp.domain.model.PeopleInSpace
+import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 
 interface PeopleInSpaceRepository {
 

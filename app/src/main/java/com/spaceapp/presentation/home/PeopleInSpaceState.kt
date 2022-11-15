@@ -1,6 +1,6 @@
 package com.spaceapp.presentation.home
 
-import com.spaceapp.domain.model.PeopleInSpace
+import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 
 sealed interface PeopleInSpaceState {
     data class Success(val data: List<PeopleInSpace>?) : PeopleInSpaceState

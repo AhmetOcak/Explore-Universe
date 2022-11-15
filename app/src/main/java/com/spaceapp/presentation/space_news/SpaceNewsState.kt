@@ -1,6 +1,6 @@
 package com.spaceapp.presentation.space_news
 
-import com.spaceapp.domain.model.SpaceNews
+import com.spaceapp.domain.model.space_news.SpaceNews
 
 sealed interface SpaceNewsState {
     data class Success(val data: List<SpaceNews>?): SpaceNewsState

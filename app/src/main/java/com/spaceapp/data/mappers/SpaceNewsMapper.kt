@@ -1,11 +1,9 @@
 package com.spaceapp.data.mappers
 
 import com.spaceapp.data.datasource.local.db.entity.SpaceNewsEntity
-import com.spaceapp.data.datasource.remote.space_news.entity.NewsImageDto
 import com.spaceapp.data.datasource.remote.space_news.entity.SpaceNewsDto
-import com.spaceapp.domain.model.NewsImage
-import com.spaceapp.domain.model.SpaceNews
-import com.spaceapp.presentation.utils.UniverseGlossaryScreenConstants.title
+import com.spaceapp.domain.model.space_news.NewsImage
+import com.spaceapp.domain.model.space_news.SpaceNews
 
 fun List<SpaceNewsDto>.toSpaceNews(): List<SpaceNews> {
     return map {

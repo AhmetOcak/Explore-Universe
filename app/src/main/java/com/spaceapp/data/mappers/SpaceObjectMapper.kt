@@ -1,7 +1,7 @@
 package com.spaceapp.data.mappers
 
 import com.spaceapp.data.datasource.local.explore_galaxy_data.entity.SpaceObjectDto
-import com.spaceapp.domain.model.*
+import com.spaceapp.domain.model.explore_galaxy_data.*
 
 fun SpaceObjectDto.toSpaceObject(): SpaceObject {
     return SpaceObject(

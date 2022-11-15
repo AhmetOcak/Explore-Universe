@@ -1,12 +1,10 @@
 package com.spaceapp.data.mappers
 
 import com.spaceapp.data.datasource.local.db.entity.MarsPhotoEntity
-import com.spaceapp.data.datasource.remote.mars_photos.entity.MarsPhotoDetailDto
 import com.spaceapp.data.datasource.remote.mars_photos.entity.MarsPhotoDto
-import com.spaceapp.data.datasource.remote.mars_photos.entity.RoverDto
-import com.spaceapp.domain.model.MarsPhoto
-import com.spaceapp.domain.model.MarsPhotoDetail
-import com.spaceapp.domain.model.Rover
+import com.spaceapp.domain.model.mars_photos.MarsPhoto
+import com.spaceapp.domain.model.mars_photos.MarsPhotoDetail
+import com.spaceapp.domain.model.mars_photos.Rover
 
 fun MarsPhotoDto.toMarsPhoto(): List<MarsPhoto> {
     return listOf(

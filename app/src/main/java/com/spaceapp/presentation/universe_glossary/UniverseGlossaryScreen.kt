@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.spaceapp.R
 import com.spaceapp.core.ui.component.*
-import com.spaceapp.domain.model.GlossaryContent
+import com.spaceapp.domain.model.glossary_data.GlossaryContent
 import com.spaceapp.presentation.utils.GlossaryImageType
 import com.spaceapp.presentation.utils.UniverseGlossaryScreenConstants
 

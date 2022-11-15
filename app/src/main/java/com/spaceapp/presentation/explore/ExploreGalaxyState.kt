@@ -1,6 +1,6 @@
 package com.spaceapp.presentation.explore
 
-import com.spaceapp.domain.model.SpaceObject
+import com.spaceapp.domain.model.explore_galaxy_data.SpaceObject
 
 sealed interface ExploreGalaxyState {
     data class Success(val data : SpaceObject?) : ExploreGalaxyState

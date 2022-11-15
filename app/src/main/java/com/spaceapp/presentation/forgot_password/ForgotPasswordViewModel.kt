@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spaceapp.core.common.EmailController
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.model.ForgotPassword
-import com.spaceapp.domain.model.VerifyForgotPassword
+import com.spaceapp.domain.model.hms.ForgotPassword
+import com.spaceapp.domain.model.hms.VerifyForgotPassword
 import com.spaceapp.domain.usecase.hms_auth.ForgotPasswordUseCase
 import com.spaceapp.domain.usecase.hms_auth.VerifyForgotPasswordUseCase
 import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants

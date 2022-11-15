@@ -2,7 +2,7 @@ package com.spaceapp.domain.usecase.people_in_space
 
 import android.util.Log
 import com.spaceapp.data.repository.PeopleInSpaceRepositoryImpl
-import com.spaceapp.domain.model.PeopleInSpace
+import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException

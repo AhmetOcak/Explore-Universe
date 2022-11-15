@@ -1,7 +1,7 @@
 package com.spaceapp.domain.usecase.space_news
 
 import com.spaceapp.data.repository.SpaceNewsRepositoryImpl
-import com.spaceapp.domain.model.SpaceNews
+import com.spaceapp.domain.model.space_news.SpaceNews
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException

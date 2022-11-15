@@ -4,7 +4,7 @@ import com.spaceapp.data.datasource.local.db.MarsPhotosLocalDataSource
 import com.spaceapp.data.datasource.remote.mars_photos.MarsPhotoRemoteDataSource
 import com.spaceapp.data.mappers.toMarsPhoto
 import com.spaceapp.data.mappers.toMarsPhotoEntity
-import com.spaceapp.domain.model.MarsPhoto
+import com.spaceapp.domain.model.mars_photos.MarsPhoto
 import com.spaceapp.domain.repository.MarsPhotosRepository
 import javax.inject.Inject
 

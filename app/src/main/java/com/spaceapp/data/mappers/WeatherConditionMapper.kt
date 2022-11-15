@@ -1,12 +1,10 @@
 package com.spaceapp.data.mappers
 
 import com.spaceapp.data.datasource.local.db.entity.WeatherConditionEntity
-import com.spaceapp.data.datasource.remote.weather_condition.entity.MainDto
 import com.spaceapp.data.datasource.remote.weather_condition.entity.WeatherConditionDto
-import com.spaceapp.data.datasource.remote.weather_condition.entity.WeatherDescriptionDto
-import com.spaceapp.domain.model.Main
-import com.spaceapp.domain.model.WeatherCondition
-import com.spaceapp.domain.model.WeatherDescription
+import com.spaceapp.domain.model.weather_condition.Main
+import com.spaceapp.domain.model.weather_condition.WeatherCondition
+import com.spaceapp.domain.model.weather_condition.WeatherDescription
 
 fun WeatherConditionDto.toWeatherCondition(): WeatherCondition {
     return WeatherCondition(

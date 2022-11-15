@@ -1,6 +1,6 @@
 package com.spaceapp.domain.repository
 
-import com.spaceapp.domain.model.Apod
+import com.spaceapp.domain.model.apod.Apod
 
 interface ApodRepository {
 

@@ -2,7 +2,7 @@ package com.spaceapp.domain.usecase.explore_galaxy
 
 import android.content.Context
 import com.spaceapp.data.repository.ExploreGalaxyRepositoryImpl
-import com.spaceapp.domain.model.SpaceObject
+import com.spaceapp.domain.model.explore_galaxy_data.SpaceObject
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

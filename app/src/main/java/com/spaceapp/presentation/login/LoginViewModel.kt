@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spaceapp.core.common.EmailController
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.model.Login
+import com.spaceapp.domain.model.hms.Login
 import com.spaceapp.domain.usecase.hms_auth.LoginUseCase
 import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel

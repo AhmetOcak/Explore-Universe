@@ -1,6 +1,6 @@
 package com.spaceapp.presentation.explore
 
-import com.spaceapp.domain.model.Apod
+import com.spaceapp.domain.model.apod.Apod
 
 sealed interface ApodState {
     data class Success(val apodData: List<Apod>?): ApodState
