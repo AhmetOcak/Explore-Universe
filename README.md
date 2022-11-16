@@ -1,4 +1,6 @@
-# Space App
+# Explore Universe
+
+<img src="https://user-images.githubusercontent.com/73544434/202178665-3d5ea948-26f7-40bd-b9e5-787ae3de058a.png" width="200" height="200"/>
 
 SpaceApp is an application where you can find information about the universe. SpaceApp provides you with astronomy photos of the day, news about space, the latest photos from mars, current people in space right now and the weather of your location. SpaceApp contains an information area about space objects and a glossary of space terms.
 
@@ -67,7 +69,9 @@ The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional f
 
 ![mvvm](https://user-images.githubusercontent.com/73544434/197416569-d42a6bbe-126e-4776-9c8f-2791925f738c.png)
 
+## App Icon 👍
 
+* [App Icon](https://www.pngitem.com/middle/xmhox_transparent-sun-png-blue-purple-sun-png-download/)
 
 
 
