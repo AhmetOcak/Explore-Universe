@@ -119,6 +119,8 @@ dependencies {
     implementation platform ('com.google.firebase:firebase-bom:31.0.2')
     // Firebase Auth
     implementation 'com.google.firebase:firebase-auth-ktx'
+    // GMS Location
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.65'
 }
