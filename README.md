@@ -16,7 +16,7 @@ Once you enter the application, all data retrieved from the internet is saved on
 
 <img src="https://user-images.githubusercontent.com/73544434/201613551-44ec1631-2776-4177-9fdf-b27e2a6a7ecd.PNG" />
 
-## Libraries 📚
+## Tech Stack 📚
 
 * [Navigation](https://developer.android.com/jetpack/compose/navigation)
 
@@ -43,6 +43,10 @@ Once you enter the application, all data retrieved from the internet is saved on
 * [Hms Location Kit](https://developer.huawei.com/consumer/en/hms/huawei-locationkit/)
 
 * [Hms Auth Service](https://developer.huawei.com/consumer/en/agconnect/auth-service/)
+
+* [Firebase](https://firebase.google.com/)
+
+* [Firebase Auth Service](https://firebase.google.com/docs/auth/android/start)
 
 ## Outputs 🖼
 
