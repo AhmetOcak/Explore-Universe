@@ -48,6 +48,8 @@ Once you enter the application, all data retrieved from the internet is saved on
 
 * [Firebase Auth Service](https://firebase.google.com/docs/auth/android/start)
 
+* [Gms Location Kit](https://developer.android.com/training/location)
+
 ## Outputs 🖼
 
 |                 | Output |                 | Output |
