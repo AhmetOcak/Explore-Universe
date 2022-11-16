@@ -1,4 +1,4 @@
-package com.spaceapp.data.datasource.remote.hms
+package com.spaceapp.data.datasource.remote.location.hms
 
 import android.Manifest
 import android.app.Application

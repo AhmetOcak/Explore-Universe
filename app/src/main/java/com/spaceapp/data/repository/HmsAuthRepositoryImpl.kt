@@ -3,19 +3,16 @@ package com.spaceapp.data.repository
 import com.huawei.agconnect.auth.SignInResult
 import com.huawei.agconnect.auth.VerifyCodeResult
 import com.huawei.hmf.tasks.Task
-import com.spaceapp.data.datasource.remote.hms.HmsAuthDataSource
+import com.spaceapp.data.datasource.remote.auth.hms.HmsAuthDataSource
 import com.spaceapp.data.mappers.*
-import com.spaceapp.domain.model.hms.*
+import com.spaceapp.domain.model.auth.*
 import com.spaceapp.domain.repository.HmsAuthRepository
 import javax.inject.Inject
 
 class HmsAuthRepositoryImpl @Inject constructor(private val authDataSource: HmsAuthDataSource) : HmsAuthRepository {
 
-    override fun verifyEmail(verifyRegisterLogin: VerifyRegisterLogin): Task<VerifyCodeResult> =
-        authDataSource.verifyUserEmail(verifyRegisterLoginDto = verifyRegisterLogin.toVerifyRegisterLoginDto())
-
-    override fun verifyEmail(verifyForgotPassword: VerifyForgotPassword): Task<VerifyCodeResult> =
-        authDataSource.verifyUserEmail(verifyForgotPasswordDto = verifyForgotPassword.toVerifyForgotPasswordDto())
+    override fun verifyUserEmail(verifyEmail: VerifyEmail): Task<VerifyCodeResult> =
+        authDataSource.verifyUserEmail(verifyEmailDto = verifyEmail.toVerifyEmailDto())
 
     override fun signUp(signUp: SignUp): Task<SignInResult> =
         authDataSource.signUp(signupDto = signUp.toSignUpDto())

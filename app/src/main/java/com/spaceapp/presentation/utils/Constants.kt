@@ -19,9 +19,11 @@ object SignUpScreenConstants {
 }
 
 object ForgotPasswordScreenConstants {
-    const val enter_email = "Please enter your email address to receive a verification code"
+    const val enter_email = "Please enter your email address to reset your password"
+    const val forgot_password_email = "Password reset request was sent successfully. Please check your email to reset your password."
     const val email = "Email Address"
-    const val send_email = "Send"
+    const val send_email_hms = "Send"
+    const val sent_email_gms = "OK"
     const val enter_new_password = "Please enter your new password and the verification code we sent you. Your new password must be different from previously used password."
     const val verification_code = "Verification Code"
     const val new_password = "New Password"
@@ -161,4 +163,5 @@ object SignUpResponseMessages {
     const val password_length = "Password length can't be less than 8"
     const val password_match = "Passwords doesn't match"
     const val password_content = "Password must have an uppercase and lowercase"
+    const val unverified_email = "Please verify your email"
 }

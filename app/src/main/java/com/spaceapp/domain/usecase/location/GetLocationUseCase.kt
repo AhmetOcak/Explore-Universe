@@ -2,7 +2,7 @@ package com.spaceapp.domain.usecase.location
 
 import android.location.Location
 import com.spaceapp.core.common.Result
-import com.spaceapp.data.datasource.remote.hms.DefaultLocationTracker
+import com.spaceapp.data.datasource.remote.location.hms.DefaultLocationTracker
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

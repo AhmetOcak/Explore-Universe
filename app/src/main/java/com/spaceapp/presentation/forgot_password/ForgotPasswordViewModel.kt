@@ -1,16 +1,20 @@
 package com.spaceapp.presentation.forgot_password
 
+import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.huawei.agconnect.auth.VerifyCodeSettings
+import com.spaceapp.core.common.Device
 import com.spaceapp.core.common.EmailController
+import com.spaceapp.core.common.MobileServiceType
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.model.hms.ForgotPassword
-import com.spaceapp.domain.model.hms.VerifyForgotPassword
-import com.spaceapp.domain.usecase.hms_auth.ForgotPasswordUseCase
-import com.spaceapp.domain.usecase.hms_auth.VerifyForgotPasswordUseCase
+import com.spaceapp.domain.model.auth.ForgotPassword
+import com.spaceapp.domain.model.auth.VerifyEmail
+import com.spaceapp.domain.usecase.auth.ForgotPasswordUseCase
+import com.spaceapp.domain.usecase.auth.VerifyUserEmailUseCase
 import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,9 +28,12 @@ private val constants = ForgotPasswordScreenConstants
 
 @HiltViewModel
 class ForgotPasswordViewModel @Inject constructor(
-    private val verifyForgotPasswordUseCase: VerifyForgotPasswordUseCase,
+    private val verifyUserEmailUseCase: VerifyUserEmailUseCase,
     private val forgotPasswordUseCase: ForgotPasswordUseCase,
+    application: Application
 ) : ViewModel() {
+
+    var device: MobileServiceType = Device.mobileServiceType(context = application.applicationContext)
 
     private val _verifyForgotPasswordState = MutableStateFlow<VerifyForgotPasswordState>(VerifyForgotPasswordState.Nothing)
     val verifyForgotPasswordState = _verifyForgotPasswordState.asStateFlow()
@@ -50,22 +57,58 @@ class ForgotPasswordViewModel @Inject constructor(
     fun verifyForgotPassword() =
         viewModelScope.launch(Dispatchers.IO) {
             if (checkEmail()) {
-                verifyForgotPasswordUseCase(verifyForgotPassword = VerifyForgotPassword(userEmail = userEmail)).collect() { result ->
-                    when (result) {
-                        is Result.Loading -> {
-                            _verifyForgotPasswordState.value = VerifyForgotPasswordState.Loading
+                if (device == MobileServiceType.HMS) {
+                    verifyUserEmailUseCase.hmsAuth(
+                        verifyEmail = VerifyEmail(
+                            userEmail = userEmail,
+                            action = VerifyCodeSettings.ACTION_RESET_PASSWORD
+                        )
+                    ).collect() { result ->
+                        when (result) {
+                            is Result.Loading -> {
+                                _verifyForgotPasswordState.value = VerifyForgotPasswordState.Loading
+                            }
+                            is Result.Success -> {
+                                result.data
+                                    ?.addOnSuccessListener {
+                                        _verifyForgotPasswordState.value = VerifyForgotPasswordState.Success
+                                    }
+                                    ?.addOnFailureListener {
+                                        _verifyForgotPasswordState.value = VerifyForgotPasswordState.Error(errorMessage = it.message)
+                                    }
+                            }
+                            is Result.Error -> {
+                                _verifyForgotPasswordState.value = VerifyForgotPasswordState.Error(errorMessage = result.message)
+                            }
                         }
-                        is Result.Success -> {
-                            result.data
-                                ?.addOnSuccessListener {
-                                    _verifyForgotPasswordState.value = VerifyForgotPasswordState.Success
-                                }
-                                ?.addOnFailureListener {
-                                    _verifyForgotPasswordState.value = VerifyForgotPasswordState.Error(errorMessage = it.message)
-                                }
-                        }
-                        is Result.Error -> {
-                            _verifyForgotPasswordState.value = VerifyForgotPasswordState.Error(errorMessage = result.message)
+                    }
+                } else {
+                    // in firebase we don't verify email when we want reset password
+                    _verifyForgotPasswordState.value = VerifyForgotPasswordState.Success
+
+                    forgotPasswordUseCase.firebaseAuth(
+                        forgotPassword = ForgotPassword(
+                            email = userEmail,
+                            newPassword = "",
+                            verifyCode = ""
+                        )
+                    ).collect() { result ->
+                        when (result) {
+                            is Result.Loading -> {
+                                _forgotPasswordState.value = ForgotPasswordState.Loading
+                            }
+                            is Result.Success -> {
+                                result.data
+                                    ?.addOnSuccessListener {
+                                        _forgotPasswordState.value = ForgotPasswordState.Success
+                                    }
+                                    ?.addOnFailureListener {
+                                        _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
+                                    }
+                            }
+                            is Result.Error -> {
+                                _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
+                            }
                         }
                     }
                 }
@@ -73,29 +116,31 @@ class ForgotPasswordViewModel @Inject constructor(
         }
 
     fun changePassword() = viewModelScope.launch(Dispatchers.IO) {
-        forgotPasswordUseCase(
-            forgotPassword = ForgotPassword(
-                email = userEmail,
-                newPassword = userPassword,
-                verifyCode = verifyCode
-            )
-        ).collect() { result ->
-            if (confirmPassword() && checkPassword()) {
-                when (result) {
-                    is Result.Loading -> {
-                        _forgotPasswordState.value = ForgotPasswordState.Loading
-                    }
-                    is Result.Success -> {
-                        result.data
-                            ?.addOnSuccessListener {
-                                _forgotPasswordState.value = ForgotPasswordState.Success
-                            }
-                            ?.addOnFailureListener {
-                                _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
-                            }
-                    }
-                    is Result.Error -> {
-                        _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
+        if(device == MobileServiceType.HMS) {
+            forgotPasswordUseCase.hmsAuth(
+                forgotPassword = ForgotPassword(
+                    email = userEmail,
+                    newPassword = userPassword,
+                    verifyCode = verifyCode
+                )
+            ).collect() { result ->
+                if (confirmPassword() && checkPassword()) {
+                    when (result) {
+                        is Result.Loading -> {
+                            _forgotPasswordState.value = ForgotPasswordState.Loading
+                        }
+                        is Result.Success -> {
+                            result.data
+                                ?.addOnSuccessListener {
+                                    _forgotPasswordState.value = ForgotPasswordState.Success
+                                }
+                                ?.addOnFailureListener {
+                                    _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
+                                }
+                        }
+                        is Result.Error -> {
+                            _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
+                        }
                     }
                 }
             }

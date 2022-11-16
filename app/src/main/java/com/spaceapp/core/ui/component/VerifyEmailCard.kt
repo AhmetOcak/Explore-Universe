@@ -15,13 +15,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
 
+private const val hmsVerificationMessage = "Please type the verification code sent to"
+private const val gmsVerificationMessage = "A verification link has been sent to your email account. The email may go into spam."
+
 @Composable
-fun VerifyCodeCard(
+fun VerifyEmailCard(
     modifier: Modifier,
     userEmail: String,
     value: String = "",
-    onValueChanged: (String) -> Unit,
-    onClick: () -> Unit
+    onValueChanged: (String) -> Unit = {},
+    onClick: () -> Unit,
+    isTextFieldAvailable: Boolean = true
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Card(
@@ -44,40 +48,44 @@ fun VerifyCodeCard(
                     contentScale = ContentScale.Fit
                 )
                 Text(
-                    text = "Please type the verification code sent to $userEmail",
+                    text = if (isTextFieldAvailable) "$hmsVerificationMessage $userEmail" else gmsVerificationMessage,
                     style = MaterialTheme.typography.h3,
                     textAlign = TextAlign.Center
                 )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    value = value,
-                    onValueChange = onValueChanged,
-                    label = {
-                        Text(text = "verify code", style = MaterialTheme.typography.body2)
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    maxLines = 1,
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_check_box),
-                            contentDescription = null
+                if (isTextFieldAvailable) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        value = value,
+                        onValueChange = onValueChanged,
+                        label = {
+                            Text(text = "verify code", style = MaterialTheme.typography.body2)
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        maxLines = 1,
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_check_box),
+                                contentDescription = null
+                            )
+                        },
+                        textStyle = MaterialTheme.typography.body1,
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            cursorColor = MaterialTheme.colors.secondary,
+                            focusedBorderColor = MaterialTheme.colors.secondary,
+                            focusedLabelColor = MaterialTheme.colors.secondary,
                         )
-                    },
-                    textStyle = MaterialTheme.typography.body1,
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        cursorColor = MaterialTheme.colors.secondary,
-                        focusedBorderColor = MaterialTheme.colors.secondary,
-                        focusedLabelColor = MaterialTheme.colors.secondary,
                     )
-                )
+                }
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                     onClick = onClick,
-                    content = { Text(text = "Verify") },
+                    content = {
+                        Text(text = if(isTextFieldAvailable) "Verify" else "OK")
+                    },
                     shape = RoundedCornerShape(50),
                     enabled = true,
                 )

@@ -1,6 +1,6 @@
 package com.spaceapp.core.di
 
-import com.spaceapp.data.datasource.remote.hms.DefaultLocationTracker
+import com.spaceapp.data.datasource.remote.location.hms.DefaultLocationTracker
 import com.spaceapp.domain.location.LocationTracker
 import dagger.Binds
 import dagger.Module

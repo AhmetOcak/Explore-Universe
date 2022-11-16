@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.AGConnectAuth
 import com.spaceapp.R
 import com.spaceapp.core.navigation.NavScreen
@@ -56,7 +57,8 @@ private fun ProfileScreenContent(
             horizontalAlignment = Alignment.End
         ) {
             LogOutSection(
-                navController = navController
+                navController = navController,
+                viewModel = viewModel
             )
             ProfilePreviewSection(
                 modifier = modifier,
@@ -67,13 +69,17 @@ private fun ProfileScreenContent(
 }
 
 @Composable
-private fun LogOutSection(navController: NavController) {
+private fun LogOutSection(navController: NavController, viewModel: ProfileViewModel) {
     IconButton(
         onClick = {
             navController.navigate(NavScreen.LoginScreen.route) {
                 popUpTo(0)
             }
-            AGConnectAuth.getInstance().signOut()
+            if (viewModel.currentUserGms != null) {
+                FirebaseAuth.getInstance().signOut()
+            } else {
+                AGConnectAuth.getInstance().signOut()
+            }
         }
     ) {
         Icon(
@@ -111,7 +117,7 @@ private fun UserProfileImage(modifier: Modifier) {
 private fun UserProfileName(modifier: Modifier, viewModel: ProfileViewModel) {
     Text(
         modifier = modifier.padding(top = 32.dp, start = 16.dp, end = 16.dp),
-        text = viewModel.currentUser.email,
+        text = if (viewModel.currentUserGms != null) viewModel.currentUserGms.email!! else viewModel.currentUserHms?.email!!,
         style = MaterialTheme.typography.h2,
         color = MaterialTheme.colors.secondary,
         textAlign = TextAlign.Center

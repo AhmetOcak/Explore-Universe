@@ -1,4 +1,4 @@
-package com.spaceapp.domain.model.hms
+package com.spaceapp.domain.model.auth
 
 data class ForgotPassword(
     val email: String,

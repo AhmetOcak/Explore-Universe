@@ -1,4 +1,4 @@
-package com.spaceapp.data.datasource.remote.hms.entity
+package com.spaceapp.data.datasource.remote.auth.entity
 
 data class LoginDto(
     val userEmail: String,

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
+import com.spaceapp.core.common.MobileServiceType
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.core.ui.component.*
 import com.spaceapp.presentation.utils.LoginScreenConstants
@@ -76,7 +77,7 @@ private fun LoginSection(
 ) {
     when (loginState) {
         is LoginState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxWidth())
+            LoadingSpinner(modifier = modifier.fillMaxSize())
         }
         is LoginState.Success -> {
             navController.navigate(NavScreen.HomeScreen.route) {
@@ -95,44 +96,68 @@ private fun LoginSection(
             }
         }
         is LoginState.Nothing -> {
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .imePadding()
-                    .navigationBarsPadding()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Center
-            ) {
-                TitleSection(modifier = modifier)
-                EmailPasswordSection(
-                    modifier = modifier,
-                    viewModel = viewModel
-                )
-                ForgotPasswordSection(
-                    modifier = modifier,
-                    navController = navController
-                )
-                DefaultButton(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp),
-                    onClick = {
-                        viewModel.login()
-                    },
-                    contentText = constants.button_text
-                )
-                SignUpSection(
-                    modifier = modifier,
-                    navController = navController,
-                    viewModel = viewModel
-                )
-                ShowInputFieldErrors(
-                    loginInputFieldState = loginInputFieldState
-                )
-            }
+            LoginInputSection(
+                modifier = modifier,
+                viewModel = viewModel,
+                navController = navController,
+                loginInputFieldState = loginInputFieldState
+            )
         }
+    }
+}
+
+@Composable
+private fun TitleSection(modifier: Modifier) {
+    Text(
+        modifier = modifier.padding(bottom = 72.dp),
+        text = constants.welcome_title,
+        style = MaterialTheme.typography.h1
+    )
+}
+
+@Composable
+private fun LoginInputSection(
+    modifier: Modifier,
+    viewModel: LoginViewModel,
+    navController: NavController,
+    loginInputFieldState: LoginInputFieldState
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .imePadding()
+            .navigationBarsPadding()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Center
+    ) {
+        TitleSection(modifier = modifier)
+        EmailPasswordSection(
+            modifier = modifier,
+            viewModel = viewModel
+        )
+        ForgotPasswordSection(
+            modifier = modifier,
+            navController = navController
+        )
+        DefaultButton(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp),
+            onClick = {
+                viewModel.login()
+            },
+            contentText = constants.button_text
+        )
+        SignUpSection(
+            modifier = modifier,
+            navController = navController,
+            viewModel = viewModel
+        )
+        ShowInputFieldErrors(
+            loginInputFieldState = loginInputFieldState
+        )
     }
 }
 
@@ -148,15 +173,6 @@ private fun ShowInputFieldErrors(loginInputFieldState: LoginInputFieldState) {
         }
         is LoginInputFieldState.Nothing -> {}
     }
-}
-
-@Composable
-private fun TitleSection(modifier: Modifier) {
-    Text(
-        modifier = modifier.padding(bottom = 72.dp),
-        text = constants.welcome_title,
-        style = MaterialTheme.typography.h1
-    )
 }
 
 @Composable
@@ -185,6 +201,7 @@ private fun EmailPasswordSection(
         value = viewModel.password
     )
 }
+
 
 @Composable
 private fun ForgotPasswordSection(modifier: Modifier, navController: NavController) {

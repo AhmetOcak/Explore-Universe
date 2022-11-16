@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.AGConnectAuth
 import com.spaceapp.core.common.ImageLoader
 import com.spaceapp.core.navigation.NavGraph
@@ -51,7 +52,11 @@ class MainActivity : ComponentActivity() {
         )
 
         // we are getting current user
-        val currentUser = AGConnectAuth.getInstance().currentUser
+        val currentUser = if(AGConnectAuth.getInstance().currentUser != null) {
+            AGConnectAuth.getInstance().currentUser
+        } else {
+            FirebaseAuth.getInstance().currentUser
+        }
 
         val content: View = findViewById(android.R.id.content)
         content.viewTreeObserver.addOnPreDrawListener(

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
+import com.spaceapp.core.common.MobileServiceType
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.core.ui.component.*
 import com.spaceapp.presentation.utils.SignUpScreenConstants
@@ -70,9 +71,7 @@ private fun SignUpContent(
                         LoadingSpinner(modifier = modifier.fillMaxWidth())
                     }
                     is SignUpState.Success -> {
-                        navController.navigate(NavScreen.HomeScreen.route) {
-                            popUpTo(NavScreen.HomeScreen.route)
-                        }
+                        navNextScreen(viewModel = viewModel, navController = navController)
                     }
                     is SignUpState.Error -> {
                         Box(
@@ -87,14 +86,10 @@ private fun SignUpContent(
                         }
                     }
                     is SignUpState.Nothing -> {
-                        VerifyCodeCard(
-                            modifier = modifier.fillMaxSize(),
-                            userEmail = viewModel.userEmail,
-                            value = viewModel.verifyCode,
-                            onValueChanged = { viewModel.updateVerifyCodeField(newValue = it) },
-                            onClick = {
-                                viewModel.signUp()
-                            }
+                        VerifyEmailSection(
+                            modifier = modifier,
+                            viewModel = viewModel,
+                            navController = navController
                         )
                     }
                 }
@@ -104,7 +99,8 @@ private fun SignUpContent(
                     ErrorCard(
                         errorDescription = verifyEmailState.errorMessage.toString(),
                         isButtonAvailable = true,
-                        onClick = { viewModel.resetState() })
+                        onClick = { viewModel.resetState() }
+                    )
                 }
             }
             is VerifyEmailState.Nothing -> {
@@ -217,8 +213,50 @@ private fun SignUpButton(
             .fillMaxWidth()
             .padding(top = 8.dp),
         onClick = {
-            viewModel.verifyEmail()
+            if (viewModel.device == MobileServiceType.HMS) {
+                viewModel.verifyEmail()
+            } else {
+                viewModel.signUp()
+            }
         },
         contentText = constants.button_text
     )
+}
+
+private fun navNextScreen(viewModel: SignUpViewModel, navController: NavController) {
+    if (viewModel.device == MobileServiceType.HMS) {
+        navController.navigate(NavScreen.HomeScreen.route) {
+            popUpTo(NavScreen.HomeScreen.route)
+        }
+    }
+}
+
+@Composable
+private fun VerifyEmailSection(
+    modifier: Modifier,
+    viewModel: SignUpViewModel,
+    navController: NavController
+) {
+    if (viewModel.device == MobileServiceType.HMS) {
+        VerifyEmailCard(
+            modifier = modifier.fillMaxSize(),
+            userEmail = viewModel.userEmail,
+            value = viewModel.verifyCode,
+            onValueChanged = { viewModel.updateVerifyCodeField(newValue = it) },
+            onClick = {
+                viewModel.signUp()
+            }
+        )
+    } else {
+        VerifyEmailCard(
+            modifier = modifier.fillMaxSize(),
+            userEmail = viewModel.userEmail,
+            onClick = {
+                navController.navigate(NavScreen.LoginScreen.route) {
+                    popUpTo(0)
+                }
+            },
+            isTextFieldAvailable = false
+        )
+    }
 }

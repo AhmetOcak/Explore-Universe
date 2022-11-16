@@ -1,31 +1,21 @@
-package com.spaceapp.data.datasource.remote.hms
+package com.spaceapp.data.datasource.remote.auth.hms
 
 import com.huawei.agconnect.auth.*
 import com.huawei.hmf.tasks.Task
-import com.spaceapp.data.datasource.remote.hms.entity.*
+import com.spaceapp.data.datasource.remote.auth.entity.*
 import java.util.*
 import javax.inject.Inject
 
 class HmsAuthDataSource @Inject constructor() {
 
-    fun verifyUserEmail(verifyRegisterLoginDto: VerifyRegisterLoginDto): Task<VerifyCodeResult> {
+    fun verifyUserEmail(verifyEmailDto: VerifyEmailDto): Task<VerifyCodeResult> {
         val settings = VerifyCodeSettings.newBuilder()
-            .action(VerifyCodeSettings.ACTION_REGISTER_LOGIN)
+            .action(verifyEmailDto.action)
             .sendInterval(30)
             .locale(Locale.ENGLISH)
             .build()
 
-        return AGConnectAuth.getInstance().requestVerifyCode(verifyRegisterLoginDto.userEmail, settings)
-    }
-
-    fun verifyUserEmail(verifyForgotPasswordDto: VerifyForgotPasswordDto): Task<VerifyCodeResult> {
-        val settings = VerifyCodeSettings.newBuilder()
-            .action(VerifyCodeSettings.ACTION_RESET_PASSWORD)
-            .sendInterval(30)
-            .locale(Locale.ENGLISH)
-            .build()
-
-        return AGConnectAuth.getInstance().requestVerifyCode(verifyForgotPasswordDto.userEmail, settings)
+        return AGConnectAuth.getInstance().requestVerifyCode(verifyEmailDto.userEmail, settings)
     }
 
     fun signUp(signupDto: SignUpDto): Task<SignInResult> {

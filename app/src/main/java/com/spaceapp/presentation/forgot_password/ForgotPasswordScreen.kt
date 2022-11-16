@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
+import com.spaceapp.core.common.MobileServiceType
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.core.ui.component.*
 import com.spaceapp.core.ui.theme.White
@@ -115,6 +116,52 @@ private fun ForgotPasswordSection(
     }
 }
 
+
+
+@Composable
+private fun ChangePasswordSection(
+    modifier: Modifier,
+    forgotPasswordState: ForgotPasswordState,
+    viewModel: ForgotPasswordViewModel,
+    navController: NavController,
+    forgotPasswordInputFieldState: ForgotPasswordInputFieldState
+) {
+    when (forgotPasswordState) {
+        is ForgotPasswordState.Nothing -> {
+            if (viewModel.device == MobileServiceType.HMS) {
+                ChangePasswordInputSection(modifier = modifier, viewModel = viewModel)
+                ShowInputFieldErrors(forgotPasswordInputFieldState = forgotPasswordInputFieldState)
+            } else {
+                LoadingSpinner(modifier = modifier.fillMaxSize())
+            }
+        }
+        is ForgotPasswordState.Loading -> {
+            LoadingSpinner(modifier = modifier.fillMaxWidth())
+        }
+        is ForgotPasswordState.Success -> {
+            if (viewModel.device == MobileServiceType.HMS) {
+                ChangePasswordSuccessSection(modifier = modifier, navController = navController)
+            } else {
+                PasswordResetEmailSent(
+                    modifier = modifier,
+                    viewModel = viewModel,
+                    navController = navController
+                )
+            }
+        }
+        is ForgotPasswordState.Error -> {
+            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                ErrorCard(
+                    errorDescription = forgotPasswordState.errorMessage ?: ERROR.UNKNOWN,
+                    isButtonAvailable = true,
+                    onClick = { viewModel.resetState() }
+                )
+            }
+        }
+    }
+}
+
+// For HMS
 @Composable
 private fun SendVerifyCodeSection(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
     Column(
@@ -161,39 +208,56 @@ private fun SendVerifyCodeSection(modifier: Modifier, viewModel: ForgotPasswordV
             onClick = {
                 viewModel.verifyForgotPassword()
             },
-            contentText = constants.send_email
+            contentText = constants.send_email_hms
         )
     }
 }
 
+// For GMS
 @Composable
-private fun ChangePasswordSection(
+private fun PasswordResetEmailSent(
     modifier: Modifier,
-    forgotPasswordState: ForgotPasswordState,
     viewModel: ForgotPasswordViewModel,
-    navController: NavController,
-    forgotPasswordInputFieldState: ForgotPasswordInputFieldState
+    navController: NavController
 ) {
-    when (forgotPasswordState) {
-        is ForgotPasswordState.Nothing -> {
-            ChangePasswordInputSection(modifier = modifier, viewModel = viewModel)
-            ShowInputFieldErrors(forgotPasswordInputFieldState = forgotPasswordInputFieldState)
-        }
-        is ForgotPasswordState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxWidth())
-        }
-        is ForgotPasswordState.Success -> {
-            ChangePasswordSuccessSection(modifier = modifier, navController = navController)
-        }
-        is ForgotPasswordState.Error -> {
-            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                ErrorCard(
-                    errorDescription = forgotPasswordState.errorMessage ?: ERROR.UNKNOWN,
-                    isButtonAvailable = true,
-                    onClick = { viewModel.resetState() }
-                )
-            }
-        }
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .imePadding()
+            .navigationBarsPadding()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 48.dp),
+            painter = painterResource(id = R.drawable.forgot_password_email),
+            contentDescription = null,
+            contentScale = ContentScale.Fit
+        )
+        Text(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 24.dp),
+            text = constants.forgot_password_email,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.h3,
+            color = White
+        )
+        DefaultButton(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            onClick = {
+                navController.navigate(NavScreen.LoginScreen.route) {
+                    popUpTo(0)
+                }
+            },
+            contentText = if (viewModel.device == MobileServiceType.HMS) constants.send_email_hms else constants.sent_email_gms
+        )
     }
 }
 

@@ -1,14 +1,18 @@
 package com.spaceapp.presentation.login
 
+import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.spaceapp.core.common.Device
 import com.spaceapp.core.common.EmailController
+import com.spaceapp.core.common.MobileServiceType
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.model.hms.Login
-import com.spaceapp.domain.usecase.hms_auth.LoginUseCase
+import com.spaceapp.domain.model.auth.Login
+import com.spaceapp.domain.usecase.auth.LoginUseCase
 import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +23,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    application: Application
 ) : ViewModel() {
+
+    var device : MobileServiceType = Device.mobileServiceType(context = application.applicationContext)
 
     private val _loginInputFieldState = MutableStateFlow<LoginInputFieldState>(LoginInputFieldState.Nothing)
     val loginInputFieldState = _loginInputFieldState.asStateFlow()
@@ -35,31 +42,67 @@ class LoginViewModel @Inject constructor(
 
     fun login() = viewModelScope.launch(Dispatchers.IO) {
         if (checkLoginInfo()) {
-            loginUseCase(
-                login = Login(
-                    userEmail = email,
-                    password = password
-                )
-            ).collect() { result ->
-                when (result) {
-                    is Result.Loading -> {
-                        _loginState.value = LoginState.Loading
+            if(device == MobileServiceType.HMS) {
+                loginUseCase.hmsAuth(
+                    login = Login(
+                        userEmail = email,
+                        userPassword = password
+                    )
+                ).collect() { result ->
+                    when (result) {
+                        is Result.Loading -> {
+                            _loginState.value = LoginState.Loading
+                        }
+                        is Result.Success -> {
+                            result.data
+                                ?.addOnSuccessListener {
+                                    _loginState.value = LoginState.Success
+                                }
+                                ?.addOnFailureListener {
+                                    _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
+                                }
+                        }
+                        is Result.Error -> {
+                            _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                        }
                     }
-                    is Result.Success -> {
-                        result.data
-                            ?.addOnSuccessListener {
-                                _loginState.value = LoginState.Success
-                            }
-                            ?.addOnFailureListener {
-                                _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
-                            }
-                    }
-                    is Result.Error -> {
-                        _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                }
+            } else {
+                loginUseCase.firebaseAuth(
+                    login = Login(
+                        userEmail = email,
+                        userPassword = password
+                    )
+                ).collect() { result ->
+                    when (result) {
+                        is Result.Loading -> {
+                            _loginState.value = LoginState.Loading
+                        }
+                        is Result.Success -> {
+                            result.data
+                                ?.addOnSuccessListener {
+                                    if (checkUserEmailIsVerified()) {
+                                        _loginState.value = LoginState.Success
+                                    } else {
+                                        _loginState.value = LoginState.Error(errorMessage = SignUpResponseMessages.unverified_email)
+                                    }
+                                }
+                                ?.addOnFailureListener {
+                                    _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
+                                }
+                        }
+                        is Result.Error -> {
+                            _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                        }
                     }
                 }
             }
         }
+    }
+
+    // created for firebase auth
+    private fun checkUserEmailIsVerified() : Boolean {
+        return FirebaseAuth.getInstance().currentUser?.isEmailVerified == true
     }
 
     private fun checkLoginInfo(): Boolean = checkEmail() && checkPassword()
