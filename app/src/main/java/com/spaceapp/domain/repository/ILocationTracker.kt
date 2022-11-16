@@ -1,7 +1,7 @@
-package com.spaceapp.domain.location
+package com.spaceapp.domain.repository
 
 import android.location.Location
 
-interface LocationTracker {
+interface ILocationTracker {
     suspend fun getCurrentLocation(): Location?
 }

@@ -1,7 +1,8 @@
 package com.spaceapp.core.di
 
-import com.spaceapp.data.datasource.remote.location.hms.DefaultLocationTracker
-import com.spaceapp.domain.location.LocationTracker
+import com.spaceapp.data.datasource.remote.location.gms.LocationTrackerGms
+import com.spaceapp.data.datasource.remote.location.hms.LocationTrackerHms
+import com.spaceapp.domain.repository.ILocationTracker
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +15,9 @@ abstract class LocationModule {
 
     @Binds
     @Singleton
-    abstract fun bindLocationTracker(defaultLocationTracker: DefaultLocationTracker): LocationTracker
+    abstract fun bindLocationTracker(defaultLocationTrackerHms: LocationTrackerHms): ILocationTracker
+
+    @Binds
+    @Singleton
+    abstract fun bindLocationTracker(defaultLocationTrackerGms: LocationTrackerGms): ILocationTracker
 }
