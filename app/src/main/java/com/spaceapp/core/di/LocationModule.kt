@@ -15,9 +15,9 @@ abstract class LocationModule {
 
     @Binds
     @Singleton
-    abstract fun bindLocationTracker(defaultLocationTrackerHms: LocationTrackerHms): ILocationTracker
+    abstract fun bindHmsLocationTracker(defaultLocationTrackerHms: LocationTrackerHms): ILocationTracker
 
     @Binds
     @Singleton
-    abstract fun bindLocationTracker(defaultLocationTrackerGms: LocationTrackerGms): ILocationTracker
+    abstract fun bindGmsLocationTracker(defaultLocationTrackerGms: LocationTrackerGms): ILocationTracker
 }

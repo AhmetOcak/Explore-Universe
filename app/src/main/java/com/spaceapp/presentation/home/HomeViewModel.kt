@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(
     var isPeopleInSpaceDataTakenFromDatabase by mutableStateOf(false)
         private set
 
-    private fun getLatestMarsPhotosFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
+    fun getLatestMarsPhotosFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
         getLatestMarsPhotoFromNetworkUseCase().collect() { result ->
             when (result) {
                 is Result.Loading -> {
@@ -85,7 +85,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getIssPositionFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
+    fun getIssPositionFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
         getIssPositionFromNetworkUseCase().collect() { result ->
             when (result) {
                 is Result.Loading -> {
@@ -131,7 +131,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getPeopleInSpaceFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
+    fun getPeopleInSpaceFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
         getPeopleInSpaceRightNowUseCase().collect() { result ->
             when (result) {
                 is Result.Loading -> {

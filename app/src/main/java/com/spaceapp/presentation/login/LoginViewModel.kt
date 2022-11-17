@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.spaceapp.core.common.Device
 import com.spaceapp.core.common.EmailController
 import com.spaceapp.core.common.MobileServiceType
-import com.spaceapp.core.common.Result
+import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.Login
 import com.spaceapp.domain.usecase.auth.LoginUseCase
 import com.spaceapp.presentation.utils.SignUpResponseMessages
@@ -50,10 +50,8 @@ class LoginViewModel @Inject constructor(
                     )
                 ).collect() { result ->
                     when (result) {
-                        is Result.Loading -> {
+                        is TaskResult.Success -> {
                             _loginState.value = LoginState.Loading
-                        }
-                        is Result.Success -> {
                             result.data
                                 ?.addOnSuccessListener {
                                     _loginState.value = LoginState.Success
@@ -62,7 +60,7 @@ class LoginViewModel @Inject constructor(
                                     _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
                                 }
                         }
-                        is Result.Error -> {
+                        is TaskResult.Error -> {
                             _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
                         }
                     }
@@ -75,10 +73,8 @@ class LoginViewModel @Inject constructor(
                     )
                 ).collect() { result ->
                     when (result) {
-                        is Result.Loading -> {
+                        is TaskResult.Success -> {
                             _loginState.value = LoginState.Loading
-                        }
-                        is Result.Success -> {
                             result.data
                                 ?.addOnSuccessListener {
                                     if (checkUserEmailIsVerified()) {
@@ -91,7 +87,7 @@ class LoginViewModel @Inject constructor(
                                     _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
                                 }
                         }
-                        is Result.Error -> {
+                        is TaskResult.Error -> {
                             _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
                         }
                     }
@@ -142,5 +138,7 @@ class LoginViewModel @Inject constructor(
     // created for error card
     fun resetState() {
         _loginState.value = LoginState.Nothing
+        email = ""
+        password = ""
     }
 }

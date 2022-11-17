@@ -47,7 +47,8 @@ fun NewsScreen(
         modifier = modifier,
         spaceNewsState = spaceNewsState,
         weatherConditionState = weatherConditionState,
-        navController = navController
+        navController = navController,
+        viewModel = viewModel
     )
 }
 
@@ -57,7 +58,8 @@ private fun NewsContent(
     modifier: Modifier,
     spaceNewsState: SpaceNewsState,
     weatherConditionState: WeatherConditionState,
-    navController: NavController
+    navController: NavController,
+    viewModel: SpaceNewsViewModel
 ) {
     Scaffold(modifier = modifier.fillMaxSize()) {
         BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
@@ -76,12 +78,14 @@ private fun NewsContent(
             LatestNewsSection(
                 modifier = modifier,
                 spaceNewsState = spaceNewsState,
-                navController = navController
+                navController = navController,
+                viewModel = viewModel
             )
             NewsSection(
                 modifier = modifier,
                 spaceNewsState = spaceNewsState,
-                navController = navController
+                navController = navController,
+                viewModel = viewModel
             )
         }
     }
@@ -139,12 +143,11 @@ private fun CurrentWeatherInfo(modifier: Modifier, weatherConditionState: Weathe
 private fun LatestNewsSection(
     modifier: Modifier,
     spaceNewsState: SpaceNewsState,
-    navController: NavController
+    navController: NavController,
+    viewModel: SpaceNewsViewModel
 ) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 32.dp),
+        modifier = modifier.fillMaxWidth().padding(top = 32.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
@@ -185,7 +188,13 @@ private fun LatestNewsSection(
                 }
             }
             is SpaceNewsState.Error -> {
-                ErrorCard(errorDescription = spaceNewsState.errorMessage.toString())
+                ErrorCard(
+                    errorDescription = spaceNewsState.errorMessage.toString(),
+                    paddingValues = PaddingValues(vertical = 16.dp),
+                    isButtonAvailable = true,
+                    buttonText = "Try Again",
+                    onClick = { viewModel.getSpaceNewsFromNetwork() }
+                )
             }
         }
     }
@@ -195,7 +204,8 @@ private fun LatestNewsSection(
 private fun NewsSection(
     modifier: Modifier,
     spaceNewsState: SpaceNewsState,
-    navController: NavController
+    navController: NavController,
+    viewModel: SpaceNewsViewModel
 ) {
     Column(modifier = modifier.padding(top = 32.dp, start = 16.dp, end = 16.dp)) {
         Text(text = constants.news_title, style = MaterialTheme.typography.h2)
@@ -236,7 +246,10 @@ private fun NewsSection(
             is SpaceNewsState.Error -> {
                 ErrorCard(
                     errorDescription = spaceNewsState.errorMessage.toString(),
-                    paddingValues = PaddingValues(vertical = 16.dp)
+                    paddingValues = PaddingValues(vertical = 16.dp),
+                    isButtonAvailable = true,
+                    buttonText = "Try Again",
+                    onClick = { viewModel.getSpaceNewsFromNetwork() }
                 )
             }
         }

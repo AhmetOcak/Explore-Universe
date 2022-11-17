@@ -38,7 +38,7 @@ class SpaceNewsViewModel @Inject constructor(
         loadLocation()
     }
 
-    private fun getSpaceNewsFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
+    fun getSpaceNewsFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
         getSpaceNewsFromNetworkUseCase().collect() { result ->
             when (result) {
                 is Result.Loading -> {

@@ -93,7 +93,7 @@ private fun ForgotPasswordSection(
             ShowInputFieldErrors(forgotPasswordInputFieldState = forgotPasswordInputFieldState)
         }
         is VerifyForgotPasswordState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxWidth())
+            LoadingSpinner(modifier = modifier.fillMaxSize())
         }
         is VerifyForgotPasswordState.Success -> {
             ChangePasswordSection(
@@ -136,7 +136,7 @@ private fun ChangePasswordSection(
             }
         }
         is ForgotPasswordState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxWidth())
+            LoadingSpinner(modifier = modifier.fillMaxSize())
         }
         is ForgotPasswordState.Success -> {
             if (viewModel.device == MobileServiceType.HMS) {

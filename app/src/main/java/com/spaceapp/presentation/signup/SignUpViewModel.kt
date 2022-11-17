@@ -11,7 +11,7 @@ import com.huawei.agconnect.auth.VerifyCodeSettings
 import com.spaceapp.core.common.Device
 import com.spaceapp.core.common.EmailController
 import com.spaceapp.core.common.MobileServiceType
-import com.spaceapp.core.common.Result
+import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.SignUp
 import com.spaceapp.domain.model.auth.VerifyEmail
 import com.spaceapp.domain.usecase.auth.SignUpUseCase
@@ -63,10 +63,8 @@ class SignUpViewModel @Inject constructor(
                         )
                     ).collect() { result ->
                         when (result) {
-                            is Result.Loading -> {
+                            is TaskResult.Success -> {
                                 _verifyEmailState.value = VerifyEmailState.Loading
-                            }
-                            is Result.Success -> {
                                 result.data
                                     ?.addOnSuccessListener {
                                         _verifyEmailState.value = VerifyEmailState.Success
@@ -77,7 +75,7 @@ class SignUpViewModel @Inject constructor(
                                         )
                                     }
                             }
-                            is Result.Error -> {
+                            is TaskResult.Error -> {
                                 _verifyEmailState.value = VerifyEmailState.Error(errorMessage = result.message)
                             }
                         }
@@ -85,10 +83,8 @@ class SignUpViewModel @Inject constructor(
                 } else {
                     verifyUserEmailUseCase.firebaseAuth().collect() { result ->
                         when (result) {
-                            is Result.Loading -> {
-                                _verifyEmailState.value = VerifyEmailState.Loading
-                            }
-                            is Result.Success -> {
+                            is TaskResult.Success -> {
+                                //_verifyEmailState.value = VerifyEmailState.Loading
                                 result.data
                                     ?.addOnSuccessListener {
                                         FirebaseAuth.getInstance().signOut()
@@ -100,7 +96,7 @@ class SignUpViewModel @Inject constructor(
                                         )
                                     }
                             }
-                            is Result.Error -> {
+                            is TaskResult.Error -> {
                                 _verifyEmailState.value = VerifyEmailState.Error(errorMessage = result.message)
                             }
                         }
@@ -119,10 +115,8 @@ class SignUpViewModel @Inject constructor(
                 )
             ).collect() { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is TaskResult.Success -> {
                         _signUpState.value = SignUpState.Loading
-                    }
-                    is Result.Success -> {
                         result.data
                             ?.addOnSuccessListener {
                                 _signUpState.value = SignUpState.Success
@@ -133,7 +127,7 @@ class SignUpViewModel @Inject constructor(
                                 )
                             }
                     }
-                    is Result.Error -> {
+                    is TaskResult.Error -> {
                         _signUpState.value = SignUpState.Error(
                             errorMessage = result.message ?: SignUpResponseMessages.error
                         )
@@ -153,10 +147,8 @@ class SignUpViewModel @Inject constructor(
                 )
             ).collect() { result ->
                 when (result) {
-                    is Result.Loading -> {
-                        _signUpState.value = SignUpState.Loading
-                    }
-                    is Result.Success -> {
+                    is TaskResult.Success -> {
+                        _verifyEmailState.value = VerifyEmailState.Loading
                         result.data
                             ?.addOnSuccessListener {
                                 // if signup success we send a email verification link
@@ -168,7 +160,7 @@ class SignUpViewModel @Inject constructor(
                                 )
                             }
                     }
-                    is Result.Error -> {
+                    is TaskResult.Error -> {
                         _signUpState.value = SignUpState.Error(
                             errorMessage = result.message ?: SignUpResponseMessages.error
                         )
@@ -240,5 +232,9 @@ class SignUpViewModel @Inject constructor(
     fun resetState() {
         _signUpState.value = SignUpState.Nothing
         _verifyEmailState.value = VerifyEmailState.Nothing
+        userEmail = ""
+        userPassword = ""
+        userConfirmPassword = ""
+        verifyCode = ""
     }
 }

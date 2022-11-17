@@ -68,7 +68,7 @@ private fun SignUpContent(
             is VerifyEmailState.Success -> {
                 when (signUpState) {
                     is SignUpState.Loading -> {
-                        LoadingSpinner(modifier = modifier.fillMaxWidth())
+                        LoadingSpinner(modifier = modifier.fillMaxSize())
                     }
                     is SignUpState.Success -> {
                         navNextScreen(viewModel = viewModel, navController = navController)

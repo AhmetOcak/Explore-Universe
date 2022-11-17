@@ -25,7 +25,8 @@ fun ErrorCard(
     errorIconSize: Dp = 96.dp,
     height: Dp = 250.dp,
     onClick: () -> Unit = {},
-    isButtonAvailable: Boolean = false
+    isButtonAvailable: Boolean = false,
+    buttonText: String = "OK"
 ) {
     Card(
         modifier = modifier
@@ -63,7 +64,7 @@ fun ErrorCard(
                     onClick = onClick,
                     colors = ButtonDefaults.outlinedButtonColors(backgroundColor = ErrorColor)
                 ) {
-                    Text(text = "OK", style = MaterialTheme.typography.button, color = White)
+                    Text(text = buttonText, style = MaterialTheme.typography.button, color = White)
                 }
             }
         }

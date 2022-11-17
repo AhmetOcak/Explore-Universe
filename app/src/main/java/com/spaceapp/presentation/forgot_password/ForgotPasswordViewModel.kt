@@ -10,7 +10,7 @@ import com.huawei.agconnect.auth.VerifyCodeSettings
 import com.spaceapp.core.common.Device
 import com.spaceapp.core.common.EmailController
 import com.spaceapp.core.common.MobileServiceType
-import com.spaceapp.core.common.Result
+import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.ForgotPassword
 import com.spaceapp.domain.model.auth.VerifyEmail
 import com.spaceapp.domain.usecase.auth.ForgotPasswordUseCase
@@ -65,10 +65,8 @@ class ForgotPasswordViewModel @Inject constructor(
                         )
                     ).collect() { result ->
                         when (result) {
-                            is Result.Loading -> {
+                            is TaskResult.Success -> {
                                 _verifyForgotPasswordState.value = VerifyForgotPasswordState.Loading
-                            }
-                            is Result.Success -> {
                                 result.data
                                     ?.addOnSuccessListener {
                                         _verifyForgotPasswordState.value = VerifyForgotPasswordState.Success
@@ -77,7 +75,7 @@ class ForgotPasswordViewModel @Inject constructor(
                                         _verifyForgotPasswordState.value = VerifyForgotPasswordState.Error(errorMessage = it.message)
                                     }
                             }
-                            is Result.Error -> {
+                            is TaskResult.Error -> {
                                 _verifyForgotPasswordState.value = VerifyForgotPasswordState.Error(errorMessage = result.message)
                             }
                         }
@@ -94,10 +92,8 @@ class ForgotPasswordViewModel @Inject constructor(
                         )
                     ).collect() { result ->
                         when (result) {
-                            is Result.Loading -> {
+                            is TaskResult.Success -> {
                                 _forgotPasswordState.value = ForgotPasswordState.Loading
-                            }
-                            is Result.Success -> {
                                 result.data
                                     ?.addOnSuccessListener {
                                         _forgotPasswordState.value = ForgotPasswordState.Success
@@ -106,7 +102,7 @@ class ForgotPasswordViewModel @Inject constructor(
                                         _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
                                     }
                             }
-                            is Result.Error -> {
+                            is TaskResult.Error -> {
                                 _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
                             }
                         }
@@ -126,10 +122,8 @@ class ForgotPasswordViewModel @Inject constructor(
             ).collect() { result ->
                 if (confirmPassword() && checkPassword()) {
                     when (result) {
-                        is Result.Loading -> {
+                        is TaskResult.Success -> {
                             _forgotPasswordState.value = ForgotPasswordState.Loading
-                        }
-                        is Result.Success -> {
                             result.data
                                 ?.addOnSuccessListener {
                                     _forgotPasswordState.value = ForgotPasswordState.Success
@@ -138,7 +132,7 @@ class ForgotPasswordViewModel @Inject constructor(
                                     _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
                                 }
                         }
-                        is Result.Error -> {
+                        is TaskResult.Error -> {
                             _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
                         }
                     }
@@ -160,16 +154,6 @@ class ForgotPasswordViewModel @Inject constructor(
     private fun checkPassword(): Boolean {
         return if (userPassword.length < 8) {
             _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Error(errorMessage = constants.password_length)
-            false
-        } else {
-            _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Nothing
-            true
-        }
-    }
-
-    private fun checkVerifyCode(): Boolean {
-        return if (verifyCode.isEmpty()) {
-            _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Error(errorMessage = constants.fill_all_fields)
             false
         } else {
             _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Nothing

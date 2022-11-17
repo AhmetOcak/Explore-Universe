@@ -48,7 +48,8 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
         peopleInSpaceState = peopleInSpaceState,
         context = LocalContext.current,
         marsPhotoComingFromDb = viewModel.isMarsPhotoDataTakenFromDatabase,
-        peopleComingFromDb = viewModel.isPeopleInSpaceDataTakenFromDatabase
+        peopleComingFromDb = viewModel.isPeopleInSpaceDataTakenFromDatabase,
+        viewModel = viewModel
     )
 }
 
@@ -61,7 +62,8 @@ private fun HomeScreenContent(
     peopleInSpaceState: PeopleInSpaceState,
     context: Context,
     marsPhotoComingFromDb: Boolean,
-    peopleComingFromDb: Boolean
+    peopleComingFromDb: Boolean,
+    viewModel: HomeViewModel
 ) {
     Scaffold(modifier = modifier.fillMaxSize()) {
         BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
@@ -77,18 +79,21 @@ private fun HomeScreenContent(
             WordOfCarlSagan(modifier = modifier)
             WhereIsTheIssSection(
                 modifier = modifier,
-                whereIsTheIssState = whereIsTheIssState
+                whereIsTheIssState = whereIsTheIssState,
+                viewModel = viewModel
             )
             PeopleInSpaceRightNow(
                 modifier = modifier,
                 peopleInSpaceState = peopleInSpaceState,
-                dataComingFromDb = peopleComingFromDb
+                dataComingFromDb = peopleComingFromDb,
+                viewModel = viewModel
             )
             MarsPhotos(
                 modifier = modifier,
                 marsPhotoState = marsPhotoState,
                 context = context,
-                dataComingFromDb = marsPhotoComingFromDb
+                dataComingFromDb = marsPhotoComingFromDb,
+                viewModel = viewModel
             )
         }
     }
@@ -133,7 +138,8 @@ private fun WordOfCarlSagan(modifier: Modifier) {
 @Composable
 private fun WhereIsTheIssSection(
     modifier: Modifier,
-    whereIsTheIssState: WhereIsTheIssState
+    whereIsTheIssState: WhereIsTheIssState,
+    viewModel: HomeViewModel
 ) {
     Column(
         modifier = modifier
@@ -168,7 +174,10 @@ private fun WhereIsTheIssSection(
             is WhereIsTheIssState.Error -> {
                 ErrorCard(
                     errorDescription = whereIsTheIssState.errorMessage!!,
-                    paddingValues = PaddingValues(top = 16.dp)
+                    paddingValues = PaddingValues(top = 16.dp),
+                    isButtonAvailable = true,
+                    buttonText = "Try Again",
+                    onClick = { viewModel.getIssPositionFromNetwork() }
                 )
             }
         }
@@ -240,7 +249,8 @@ private fun IssPositionInfo(modifier: Modifier, data: Iss) {
 private fun PeopleInSpaceRightNow(
     modifier: Modifier,
     peopleInSpaceState: PeopleInSpaceState,
-    dataComingFromDb: Boolean
+    dataComingFromDb: Boolean,
+    viewModel: HomeViewModel
 ) {
     PeopleInSpaceTitle(modifier = modifier)
     when (peopleInSpaceState) {
@@ -259,7 +269,13 @@ private fun PeopleInSpaceRightNow(
             )
         }
         is PeopleInSpaceState.Error -> {
-            ErrorCard(errorDescription = peopleInSpaceState.errorMessage!!)
+            ErrorCard(
+                errorDescription = peopleInSpaceState.errorMessage!!,
+                paddingValues = PaddingValues(top = 16.dp),
+                isButtonAvailable = true,
+                buttonText = "Try Again",
+                onClick = { viewModel.getPeopleInSpaceFromNetwork() }
+            )
         }
     }
 }
@@ -377,7 +393,8 @@ private fun MarsPhotos(
     modifier: Modifier,
     marsPhotoState: MarsPhotoState,
     context: Context,
-    dataComingFromDb: Boolean
+    dataComingFromDb: Boolean,
+    viewModel: HomeViewModel
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         MarsPhotosTitle(modifier = modifier)
@@ -398,7 +415,13 @@ private fun MarsPhotos(
                 )
             }
             is MarsPhotoState.Error -> {
-                ErrorCard(errorDescription = marsPhotoState.errorMessage!!)
+                ErrorCard(
+                    errorDescription = marsPhotoState.errorMessage!!,
+                    paddingValues = PaddingValues(top = 16.dp),
+                    isButtonAvailable = true,
+                    buttonText = "Try Again",
+                    onClick = { viewModel.getLatestMarsPhotosFromNetwork() }
+                )
             }
         }
     }
