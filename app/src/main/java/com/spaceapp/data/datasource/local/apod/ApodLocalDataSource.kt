@@ -1,14 +1,12 @@
 package com.spaceapp.data.datasource.local.apod
 
 import com.spaceapp.data.datasource.local.apod.db.entity.ApodEntity
-import com.spaceapp.data.datasource.local.apod.db.room.dao.ApodDao
-import javax.inject.Inject
 
-class ApodLocalDataSource @Inject constructor(private val apodDao: ApodDao) {
+interface ApodLocalDataSource {
 
-    suspend fun addApod(apodEntity: ApodEntity) = apodDao.addApod(apodEntity = apodEntity)
+    suspend fun addApod(apodEntity: ApodEntity)
 
-    suspend fun getApods() = apodDao.getApods()
+    suspend fun getApods() :  List<ApodEntity>
 
-    suspend fun deleteAll() = apodDao.deleteAll()
+    suspend fun deleteAll()
 }

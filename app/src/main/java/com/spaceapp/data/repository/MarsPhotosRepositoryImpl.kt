@@ -1,6 +1,6 @@
 package com.spaceapp.data.repository
 
-import com.spaceapp.data.datasource.local.mars_photos.MarsPhotosLocalDataSource
+import com.spaceapp.data.datasource.local.mars_photos.MarsPhotosLocalDataSourceImpl
 import com.spaceapp.data.datasource.remote.mars_photos.MarsPhotoRemoteDataSource
 import com.spaceapp.data.mappers.toMarsPhoto
 import com.spaceapp.data.mappers.toMarsPhotoEntity
@@ -9,7 +9,7 @@ import com.spaceapp.domain.repository.MarsPhotosRepository
 import javax.inject.Inject
 
 class MarsPhotosRepositoryImpl @Inject constructor(
-    private val localDataSource: MarsPhotosLocalDataSource,
+    private val localDataSource: MarsPhotosLocalDataSourceImpl,
     private val remoteDataSource: MarsPhotoRemoteDataSource
 ) : MarsPhotosRepository {
 

@@ -1,6 +1,6 @@
 package com.spaceapp.data.repository
 
-import com.spaceapp.data.datasource.local.weather_condition.WeatherConditionLocalDataSource
+import com.spaceapp.data.datasource.local.weather_condition.WeatherConditionLocalDataSourceImpl
 import com.spaceapp.data.datasource.remote.weather_condition.WeatherConditionRemoteDataSource
 import com.spaceapp.data.mappers.toWeatherCondition
 import com.spaceapp.data.mappers.toWeatherConditionEntity
@@ -9,7 +9,7 @@ import com.spaceapp.domain.repository.WeatherConditionRepository
 import javax.inject.Inject
 
 class WeatherConditionRepositoryImpl @Inject constructor(
-    private val localDataSource: WeatherConditionLocalDataSource,
+    private val localDataSource: WeatherConditionLocalDataSourceImpl,
     private val remoteDataSource: WeatherConditionRemoteDataSource
 ) : WeatherConditionRepository {
 
