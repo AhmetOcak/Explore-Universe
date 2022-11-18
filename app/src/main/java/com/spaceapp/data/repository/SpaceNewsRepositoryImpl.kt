@@ -1,7 +1,7 @@
 package com.spaceapp.data.repository
 
-import com.spaceapp.data.datasource.local.space_news.SpaceNewsLocalDataSourceImpl
-import com.spaceapp.data.datasource.remote.space_news.SpaceNewsRemoteDataSourceImpl
+import com.spaceapp.data.datasource.local.space_news.SpaceNewsLocalDataSource
+import com.spaceapp.data.datasource.remote.space_news.SpaceNewsRemoteDataSource
 import com.spaceapp.data.mappers.toSpaceNews
 import com.spaceapp.data.mappers.toSpaceNewsEntity
 import com.spaceapp.domain.model.space_news.SpaceNews
@@ -9,8 +9,8 @@ import com.spaceapp.domain.repository.SpaceNewsRepository
 import javax.inject.Inject
 
 class SpaceNewsRepositoryImpl @Inject constructor(
-    private val localDataSource: SpaceNewsLocalDataSourceImpl,
-    private val remoteDataSource: SpaceNewsRemoteDataSourceImpl
+    private val localDataSource: SpaceNewsLocalDataSource,
+    private val remoteDataSource: SpaceNewsRemoteDataSource
 ) : SpaceNewsRepository {
 
     override suspend fun addSpaceToLocal(spaceNews: SpaceNews) =
