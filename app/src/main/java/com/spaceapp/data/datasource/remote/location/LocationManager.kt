@@ -10,7 +10,6 @@ import com.spaceapp.core.common.Device
 import com.spaceapp.core.common.MobileServiceType
 import com.spaceapp.data.datasource.remote.location.gms.LocationTrackerGms
 import com.spaceapp.data.datasource.remote.location.hms.LocationTrackerHms
-import com.spaceapp.domain.repository.ILocationTracker
 import javax.inject.Inject
 
 class LocationManager @Inject constructor(application: Application) {

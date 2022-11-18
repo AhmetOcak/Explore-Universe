@@ -2,7 +2,7 @@ package com.spaceapp.core.di
 
 import com.spaceapp.data.datasource.remote.location.gms.LocationTrackerGms
 import com.spaceapp.data.datasource.remote.location.hms.LocationTrackerHms
-import com.spaceapp.domain.repository.ILocationTracker
+import com.spaceapp.data.datasource.remote.location.ILocationTracker
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.spaceapp.domain.repository
+package com.spaceapp.data.datasource.remote.location
 
 import android.location.Location
 

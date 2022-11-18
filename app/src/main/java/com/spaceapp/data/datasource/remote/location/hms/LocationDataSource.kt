@@ -8,7 +8,7 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.huawei.hms.location.FusedLocationProviderClient
-import com.spaceapp.domain.repository.ILocationTracker
+import com.spaceapp.data.datasource.remote.location.ILocationTracker
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
