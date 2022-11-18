@@ -1,6 +1,6 @@
 package com.spaceapp.data.mappers
 
-import com.spaceapp.data.datasource.local.db.entity.IssEntity
+import com.spaceapp.data.datasource.local.where_is_the_iss.db.entity.IssEntity
 import com.spaceapp.data.datasource.remote.where_is_the_iss.entity.IssDto
 import com.spaceapp.domain.model.where_is_the_iss.Iss
 

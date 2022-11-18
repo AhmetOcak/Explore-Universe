@@ -1,7 +1,7 @@
-package com.spaceapp.data.datasource.local.db
+package com.spaceapp.data.datasource.local.space_news
 
-import com.spaceapp.data.datasource.local.db.entity.SpaceNewsEntity
-import com.spaceapp.data.datasource.local.db.room.dao.SpaceNewsDao
+import com.spaceapp.data.datasource.local.space_news.db.entity.SpaceNewsEntity
+import com.spaceapp.data.datasource.local.space_news.db.room.dao.SpaceNewsDao
 import javax.inject.Inject
 
 class SpaceNewsLocalDataSource @Inject constructor(private val spaceNewsDao: SpaceNewsDao) {

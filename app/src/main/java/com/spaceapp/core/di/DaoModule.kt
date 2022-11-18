@@ -1,7 +1,12 @@
 package com.spaceapp.core.di
 
+import com.spaceapp.data.datasource.local.apod.db.room.dao.ApodDao
 import com.spaceapp.data.datasource.local.db.room.SpaceDatabase
-import com.spaceapp.data.datasource.local.db.room.dao.*
+import com.spaceapp.data.datasource.local.mars_photos.db.room.dao.MarsPhotoDao
+import com.spaceapp.data.datasource.local.people_in_space.db.room.dao.PeopleInSpaceDao
+import com.spaceapp.data.datasource.local.space_news.db.room.dao.SpaceNewsDao
+import com.spaceapp.data.datasource.local.weather_condition.db.room.dao.WeatherConditionDao
+import com.spaceapp.data.datasource.local.where_is_the_iss.db.room.dao.IssDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

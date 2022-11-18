@@ -1,6 +1,6 @@
 package com.spaceapp.data.repository
 
-import com.spaceapp.data.datasource.local.db.MarsPhotosLocalDataSource
+import com.spaceapp.data.datasource.local.mars_photos.MarsPhotosLocalDataSource
 import com.spaceapp.data.datasource.remote.mars_photos.MarsPhotoRemoteDataSource
 import com.spaceapp.data.mappers.toMarsPhoto
 import com.spaceapp.data.mappers.toMarsPhotoEntity

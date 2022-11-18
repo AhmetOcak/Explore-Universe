@@ -1,9 +1,9 @@
-package com.spaceapp.data.datasource.local.db.room.dao
+package com.spaceapp.data.datasource.local.space_news.db.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.spaceapp.data.datasource.local.db.entity.SpaceNewsEntity
+import com.spaceapp.data.datasource.local.space_news.db.entity.SpaceNewsEntity
 import com.spaceapp.data.utils.RoomTables
 
 @Dao

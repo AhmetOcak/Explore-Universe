@@ -1,7 +1,7 @@
-package com.spaceapp.data.datasource.local.db
+package com.spaceapp.data.datasource.local.apod
 
-import com.spaceapp.data.datasource.local.db.entity.ApodEntity
-import com.spaceapp.data.datasource.local.db.room.dao.ApodDao
+import com.spaceapp.data.datasource.local.apod.db.entity.ApodEntity
+import com.spaceapp.data.datasource.local.apod.db.room.dao.ApodDao
 import javax.inject.Inject
 
 class ApodLocalDataSource @Inject constructor(private val apodDao: ApodDao) {

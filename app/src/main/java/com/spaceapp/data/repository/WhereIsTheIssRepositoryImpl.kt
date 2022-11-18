@@ -1,6 +1,6 @@
 package com.spaceapp.data.repository
 
-import com.spaceapp.data.datasource.local.db.WhereIsTheIssLocalDataSource
+import com.spaceapp.data.datasource.local.where_is_the_iss.WhereIsTheIssLocalDataSource
 import com.spaceapp.data.datasource.remote.where_is_the_iss.WhereIsTheIssRemoteDataSource
 import com.spaceapp.data.mappers.toIss
 import com.spaceapp.data.mappers.toIssEntity

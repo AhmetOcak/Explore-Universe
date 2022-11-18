@@ -1,7 +1,7 @@
-package com.spaceapp.data.datasource.local.db
+package com.spaceapp.data.datasource.local.weather_condition
 
-import com.spaceapp.data.datasource.local.db.entity.WeatherConditionEntity
-import com.spaceapp.data.datasource.local.db.room.dao.WeatherConditionDao
+import com.spaceapp.data.datasource.local.weather_condition.db.entity.WeatherConditionEntity
+import com.spaceapp.data.datasource.local.weather_condition.db.room.dao.WeatherConditionDao
 import javax.inject.Inject
 
 class WeatherConditionLocalDataSource @Inject constructor(private val weatherConditionDao: WeatherConditionDao) {

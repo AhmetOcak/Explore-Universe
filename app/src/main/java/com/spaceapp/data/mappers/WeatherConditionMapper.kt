@@ -1,6 +1,6 @@
 package com.spaceapp.data.mappers
 
-import com.spaceapp.data.datasource.local.db.entity.WeatherConditionEntity
+import com.spaceapp.data.datasource.local.weather_condition.db.entity.WeatherConditionEntity
 import com.spaceapp.data.datasource.remote.weather_condition.entity.WeatherConditionDto
 import com.spaceapp.domain.model.weather_condition.Main
 import com.spaceapp.domain.model.weather_condition.WeatherCondition

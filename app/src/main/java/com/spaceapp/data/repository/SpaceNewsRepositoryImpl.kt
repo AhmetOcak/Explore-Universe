@@ -1,6 +1,6 @@
 package com.spaceapp.data.repository
 
-import com.spaceapp.data.datasource.local.db.SpaceNewsLocalDataSource
+import com.spaceapp.data.datasource.local.space_news.SpaceNewsLocalDataSource
 import com.spaceapp.data.datasource.remote.space_news.SpaceNewsRemoteDataSource
 import com.spaceapp.data.mappers.toSpaceNews
 import com.spaceapp.data.mappers.toSpaceNewsEntity

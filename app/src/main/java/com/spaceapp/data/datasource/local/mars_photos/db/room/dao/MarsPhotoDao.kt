@@ -1,9 +1,9 @@
-package com.spaceapp.data.datasource.local.db.room.dao
+package com.spaceapp.data.datasource.local.mars_photos.db.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.spaceapp.data.datasource.local.db.entity.MarsPhotoEntity
+import com.spaceapp.data.datasource.local.mars_photos.db.entity.MarsPhotoEntity
 import com.spaceapp.data.utils.RoomTables
 
 @Dao

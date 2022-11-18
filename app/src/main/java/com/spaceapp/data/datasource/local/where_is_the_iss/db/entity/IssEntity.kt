@@ -1,4 +1,4 @@
-package com.spaceapp.data.datasource.local.db.entity
+package com.spaceapp.data.datasource.local.where_is_the_iss.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

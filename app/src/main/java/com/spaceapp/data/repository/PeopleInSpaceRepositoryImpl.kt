@@ -1,6 +1,6 @@
 package com.spaceapp.data.repository
 
-import com.spaceapp.data.datasource.local.db.PeopleInSpaceLocalDataSource
+import com.spaceapp.data.datasource.local.people_in_space.PeopleInSpaceLocalDataSource
 import com.spaceapp.data.datasource.remote.people_in_space.PeopleInSpaceRemoteDataSource
 import com.spaceapp.data.mappers.toPeopleInSpace
 import com.spaceapp.data.mappers.toPeopleInSpaceEntity

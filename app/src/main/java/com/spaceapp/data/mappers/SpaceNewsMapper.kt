@@ -1,6 +1,6 @@
 package com.spaceapp.data.mappers
 
-import com.spaceapp.data.datasource.local.db.entity.SpaceNewsEntity
+import com.spaceapp.data.datasource.local.space_news.db.entity.SpaceNewsEntity
 import com.spaceapp.data.datasource.remote.space_news.entity.SpaceNewsDto
 import com.spaceapp.domain.model.space_news.NewsImage
 import com.spaceapp.domain.model.space_news.SpaceNews

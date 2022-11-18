@@ -1,6 +1,6 @@
 package com.spaceapp.data.repository
 
-import com.spaceapp.data.datasource.local.db.ApodLocalDataSource
+import com.spaceapp.data.datasource.local.apod.ApodLocalDataSource
 import com.spaceapp.data.datasource.remote.apod.ApodRemoteDataSource
 import com.spaceapp.data.mappers.toApod
 import com.spaceapp.data.mappers.toApodEntity

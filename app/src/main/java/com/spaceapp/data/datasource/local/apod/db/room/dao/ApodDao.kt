@@ -1,7 +1,7 @@
-package com.spaceapp.data.datasource.local.db.room.dao
+package com.spaceapp.data.datasource.local.apod.db.room.dao
 
 import androidx.room.*
-import com.spaceapp.data.datasource.local.db.entity.ApodEntity
+import com.spaceapp.data.datasource.local.apod.db.entity.ApodEntity
 import com.spaceapp.data.utils.RoomTables
 
 @Dao

@@ -1,6 +1,6 @@
 package com.spaceapp.data.mappers
 
-import com.spaceapp.data.datasource.local.db.entity.ApodEntity
+import com.spaceapp.data.datasource.local.apod.db.entity.ApodEntity
 import com.spaceapp.data.datasource.remote.apod.entity.ApodDto
 import com.spaceapp.domain.model.apod.Apod
 

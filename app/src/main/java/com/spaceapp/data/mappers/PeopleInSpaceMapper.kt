@@ -1,6 +1,6 @@
 package com.spaceapp.data.mappers
 
-import com.spaceapp.data.datasource.local.db.entity.PeopleInSpaceEntity
+import com.spaceapp.data.datasource.local.people_in_space.db.entity.PeopleInSpaceEntity
 import com.spaceapp.data.datasource.remote.people_in_space.entity.PeopleInSpaceDto
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 import com.spaceapp.domain.model.people_in_space.PeopleInSpaceDetail
