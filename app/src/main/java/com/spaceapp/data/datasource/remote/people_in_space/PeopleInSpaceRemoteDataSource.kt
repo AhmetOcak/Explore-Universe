@@ -1,9 +1,8 @@
 package com.spaceapp.data.datasource.remote.people_in_space
 
-import com.spaceapp.data.datasource.remote.people_in_space.api.PeopleInSpaceRightNowApi
-import javax.inject.Inject
+import com.spaceapp.data.datasource.remote.people_in_space.entity.PeopleInSpaceDto
 
-class PeopleInSpaceRemoteDataSource @Inject constructor(private val api: PeopleInSpaceRightNowApi) {
+interface PeopleInSpaceRemoteDataSource {
 
-    suspend fun getPeopleInSpaceRightNow() = api.getPeopleInSpaceRightNow()
+    suspend fun getPeopleInSpaceRightNow() : PeopleInSpaceDto
 }

@@ -1,7 +1,7 @@
 package com.spaceapp.data.repository
 
 import com.spaceapp.data.datasource.local.mars_photos.MarsPhotosLocalDataSourceImpl
-import com.spaceapp.data.datasource.remote.mars_photos.MarsPhotoRemoteDataSource
+import com.spaceapp.data.datasource.remote.mars_photos.MarsPhotoRemoteDataSourceImpl
 import com.spaceapp.data.mappers.toMarsPhoto
 import com.spaceapp.data.mappers.toMarsPhotoEntity
 import com.spaceapp.domain.model.mars_photos.MarsPhoto
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class MarsPhotosRepositoryImpl @Inject constructor(
     private val localDataSource: MarsPhotosLocalDataSourceImpl,
-    private val remoteDataSource: MarsPhotoRemoteDataSource
+    private val remoteDataSource: MarsPhotoRemoteDataSourceImpl
 ) : MarsPhotosRepository {
 
     override suspend fun addMarsPhotoToLocal(marsPhoto: MarsPhoto) =

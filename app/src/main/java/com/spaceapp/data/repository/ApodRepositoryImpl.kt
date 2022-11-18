@@ -1,7 +1,7 @@
 package com.spaceapp.data.repository
 
 import com.spaceapp.data.datasource.local.apod.ApodLocalDataSourceImpl
-import com.spaceapp.data.datasource.remote.apod.ApodRemoteDataSource
+import com.spaceapp.data.datasource.remote.apod.ApodRemoteDataSourceImpl
 import com.spaceapp.data.mappers.toApod
 import com.spaceapp.data.mappers.toApodEntity
 import com.spaceapp.domain.model.apod.Apod
@@ -9,7 +9,7 @@ import com.spaceapp.domain.repository.ApodRepository
 import javax.inject.Inject
 
 class ApodRepositoryImpl @Inject constructor(
-    private val remoteDataSource: ApodRemoteDataSource,
+    private val remoteDataSource: ApodRemoteDataSourceImpl,
     private val localDataSource: ApodLocalDataSourceImpl
 ) : ApodRepository {
 

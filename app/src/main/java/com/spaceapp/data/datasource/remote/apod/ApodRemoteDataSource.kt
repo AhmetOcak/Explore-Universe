@@ -1,9 +1,8 @@
 package com.spaceapp.data.datasource.remote.apod
 
-import com.spaceapp.data.datasource.remote.apod.api.ApodApi
-import javax.inject.Inject
+import com.spaceapp.data.datasource.remote.apod.entity.ApodDto
 
-class ApodRemoteDataSource @Inject constructor(private val api: ApodApi) {
+interface ApodRemoteDataSource {
 
-    suspend fun getApod() = api.getApod()
+    suspend fun getApod() : List<ApodDto>
 }

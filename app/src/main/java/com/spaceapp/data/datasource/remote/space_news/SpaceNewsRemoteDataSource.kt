@@ -1,9 +1,8 @@
 package com.spaceapp.data.datasource.remote.space_news
 
-import com.spaceapp.data.datasource.remote.space_news.api.SpaceNewsApi
-import javax.inject.Inject
+import com.spaceapp.data.datasource.remote.space_news.entity.SpaceNewsDto
 
-class SpaceNewsRemoteDataSource @Inject constructor(private val api: SpaceNewsApi){
+interface SpaceNewsRemoteDataSource {
 
-    suspend fun getSpaceNews() = api.getSpaceNews()
+    suspend fun getSpaceNews() : List<SpaceNewsDto>
 }

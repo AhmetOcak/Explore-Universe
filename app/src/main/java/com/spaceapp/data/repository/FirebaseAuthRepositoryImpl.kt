@@ -2,13 +2,13 @@ package com.spaceapp.data.repository
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.spaceapp.data.datasource.remote.auth.firebase.FirebaseAuthDataSource
+import com.spaceapp.data.datasource.remote.auth.firebase.FirebaseAuthDataSourceImpl
 import com.spaceapp.data.mappers.*
 import com.spaceapp.domain.model.auth.*
 import com.spaceapp.domain.repository.FirebaseAuthRepository
 import javax.inject.Inject
 
-class FirebaseAuthRepositoryImpl @Inject constructor(private val authDataSource: FirebaseAuthDataSource) : FirebaseAuthRepository {
+class FirebaseAuthRepositoryImpl @Inject constructor(private val authDataSource: FirebaseAuthDataSourceImpl) : FirebaseAuthRepository {
 
     override fun verifyEmail(): Task<Void>? =
         authDataSource.sendVerifyEmail()

@@ -1,9 +1,8 @@
 package com.spaceapp.data.datasource.remote.where_is_the_iss
 
-import com.spaceapp.data.datasource.remote.where_is_the_iss.api.WhereIsTheIssApi
-import javax.inject.Inject
+import com.spaceapp.data.datasource.remote.where_is_the_iss.entity.IssDto
 
-class WhereIsTheIssRemoteDataSource @Inject constructor(private val api: WhereIsTheIssApi) {
+interface WhereIsTheIssRemoteDataSource {
 
-    suspend fun getIssPosition() = api.getIssPosition()
+    suspend fun getIssPosition() : IssDto
 }

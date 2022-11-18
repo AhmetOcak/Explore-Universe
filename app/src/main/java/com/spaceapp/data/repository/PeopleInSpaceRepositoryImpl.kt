@@ -1,7 +1,7 @@
 package com.spaceapp.data.repository
 
 import com.spaceapp.data.datasource.local.people_in_space.PeopleInSpaceLocalDataSourceImpl
-import com.spaceapp.data.datasource.remote.people_in_space.PeopleInSpaceRemoteDataSource
+import com.spaceapp.data.datasource.remote.people_in_space.PeopleInSpaceRemoteDataSourceImpl
 import com.spaceapp.data.mappers.toPeopleInSpace
 import com.spaceapp.data.mappers.toPeopleInSpaceEntity
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class PeopleInSpaceRepositoryImpl @Inject constructor(
     private val localDataSource: PeopleInSpaceLocalDataSourceImpl,
-    private val remoteDataSource: PeopleInSpaceRemoteDataSource
+    private val remoteDataSource: PeopleInSpaceRemoteDataSourceImpl
 ) : PeopleInSpaceRepository {
 
     override suspend fun addPeopleInSpaceToLocal(peopleInSpace: PeopleInSpace) =

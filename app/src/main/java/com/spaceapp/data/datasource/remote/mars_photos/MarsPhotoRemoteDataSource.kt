@@ -1,9 +1,8 @@
 package com.spaceapp.data.datasource.remote.mars_photos
 
-import com.spaceapp.data.datasource.remote.mars_photos.api.MarsPhotoApi
-import javax.inject.Inject
+import com.spaceapp.data.datasource.remote.mars_photos.entity.MarsPhotoDto
 
-class MarsPhotoRemoteDataSource @Inject constructor(private val api: MarsPhotoApi) {
+interface MarsPhotoRemoteDataSource {
 
-    suspend fun getLatestMarsPhotos() = api.getMarsLatestPhotos()
+    suspend fun getLatestMarsPhotos() : MarsPhotoDto
 }
