@@ -1,10 +1,10 @@
 package com.spaceapp.domain.usecase.apod
 
 import android.util.Log
-import com.spaceapp.data.repository.ApodRepositoryImpl
+import com.spaceapp.domain.repository.ApodRepository
 import javax.inject.Inject
 
-class ClearApodDatabaseUseCase @Inject constructor(private val apodRepository: ApodRepositoryImpl) {
+class ClearApodDatabaseUseCase @Inject constructor(private val apodRepository: ApodRepository) {
 
     suspend operator fun invoke() {
         try {

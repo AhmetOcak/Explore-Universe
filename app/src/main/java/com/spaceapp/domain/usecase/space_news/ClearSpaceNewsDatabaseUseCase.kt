@@ -1,9 +1,9 @@
 package com.spaceapp.domain.usecase.space_news
 
-import com.spaceapp.data.repository.SpaceNewsRepositoryImpl
+import com.spaceapp.domain.repository.SpaceNewsRepository
 import javax.inject.Inject
 
-class ClearSpaceNewsDatabaseUseCase @Inject constructor(private val spaceNewsRepository: SpaceNewsRepositoryImpl) {
+class ClearSpaceNewsDatabaseUseCase @Inject constructor(private val spaceNewsRepository: SpaceNewsRepository) {
 
     suspend operator fun invoke() = spaceNewsRepository.deleteLocalSpaceNews()
 }

@@ -1,14 +1,14 @@
 package com.spaceapp.domain.usecase.people_in_space
 
 import com.spaceapp.core.common.Result
-import com.spaceapp.data.repository.PeopleInSpaceRepositoryImpl
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
+import com.spaceapp.domain.repository.PeopleInSpaceRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetPeopleInSpaceFromDatabaseUseCase @Inject constructor(private val peopleInSpaceRepository: PeopleInSpaceRepositoryImpl) {
+class GetPeopleInSpaceFromDatabaseUseCase @Inject constructor(private val peopleInSpaceRepository: PeopleInSpaceRepository) {
 
     operator fun invoke(): Flow<Result<List<PeopleInSpace>>> = flow {
         try {

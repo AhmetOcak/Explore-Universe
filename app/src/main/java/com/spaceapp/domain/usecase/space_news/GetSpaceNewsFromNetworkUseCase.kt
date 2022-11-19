@@ -1,15 +1,15 @@
 package com.spaceapp.domain.usecase.space_news
 
-import com.spaceapp.data.repository.SpaceNewsRepositoryImpl
 import com.spaceapp.domain.model.space_news.SpaceNews
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
 import javax.inject.Inject
 import com.spaceapp.core.common.Result
+import com.spaceapp.domain.repository.SpaceNewsRepository
 import com.spaceapp.domain.utils.ERROR
 
-class GetSpaceNewsFromNetworkUseCase @Inject constructor(private val spaceNewsRepository: SpaceNewsRepositoryImpl) {
+class GetSpaceNewsFromNetworkUseCase @Inject constructor(private val spaceNewsRepository: SpaceNewsRepository) {
 
     operator fun invoke(): Flow<Result<List<SpaceNews>>> = flow {
         try {

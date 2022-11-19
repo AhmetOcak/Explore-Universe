@@ -1,15 +1,15 @@
 package com.spaceapp.domain.usecase.where_is_the_iss
 
 import com.spaceapp.core.common.Result
-import com.spaceapp.data.repository.WhereIsTheIssRepositoryImpl
 import com.spaceapp.domain.model.where_is_the_iss.Iss
+import com.spaceapp.domain.repository.WhereIsTheIssRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.lang.NullPointerException
 import javax.inject.Inject
 
-class GetIssPositionFromDatabaseUseCase @Inject constructor(private val issRepository: WhereIsTheIssRepositoryImpl) {
+class GetIssPositionFromDatabaseUseCase @Inject constructor(private val issRepository: WhereIsTheIssRepository) {
 
     operator fun invoke(): Flow<Result<Iss>> = flow {
         try {

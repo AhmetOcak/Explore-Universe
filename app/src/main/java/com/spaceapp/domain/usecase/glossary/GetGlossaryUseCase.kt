@@ -2,14 +2,14 @@ package com.spaceapp.domain.usecase.glossary
 
 import android.content.Context
 import com.spaceapp.core.common.Result
-import com.spaceapp.data.repository.GlossaryRepositoryImpl
 import com.spaceapp.domain.model.glossary_data.Glossary
+import com.spaceapp.domain.repository.GlossaryRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetGlossaryUseCase @Inject constructor(private val glossaryRepository: GlossaryRepositoryImpl) {
+class GetGlossaryUseCase @Inject constructor(private val glossaryRepository: GlossaryRepository) {
 
     suspend operator fun invoke(applicationContext: Context): Flow<Result<Glossary>> = flow {
         try {
