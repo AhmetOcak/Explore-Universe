@@ -12,7 +12,7 @@ import com.spaceapp.data.datasource.remote.location.gms.LocationTrackerGms
 import com.spaceapp.data.datasource.remote.location.hms.LocationTrackerHms
 import javax.inject.Inject
 
-class LocationManager @Inject constructor(application: Application) {
+class LocationManager @Inject constructor(application: Application) : ILocationManager {
 
     private var hmsFusedLocationProviderClient: hmsProvider
     private var gmsFusedLocationProviderClient: gmsProvider
@@ -36,5 +36,5 @@ class LocationManager @Inject constructor(application: Application) {
         }
     }
 
-    suspend fun getCurrentLocation() : Location? = location.getCurrentLocation()
+    override suspend fun getCurrentLocation() : Location? = location.getCurrentLocation()
 }
