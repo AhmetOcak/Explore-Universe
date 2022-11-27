@@ -2,6 +2,7 @@ package com.spaceapp.core.ui.component
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -35,7 +36,16 @@ fun ExploreCard(
         Card(
             modifier = modifier
                 .width(LocalConfiguration.current.screenWidthDp.dp - 96.dp)
-                .height(320.dp),
+                .height(320.dp)
+                .clickable {
+                    try {
+                        navController.navigate("${NavName.explore_detail_screen_name}/$name/$description/$info1/$info2") {
+                            popUpTo(route = NavScreen.ExploreScreen.route)
+                        }
+                    }catch (e: Exception) {
+                        Log.e("e", e.toString())
+                    }
+                },
             shape = RoundedCornerShape(32.dp),
             elevation = 4.dp,
             backgroundColor = backgroundColor,

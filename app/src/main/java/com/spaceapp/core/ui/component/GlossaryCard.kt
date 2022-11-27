@@ -2,13 +2,12 @@ package com.spaceapp.core.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -25,6 +24,7 @@ fun StatefulGlossaryCard(
 ) {
     var isOpen by rememberSaveable { mutableStateOf(false) }
     var isExpanded by rememberSaveable { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
 
     GlossaryCard(
         iconOnClick = {
@@ -35,7 +35,12 @@ fun StatefulGlossaryCard(
         isExpanded = isExpanded,
         title = title,
         description = description,
-        imageId = imageId
+        imageId = imageId,
+        cardOnClick = {
+            isOpen = !isOpen
+            isExpanded = !isExpanded
+        },
+        interactionSource = interactionSource
     )
 }
 
@@ -47,9 +52,20 @@ private fun GlossaryCard(
     isExpanded: Boolean,
     title: String,
     description: String,
-    imageId: Int
+    imageId: Int,
+    cardOnClick: () -> Unit,
+    interactionSource: MutableInteractionSource
 ) {
-    Card(modifier = modifier.fillMaxWidth(), elevation = 4.dp) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = cardOnClick
+            ),
+        elevation = 4.dp
+    ) {
         Column(horizontalAlignment = Alignment.Start) {
             Image(
                 modifier = modifier
