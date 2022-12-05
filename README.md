@@ -52,6 +52,8 @@ Once you enter the application, all data retrieved from the internet is saved on
 
 * [Gms Location Kit](https://developer.android.com/training/location)
 
+* [Espresso](https://developer.android.com/training/testing/espresso)
+
 ## Outputs 🖼
 
 |                 | Output |                 | Output |
