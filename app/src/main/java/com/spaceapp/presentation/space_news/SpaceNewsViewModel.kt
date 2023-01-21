@@ -29,8 +29,7 @@ class SpaceNewsViewModel @Inject constructor(
     private val _spaceNewsState = MutableStateFlow<SpaceNewsState>(SpaceNewsState.Loading)
     val spaceNewsState = _spaceNewsState.asStateFlow()
 
-    private val _weatherConditionState =
-        MutableStateFlow<WeatherConditionState>(WeatherConditionState.Loading)
+    private val _weatherConditionState = MutableStateFlow<WeatherConditionState>(WeatherConditionState.Loading)
     val weatherConditionState = _weatherConditionState.asStateFlow()
 
     init {

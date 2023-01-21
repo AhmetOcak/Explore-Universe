@@ -190,7 +190,7 @@ private fun LatestNewsSection(
             is SpaceNewsState.Error -> {
                 ErrorCard(
                     errorDescription = spaceNewsState.errorMessage.toString(),
-                    paddingValues = PaddingValues(vertical = 16.dp),
+                    paddingValues = PaddingValues(16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
                     onClick = { viewModel.getSpaceNewsFromNetwork() }

@@ -65,7 +65,7 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-    private fun getExploreGalaxyData(applicationContext: Context) =
+    fun getExploreGalaxyData(applicationContext: Context) =
         viewModelScope.launch(Dispatchers.IO) {
             getExploreGalaxyDataUseCase(applicationContext = applicationContext).collect() { result ->
                 when (result) {
@@ -76,14 +76,13 @@ class ExploreViewModel @Inject constructor(
                         _exploreGalaxyState.value = ExploreGalaxyState.Success(data = result.data)
                     }
                     is Result.Error -> {
-                        _exploreGalaxyState.value =
-                            ExploreGalaxyState.Error(errorMessage = result.message)
+                        _exploreGalaxyState.value = ExploreGalaxyState.Error(errorMessage = result.message)
                     }
                 }
             }
         }
 
-    private fun getApodFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
+    fun getApodFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
         getApodFromNetworkUseCase().collect() { result ->
             when (result) {
                 is Result.Loading -> {
@@ -103,7 +102,7 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-    private fun getApodFromLocal() = viewModelScope.launch(Dispatchers.IO) {
+    fun getApodFromLocal() = viewModelScope.launch(Dispatchers.IO) {
         getApodFromLocalUseCase().collect() { result ->
             when (result) {
                 is Result.Loading -> {

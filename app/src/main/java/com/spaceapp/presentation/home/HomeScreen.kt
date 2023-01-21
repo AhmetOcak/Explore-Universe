@@ -93,7 +93,7 @@ private fun HomeScreenContent(
                 marsPhotoState = marsPhotoState,
                 context = context,
                 dataComingFromDb = marsPhotoComingFromDb,
-                viewModel = viewModel
+                marsPhotoErrorOnClick = { viewModel.getLatestMarsPhotosFromNetwork() }
             )
         }
     }
@@ -394,7 +394,7 @@ private fun MarsPhotos(
     marsPhotoState: MarsPhotoState,
     context: Context,
     dataComingFromDb: Boolean,
-    viewModel: HomeViewModel
+    marsPhotoErrorOnClick: () -> Unit
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         MarsPhotosTitle(modifier = modifier)
@@ -420,7 +420,7 @@ private fun MarsPhotos(
                     paddingValues = PaddingValues(top = 16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
-                    onClick = { viewModel.getLatestMarsPhotosFromNetwork() }
+                    onClick = marsPhotoErrorOnClick
                 )
             }
         }
