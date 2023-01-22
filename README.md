@@ -2,7 +2,7 @@
 
 <img src="https://user-images.githubusercontent.com/73544434/202178665-3d5ea948-26f7-40bd-b9e5-787ae3de058a.png" width="200" height="200"/>
 
-SpaceApp is an application where you can find information about the universe. SpaceApp provides you with astronomy photos of the day, news about space, the latest photos from mars, current people in space right now and the weather of your location. SpaceApp contains an information area about space objects and a glossary of space terms.
+Explore Universe is an application where you can find information about the universe. Explore Universe provides you with astronomy photos of the day, news about space, the latest photos from mars, current people in space right now and the weather of your location. SpaceApp contains an information area about space objects and a glossary of space terms.
 
 Once you enter the application, all data retrieved from the internet is saved on the device. So you can use the application without internet. When the application has an internet connection, it automatically updates the contents. Your session remains open until you log out.
 
