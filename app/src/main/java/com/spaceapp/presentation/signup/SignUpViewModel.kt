@@ -135,35 +135,37 @@ class SignUpViewModel @Inject constructor(
                 }
             }
         } else {
-            // In firebase we send email verification link
-            // We do not receive any verification codes
-            _verifyEmailState.value = VerifyEmailState.Success
+            if(checkSignUpInfo()) {
+                // In firebase we send email verification link
+                // We do not receive any verification codes
+                _verifyEmailState.value = VerifyEmailState.Success
 
-            signUpUseCase.firebaseAuth(
-                signUp = SignUp(
-                    email = userEmail,
-                    password = userPassword,
-                    verifyCode = ""
-                )
-            ).collect() { result ->
-                when (result) {
-                    is TaskResult.Success -> {
-                        //_verifyEmailState.value = VerifyEmailState.Loading
-                        result.data
-                            ?.addOnSuccessListener {
-                                // if signup success we send a email verification link
-                                verifyEmail()
-                            }
-                            ?.addOnFailureListener {
-                                _signUpState.value = SignUpState.Error(
-                                    errorMessage = it.localizedMessage ?: SignUpResponseMessages.error
-                                )
-                            }
-                    }
-                    is TaskResult.Error -> {
-                        _signUpState.value = SignUpState.Error(
-                            errorMessage = result.message ?: SignUpResponseMessages.error
-                        )
+                signUpUseCase.firebaseAuth(
+                    signUp = SignUp(
+                        email = userEmail,
+                        password = userPassword,
+                        verifyCode = ""
+                    )
+                ).collect() { result ->
+                    when (result) {
+                        is TaskResult.Success -> {
+                            //_verifyEmailState.value = VerifyEmailState.Loading
+                            result.data
+                                ?.addOnSuccessListener {
+                                    // if signup success we send a email verification link
+                                    verifyEmail()
+                                }
+                                ?.addOnFailureListener {
+                                    _signUpState.value = SignUpState.Error(
+                                        errorMessage = it.localizedMessage ?: SignUpResponseMessages.error
+                                    )
+                                }
+                        }
+                        is TaskResult.Error -> {
+                            _signUpState.value = SignUpState.Error(
+                                errorMessage = result.message ?: SignUpResponseMessages.error
+                            )
+                        }
                     }
                 }
             }
