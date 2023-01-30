@@ -14,9 +14,13 @@ Once you enter the application, all data retrieved from the internet is saved on
 * [Mars Rover Photo](https://github.com/chrisccerami/mars-photo-api)
 * [Space News](https://rapidapi.com/ishanbagchi/api/spacefo)
 
+<!--
+
 🔐 You can enter your API key as specified in local.properties
 
 <img src="https://user-images.githubusercontent.com/73544434/201613551-44ec1631-2776-4177-9fdf-b27e2a6a7ecd.PNG" />
+
+-->
 
 ## Tech Stack 📚
 
