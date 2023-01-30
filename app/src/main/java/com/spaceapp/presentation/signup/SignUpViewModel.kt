@@ -148,7 +148,7 @@ class SignUpViewModel @Inject constructor(
             ).collect() { result ->
                 when (result) {
                     is TaskResult.Success -> {
-                        _verifyEmailState.value = VerifyEmailState.Loading
+                        //_verifyEmailState.value = VerifyEmailState.Loading
                         result.data
                             ?.addOnSuccessListener {
                                 // if signup success we send a email verification link
