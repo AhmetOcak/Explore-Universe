@@ -71,6 +71,22 @@ The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional f
 
 ![mvvm](https://user-images.githubusercontent.com/73544434/197416569-d42a6bbe-126e-4776-9c8f-2791925f738c.png)
 
+## Content Resources 📚
+
+* https://gisgeography.com/earth-satellite-list/
+
+* http://blackholes.stardate.org/objects/type-supermassive.html
+
+* https://solarsystem.nasa.gov/resources/all
+
+* https://www.universetoday.com/45775/famous-stars/
+
+* https://stacker.com/space/50-space-terms-understanding-universe
+
+* https://spaceplace.nasa.gov/glossary/en/
+
+* https://www.freeiconspng.com/downloadimg/25612
+
 ## App Icon 👍
 
 * [App Icon](https://www.pngitem.com/middle/xmhox_transparent-sun-png-blue-purple-sun-png-download/)
