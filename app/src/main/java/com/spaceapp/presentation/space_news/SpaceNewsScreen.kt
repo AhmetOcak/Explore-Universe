@@ -124,14 +124,14 @@ private fun CurrentWeatherInfo(modifier: Modifier, weatherConditionState: Weathe
             ) {
                 Image(
                     modifier = modifier
-                        .size(48.dp)
+                        .size(32.dp)
                         .padding(end = 4.dp),
                     painter = painterResource(id = R.drawable.broken_clouds_day),
                     contentDescription = null,
                 )
                 Text(
                     text = "${weatherConditionState.data!!.temp.temp.toInt()}°C",
-                    fontSize = 36.sp
+                    fontSize = 24.sp
                 )
             }
         }
