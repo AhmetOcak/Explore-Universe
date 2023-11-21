@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.spaceapp.R
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.core.designsystem.component.DefaultButton
 import com.spaceapp.core.designsystem.theme.White

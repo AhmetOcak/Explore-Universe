@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.designsystem.component.*
 import com.spaceapp.domain.utils.ERROR
 import com.spaceapp.presentation.forgot_password.components.*

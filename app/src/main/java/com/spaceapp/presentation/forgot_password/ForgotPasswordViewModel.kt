@@ -7,9 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.huawei.agconnect.auth.VerifyCodeSettings
-import com.spaceapp.core.common.Device
-import com.spaceapp.core.common.EmailController
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.Device
+import com.spaceapp.core.common.helper.EmailController
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.ForgotPassword
 import com.spaceapp.domain.model.auth.VerifyEmail

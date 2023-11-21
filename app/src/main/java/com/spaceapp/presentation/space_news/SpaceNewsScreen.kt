@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
-import com.spaceapp.core.common.DateFormatter
+import com.spaceapp.core.common.helper.DateFormatter
 import com.spaceapp.core.designsystem.component.*
 import com.spaceapp.core.navigation.NavName
 import com.spaceapp.core.navigation.NavScreen

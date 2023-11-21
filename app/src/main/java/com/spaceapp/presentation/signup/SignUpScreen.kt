@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.designsystem.component.*
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.presentation.signup.components.SignUpSection

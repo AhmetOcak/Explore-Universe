@@ -6,8 +6,8 @@ import com.google.android.gms.location.FusedLocationProviderClient as gmsProvide
 import com.huawei.hms.location.FusedLocationProviderClient as hmsProvider
 import com.google.android.gms.location.LocationServices as gmsServices
 import com.huawei.hms.location.LocationServices as hmsServices
-import com.spaceapp.core.common.Device
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.Device
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.data.datasource.remote.location.gms.LocationTrackerGms
 import com.spaceapp.data.datasource.remote.location.hms.LocationTrackerHms
 import javax.inject.Inject

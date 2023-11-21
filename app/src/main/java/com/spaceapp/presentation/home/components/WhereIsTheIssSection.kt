@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
-import com.spaceapp.core.common.EpochConverter
+import com.spaceapp.core.common.helper.EpochConverter
 import com.spaceapp.core.designsystem.component.ErrorCard
 import com.spaceapp.core.designsystem.component.Gif
 import com.spaceapp.core.designsystem.component.LoadingSpinner

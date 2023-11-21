@@ -7,7 +7,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.spaceapp.core.common.GifLoader
+import com.spaceapp.core.common.helper.GifLoader
 
 @Composable
 fun Gif(modifier: Modifier, gifId: Int, contentScale: ContentScale = ContentScale.Crop) {

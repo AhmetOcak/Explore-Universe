@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.spaceapp.R
-import com.spaceapp.core.common.GifLoader
+import com.spaceapp.core.common.helper.GifLoader
 
 @Composable
 fun LoadingSpinner(

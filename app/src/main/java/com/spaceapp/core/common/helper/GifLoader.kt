@@ -1,4 +1,4 @@
-package com.spaceapp.core.common
+package com.spaceapp.core.common.helper
 
 import android.content.Context
 import coil.ImageLoader

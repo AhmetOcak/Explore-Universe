@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.designsystem.component.DefaultButton
 import com.spaceapp.core.designsystem.component.DefaultOutlinedTextField
 import com.spaceapp.presentation.signup.SignUpViewModel

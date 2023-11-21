@@ -19,7 +19,7 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.AGConnectAuth
-import com.spaceapp.core.common.ImageLoader
+import com.spaceapp.core.common.helper.ImageLoader
 import com.spaceapp.core.navigation.NavGraph
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.core.designsystem.theme.SpaceAppTheme
