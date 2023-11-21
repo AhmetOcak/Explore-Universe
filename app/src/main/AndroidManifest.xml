@@ -24,7 +24,6 @@
             android:name=".presentation.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,5 +32,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
