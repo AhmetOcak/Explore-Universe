@@ -9,6 +9,9 @@ import com.spaceapp.core.common.Result
 import com.spaceapp.domain.usecase.mars_photo.*
 import com.spaceapp.domain.usecase.people_in_space.*
 import com.spaceapp.domain.usecase.where_is_the_iss.*
+import com.spaceapp.presentation.home.state.MarsPhotoState
+import com.spaceapp.presentation.home.state.PeopleInSpaceState
+import com.spaceapp.presentation.home.state.WhereIsTheIssState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -18,11 +18,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.spaceapp.R
-import com.spaceapp.core.ui.component.BackgroundImage
-import com.spaceapp.core.ui.component.DefaultTextButton
+import com.spaceapp.core.designsystem.component.BackgroundImage
+import com.spaceapp.core.designsystem.component.DefaultTextButton
+import com.spaceapp.presentation.explore_detail.components.OverView
+import com.spaceapp.presentation.explore_detail.state.CategoryState
 import com.spaceapp.presentation.utils.*
 
 @Composable
@@ -93,7 +94,7 @@ private fun CategoriesSection(modifier: Modifier, viewModel: ExploreDetailViewMo
 }
 
 @Composable
-private fun OverViewSection(modifier: Modifier, viewModel: ExploreDetailViewModel) {
+fun OverViewSection(modifier: Modifier, viewModel: ExploreDetailViewModel) {
     viewModel.name?.let { SpaceObjectImageType.setSpaceObjectImageType(it) }?.let {
         OverView(
             modifier = modifier,
@@ -104,63 +105,6 @@ private fun OverViewSection(modifier: Modifier, viewModel: ExploreDetailViewMode
             objectName = viewModel.name,
             objectImage = it
         )
-    }
-}
-
-@Composable
-private fun OverView(
-    modifier: Modifier,
-    title1: String,
-    info1: String,
-    title2: String,
-    info2: String,
-    objectName: String,
-    objectImage: Int,
-    contentScale: ContentScale = ContentScale.Fit
-) {
-    Image(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(320.dp)
-            .clip(RoundedCornerShape(15)),
-        painter = painterResource(id = objectImage),
-        contentDescription = null,
-        contentScale = contentScale
-    )
-    Text(
-        modifier = modifier.padding(bottom = 32.dp),
-        text = objectName,
-        style = MaterialTheme.typography.h1.copy(fontSize = 56.sp),
-        textAlign = TextAlign.Center
-    )
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = title1,
-                style = MaterialTheme.typography.body2
-            )
-            Text(
-                modifier = modifier.padding(top = 8.dp),
-                text = info1,
-                style = MaterialTheme.typography.body1
-            )
-        }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(text = title2, style = MaterialTheme.typography.body2)
-            Text(
-                modifier = modifier.padding(top = 8.dp),
-                text = info2,
-                style = MaterialTheme.typography.body1
-            )
-        }
     }
 }
 

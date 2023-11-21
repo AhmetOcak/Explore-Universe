@@ -3,7 +3,6 @@ package com.spaceapp.presentation.space_news
 import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,16 +14,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
 import com.spaceapp.core.common.DateFormatter
+import com.spaceapp.core.designsystem.component.*
 import com.spaceapp.core.navigation.NavName
 import com.spaceapp.core.navigation.NavScreen
-import com.spaceapp.core.ui.component.*
+import com.spaceapp.presentation.space_news.components.LatestNewsCard
+import com.spaceapp.presentation.space_news.components.NewsCard
+import com.spaceapp.presentation.space_news.components.WelcomeSection
+import com.spaceapp.presentation.space_news.state.SpaceNewsState
+import com.spaceapp.presentation.space_news.state.WeatherConditionState
 import com.spaceapp.presentation.utils.NewsScreenConstants
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -88,54 +90,6 @@ private fun NewsContent(
                 viewModel = viewModel
             )
         }
-    }
-}
-
-@Composable
-private fun WelcomeSection(
-    modifier: Modifier,
-    weatherConditionState: WeatherConditionState
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column {
-            Text(text = "HELLO EXPLORER", style = MaterialTheme.typography.h1)
-            Text(text = constants.welcome_subtitle, style = MaterialTheme.typography.h4)
-        }
-        CurrentWeatherInfo(modifier = modifier, weatherConditionState = weatherConditionState)
-    }
-}
-
-@Composable
-private fun CurrentWeatherInfo(modifier: Modifier, weatherConditionState: WeatherConditionState) {
-    when (weatherConditionState) {
-        is WeatherConditionState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxWidth())
-        }
-        is WeatherConditionState.Success -> {
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.Bottom,
-            ) {
-                Image(
-                    modifier = modifier
-                        .size(32.dp)
-                        .padding(end = 4.dp),
-                    painter = painterResource(id = R.drawable.broken_clouds_day),
-                    contentDescription = null,
-                )
-                Text(
-                    text = "${weatherConditionState.data!!.temp.temp.toInt()}°C",
-                    fontSize = 24.sp
-                )
-            }
-        }
-        is WeatherConditionState.Nothing -> {}
     }
 }
 

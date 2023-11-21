@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spaceapp.core.common.Result
 import com.spaceapp.domain.usecase.glossary.GetGlossaryUseCase
+import com.spaceapp.presentation.universe_glossary.state.GlossaryState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers

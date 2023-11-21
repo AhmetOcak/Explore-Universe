@@ -12,15 +12,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
-import com.spaceapp.core.common.MobileServiceType
 import com.spaceapp.core.navigation.NavScreen
-import com.spaceapp.core.ui.component.*
+import com.spaceapp.core.designsystem.component.*
+import com.spaceapp.presentation.login.components.EmailPasswordSection
+import com.spaceapp.presentation.login.components.ForgotPasswordSection
+import com.spaceapp.presentation.login.components.SignUpSection
+import com.spaceapp.presentation.login.components.TitleSection
+import com.spaceapp.presentation.login.state.LoginInputFieldState
+import com.spaceapp.presentation.login.state.LoginState
 import com.spaceapp.presentation.utils.LoginScreenConstants
 
 private val constants = LoginScreenConstants
@@ -107,15 +110,6 @@ private fun LoginSection(
 }
 
 @Composable
-private fun TitleSection(modifier: Modifier) {
-    Text(
-        modifier = modifier.padding(bottom = 72.dp),
-        text = constants.welcome_title,
-        style = MaterialTheme.typography.h1
-    )
-}
-
-@Composable
 private fun LoginInputSection(
     modifier: Modifier,
     viewModel: LoginViewModel,
@@ -172,84 +166,5 @@ private fun ShowInputFieldErrors(loginInputFieldState: LoginInputFieldState) {
             ).show()
         }
         is LoginInputFieldState.Nothing -> {}
-    }
-}
-
-@Composable
-private fun EmailPasswordSection(
-    modifier: Modifier,
-    viewModel: LoginViewModel
-) {
-    DefaultOutlinedTextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 36.dp, bottom = 16.dp),
-        onValueChanged = { viewModel.updateEmailField(newValue = it) },
-        labelText = constants.email_field,
-        keyboardType = KeyboardType.Email,
-        leadingIconId = R.drawable.ic_baseline_email,
-        value = viewModel.email
-    )
-    DefaultOutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
-        onValueChanged = { viewModel.updatePasswordField(newValue = it) },
-        labelText = constants.password_field,
-        keyboardType = KeyboardType.Password,
-        leadingIconId = R.drawable.ic_baseline_key,
-        value = viewModel.password
-    )
-}
-
-
-@Composable
-private fun ForgotPasswordSection(modifier: Modifier, navController: NavController) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start,
-    ) {
-        TextButton(
-            onClick = {
-                navController.navigate(NavScreen.ForgotPasswordScreen.route)
-            }
-        ) {
-            Text(
-                text = constants.forgot_password,
-                color = MaterialTheme.colors.onPrimary,
-                style = MaterialTheme.typography.h4
-            )
-        }
-    }
-}
-
-@Composable
-private fun SignUpSection(
-    modifier: Modifier,
-    navController: NavController,
-    viewModel: LoginViewModel
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = constants.no_account_text,
-            fontSize = 16.sp
-        )
-        TextButton(
-            onClick = {
-                viewModel.resetLoginInputFieldState()
-                navController.navigate(NavScreen.SignUpScreen.route)
-            }
-        ) {
-            Text(
-                text = constants.sign_up_Text,
-                color = MaterialTheme.colors.onPrimary,
-                style = MaterialTheme.typography.h4
-            )
-        }
     }
 }

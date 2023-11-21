@@ -2,6 +2,7 @@ package com.spaceapp.presentation.explore_detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.spaceapp.presentation.explore_detail.state.CategoryState
 import com.spaceapp.presentation.utils.ExploreDetailCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

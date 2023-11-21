@@ -6,6 +6,8 @@ import com.spaceapp.core.common.Result
 import com.spaceapp.domain.usecase.location.GetLocationUseCase
 import com.spaceapp.domain.usecase.space_news.*
 import com.spaceapp.domain.usecase.weather_condition.*
+import com.spaceapp.presentation.space_news.state.SpaceNewsState
+import com.spaceapp.presentation.space_news.state.WeatherConditionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +31,8 @@ class SpaceNewsViewModel @Inject constructor(
     private val _spaceNewsState = MutableStateFlow<SpaceNewsState>(SpaceNewsState.Loading)
     val spaceNewsState = _spaceNewsState.asStateFlow()
 
-    private val _weatherConditionState = MutableStateFlow<WeatherConditionState>(WeatherConditionState.Loading)
+    private val _weatherConditionState = MutableStateFlow<WeatherConditionState>(
+        WeatherConditionState.Loading)
     val weatherConditionState = _weatherConditionState.asStateFlow()
 
     init {

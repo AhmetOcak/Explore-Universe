@@ -26,8 +26,8 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.spaceapp.R
-import com.spaceapp.core.ui.component.BackgroundImage
-import com.spaceapp.core.ui.component.CustomScaffold
+import com.spaceapp.core.designsystem.component.BackgroundImage
+import com.spaceapp.core.designsystem.component.CustomScaffold
 import com.spaceapp.presentation.explore.ExploreScreen
 import com.spaceapp.presentation.explore_detail.ExploreDetailScreen
 import com.spaceapp.presentation.forgot_password.ForgotPasswordScreen
