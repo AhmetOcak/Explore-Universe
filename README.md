@@ -95,5 +95,8 @@ The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional f
 
 * [App Icon](https://www.pngitem.com/middle/xmhox_transparent-sun-png-blue-purple-sun-png-download/)
 
+## Known Issues ⚠
+
+Space news API is not active.
 
 
