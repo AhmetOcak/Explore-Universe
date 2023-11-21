@@ -7,12 +7,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.spaceapp.core.common.Device
-import com.spaceapp.core.common.EmailController
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.Device
+import com.spaceapp.core.common.helper.EmailController
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.Login
 import com.spaceapp.domain.usecase.auth.LoginUseCase
+import com.spaceapp.presentation.login.state.LoginInputFieldState
+import com.spaceapp.presentation.login.state.LoginState
 import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

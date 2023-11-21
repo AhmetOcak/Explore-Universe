@@ -9,6 +9,9 @@ import com.spaceapp.domain.usecase.apod.ClearApodDatabaseUseCase
 import com.spaceapp.domain.usecase.apod.GetApodFromDatabaseUseCase
 import com.spaceapp.domain.usecase.apod.GetApodFromNetworkUseCase
 import com.spaceapp.domain.usecase.explore_galaxy.GetExploreGalaxyDataUseCase
+import com.spaceapp.presentation.explore.state.ApodState
+import com.spaceapp.presentation.explore.state.ExploreCategoryState
+import com.spaceapp.presentation.explore.state.ExploreGalaxyState
 import com.spaceapp.presentation.utils.ExploreCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

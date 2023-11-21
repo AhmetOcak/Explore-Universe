@@ -8,14 +8,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.VerifyCodeSettings
-import com.spaceapp.core.common.Device
-import com.spaceapp.core.common.EmailController
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.Device
+import com.spaceapp.core.common.helper.EmailController
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.SignUp
 import com.spaceapp.domain.model.auth.VerifyEmail
 import com.spaceapp.domain.usecase.auth.SignUpUseCase
 import com.spaceapp.domain.usecase.auth.VerifyUserEmailUseCase
+import com.spaceapp.presentation.signup.state.SignUpInputFieldState
+import com.spaceapp.presentation.signup.state.SignUpState
+import com.spaceapp.presentation.signup.state.VerifyEmailState
 import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +39,8 @@ class SignUpViewModel @Inject constructor(
     private val _verifyEmailState = MutableStateFlow<VerifyEmailState>(VerifyEmailState.Nothing)
     val verifyEmailState = _verifyEmailState.asStateFlow()
 
-    private val _signUpInputFieldState = MutableStateFlow<SignUpInputFieldState>(SignUpInputFieldState.Nothing)
+    private val _signUpInputFieldState = MutableStateFlow<SignUpInputFieldState>(
+        SignUpInputFieldState.Nothing)
     val inputFieldState = _signUpInputFieldState.asStateFlow()
 
     private val _signUpState = MutableStateFlow<SignUpState>(SignUpState.Nothing)

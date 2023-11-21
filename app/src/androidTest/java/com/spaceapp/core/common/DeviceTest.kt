@@ -3,6 +3,8 @@ package com.spaceapp.core.common
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import com.spaceapp.core.common.helper.Device
+import com.spaceapp.core.common.helper.MobileServiceType
 import org.junit.Test
 import org.junit.runner.RunWith
 

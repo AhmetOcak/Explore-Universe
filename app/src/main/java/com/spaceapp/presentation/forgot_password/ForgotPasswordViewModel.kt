@@ -7,14 +7,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.huawei.agconnect.auth.VerifyCodeSettings
-import com.spaceapp.core.common.Device
-import com.spaceapp.core.common.EmailController
-import com.spaceapp.core.common.MobileServiceType
+import com.spaceapp.core.common.helper.Device
+import com.spaceapp.core.common.helper.EmailController
+import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.ForgotPassword
 import com.spaceapp.domain.model.auth.VerifyEmail
 import com.spaceapp.domain.usecase.auth.ForgotPasswordUseCase
 import com.spaceapp.domain.usecase.auth.VerifyUserEmailUseCase
+import com.spaceapp.presentation.forgot_password.state.ForgotPasswordInputFieldState
+import com.spaceapp.presentation.forgot_password.state.ForgotPasswordState
+import com.spaceapp.presentation.forgot_password.state.VerifyForgotPasswordState
 import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,13 +38,15 @@ class ForgotPasswordViewModel @Inject constructor(
 
     var device: MobileServiceType = Device.mobileServiceType(context = application.applicationContext)
 
-    private val _verifyForgotPasswordState = MutableStateFlow<VerifyForgotPasswordState>(VerifyForgotPasswordState.Nothing)
+    private val _verifyForgotPasswordState = MutableStateFlow<VerifyForgotPasswordState>(
+        VerifyForgotPasswordState.Nothing)
     val verifyForgotPasswordState = _verifyForgotPasswordState.asStateFlow()
 
     private val _forgotPasswordState = MutableStateFlow<ForgotPasswordState>(ForgotPasswordState.Nothing)
     val forgotPasswordState = _forgotPasswordState.asStateFlow()
 
-    private val _forgotPasswordInputFieldState = MutableStateFlow<ForgotPasswordInputFieldState>(ForgotPasswordInputFieldState.Nothing)
+    private val _forgotPasswordInputFieldState = MutableStateFlow<ForgotPasswordInputFieldState>(
+        ForgotPasswordInputFieldState.Nothing)
     val forgotPasswordInputFieldState = _forgotPasswordInputFieldState.asStateFlow()
 
     var userEmail by mutableStateOf("")
