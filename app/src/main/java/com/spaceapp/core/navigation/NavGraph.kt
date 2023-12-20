@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -163,15 +164,13 @@ private fun MyBottomNavigationBar(currentRoute: String?, navController: NavContr
                             return@BottomNavigationItem
                         }
 
-                        if (currentRoute != screen.route) {
-                            navController.navigate(screen.route) {
-                                NavScreen.HomeScreen.route.let {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
+                        navController.navigate(screen.route) {
+                            NavScreen.HomeScreen.route.let {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
                                 }
+                                launchSingleTop = true
+                                restoreState = true
                             }
                         }
                     },
@@ -189,7 +188,7 @@ private fun MyBottomNavigationBar(currentRoute: String?, navController: NavContr
                     label = {
                         Text(
                             text = screen.labelText,
-                            style = MaterialTheme.typography.labelSmall,
+                            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
                             color = if (currentRoute == screen.route) {
                                 Color.White
                             } else {
