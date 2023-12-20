@@ -12,9 +12,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.*
-import com.spaceapp.presentation.explore.components.*
+import com.spaceapp.presentation.explore.components.CategorySection
+import com.spaceapp.presentation.explore.components.ExploreCardSection
+import com.spaceapp.presentation.explore.components.PageTitle
+import com.spaceapp.presentation.explore.components.UniverseImageSection
 import com.spaceapp.presentation.explore.state.*
 
 @Composable
@@ -35,8 +36,10 @@ fun ExploreScreen(
         apodState = apodState,
         exploreGalaxyState = exploreGalaxyState,
         exploreCategoryState = exploreGalaxyCategoryState,
-        viewModel = viewModel,
-        navController = navController
+        navController = navController,
+        onCategoryClick = {
+            viewModel.exploreCategoryOnClick(it)
+        }
     )
 }
 
@@ -46,17 +49,16 @@ private fun ExploreScreenContent(
     apodState: ApodState,
     exploreGalaxyState: ExploreGalaxyState,
     exploreCategoryState: ExploreCategoryState,
-    viewModel: ExploreViewModel,
-    navController: NavController
+    navController: NavController,
+    onCategoryClick: (String) -> Unit
 ) {
-    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
     Column(
         modifier = modifier
             .fillMaxSize()
             .statusBarsPadding()
             .padding(top = 16.dp)
     ) {
-        PageTitle(modifier = modifier)
+        PageTitle()
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -65,34 +67,25 @@ private fun ExploreScreenContent(
             verticalArrangement = Arrangement.Top,
         ) {
             ExploreSection(
-                modifier = modifier,
                 exploreGalaxyState = exploreGalaxyState,
                 exploreCategoryState = exploreCategoryState,
-                viewModel = viewModel,
-                navController = navController
+                navController = navController,
+                onCategoryClick = onCategoryClick
             )
-            UniverseImageSection(
-                modifier = modifier,
-                apodState = apodState
-            )
+            UniverseImageSection(apodState = apodState)
         }
     }
 }
 
 @Composable
 private fun ExploreSection(
-    modifier: Modifier,
     exploreGalaxyState: ExploreGalaxyState,
     exploreCategoryState: ExploreCategoryState,
-    viewModel: ExploreViewModel,
-    navController: NavController
+    navController: NavController,
+    onCategoryClick: (String) -> Unit
 ) {
-    CategorySection(
-        modifier = modifier,
-        viewModel = viewModel
-    )
+    CategorySection(onCategoryClick = onCategoryClick)
     ExploreCardSection(
-        modifier = modifier,
         exploreGalaxyState = exploreGalaxyState,
         exploreCategoryState = exploreCategoryState,
         navController = navController

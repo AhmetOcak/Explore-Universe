@@ -16,7 +16,6 @@ import com.spaceapp.core.designsystem.theme.BlueHaze
 
 @Composable
 fun DefaultTextButton(
-    modifier: Modifier = Modifier,
     category: String,
     index: Int,
     selected: Int,
@@ -33,7 +32,7 @@ fun DefaultTextButton(
                     style = MaterialTheme.typography.displayMedium
                 )
                 Divider(
-                    modifier = modifier.width(32.dp).padding(top = 4.dp),
+                    modifier = Modifier.width(32.dp).padding(top = 4.dp),
                     thickness = 2.dp,
                 )
             }

@@ -19,18 +19,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
-import com.spaceapp.core.common.helper.MobileServiceType
 import com.spaceapp.core.designsystem.component.DefaultButton
 import com.spaceapp.core.designsystem.component.DefaultOutlinedTextField
-import com.spaceapp.presentation.signup.SignUpViewModel
 import com.spaceapp.presentation.signup.state.SignUpInputFieldState
 import com.spaceapp.presentation.utils.SignUpScreenConstants
 
 @Composable
 fun SignUpSection(
     modifier: Modifier,
-    viewModel: SignUpViewModel,
-    signUpInputFieldState: SignUpInputFieldState
+    signUpInputFieldState: SignUpInputFieldState,
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    passwordValue: String,
+    onPasswordValChange: (String) -> Unit,
+    confirmPasswordValue: String,
+    onConfirmPasswordValChange: (String) -> Unit,
+    onSignUpClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -42,22 +46,20 @@ fun SignUpSection(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Center
     ) {
-        Title(modifier = modifier)
+        Title(modifier = Modifier.padding(bottom = 72.dp))
         InputTextFields(
-            modifier = modifier,
-            viewModel = viewModel
+            emailValue = emailValue,
+            onEmailValChange = onEmailValChange,
+            passwordValue = passwordValue,
+            onPasswordValChange = onPasswordValChange,
+            confirmPasswordValue = confirmPasswordValue,
+            onConfirmPasswordValChange = onConfirmPasswordValChange
         )
         DefaultButton(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp),
-            onClick = {
-                if (viewModel.device == MobileServiceType.HMS) {
-                    viewModel.verifyEmail()
-                } else {
-                    viewModel.signUp()
-                }
-            },
+            onClick = onSignUpClick,
             contentText = SignUpScreenConstants.button_text
         )
         ShowInputFieldErrors(signUpInputFieldState = signUpInputFieldState)
@@ -67,7 +69,7 @@ fun SignUpSection(
 @Composable
 private fun Title(modifier: Modifier) {
     Text(
-        modifier = modifier.padding(bottom = 72.dp),
+        modifier = modifier,
         text = SignUpScreenConstants.welcome_title,
         style = MaterialTheme.typography.headlineLarge
     )
@@ -75,38 +77,42 @@ private fun Title(modifier: Modifier) {
 
 @Composable
 private fun InputTextFields(
-    modifier: Modifier,
-    viewModel: SignUpViewModel
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    passwordValue: String,
+    onPasswordValChange: (String) -> Unit,
+    confirmPasswordValue: String,
+    onConfirmPasswordValChange: (String) -> Unit,
 ) {
     DefaultOutlinedTextField(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        onValueChanged = { viewModel.updateUserEmailField(newValue = it) },
+        onValueChanged = onEmailValChange,
         labelText = SignUpScreenConstants.email_field,
         keyboardType = KeyboardType.Email,
         leadingIconId = R.drawable.ic_baseline_email,
-        value = viewModel.userEmail
+        value = emailValue
     )
     DefaultOutlinedTextField(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        onValueChanged = { viewModel.updateUserPasswordField(newValue = it) },
+        onValueChanged = onPasswordValChange,
         labelText = SignUpScreenConstants.password_field,
         keyboardType = KeyboardType.Password,
         leadingIconId = R.drawable.ic_baseline_key,
-        value = viewModel.userPassword
+        value = passwordValue
     )
     DefaultOutlinedTextField(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        onValueChanged = { viewModel.updateUserConfirmPasswordField(newValue = it) },
+        onValueChanged = onConfirmPasswordValChange,
         labelText = SignUpScreenConstants.confirm_password_field,
         keyboardType = KeyboardType.Password,
         leadingIconId = R.drawable.ic_baseline_check_box,
-        value = viewModel.userConfirmPassword
+        value = confirmPasswordValue
     )
 }
 
@@ -120,6 +126,7 @@ private fun ShowInputFieldErrors(signUpInputFieldState: SignUpInputFieldState) {
                 Toast.LENGTH_SHORT
             ).show()
         }
+
         is SignUpInputFieldState.Nothing -> {}
     }
 }

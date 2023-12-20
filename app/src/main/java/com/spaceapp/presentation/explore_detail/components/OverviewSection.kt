@@ -19,10 +19,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.spaceapp.presentation.utils.NoData
+import com.spaceapp.presentation.utils.SpaceObjectImageType
+import com.spaceapp.presentation.utils.SpaceObjects
 
 @Composable
-fun OverView(
-    modifier: Modifier,
+fun OverViewSection(
+    objectName: String?,
+    objectInfo1: String?,
+    objectInfo2: String?
+) {
+    objectName?.let { SpaceObjectImageType.setSpaceObjectImageType(it) }?.let {
+        OverView(
+            title1 = "radius",
+            info1 = if (objectInfo1 == NoData.noData) NoData.noData else "r = ${objectInfo1}km",
+            title2 = if (isMeteor(objectName)) "velocity" else "distance from sun",
+            info2 = if (isMeteor(objectName)) "${objectInfo2}km/s" else "${objectInfo2}km",
+            objectName = objectName,
+            objectImage = it
+        )
+    }
+}
+
+@Composable
+private fun OverView(
     title1: String,
     info1: String,
     title2: String,
@@ -32,7 +52,7 @@ fun OverView(
     contentScale: ContentScale = ContentScale.Fit
 ) {
     Image(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(320.dp)
             .clip(RoundedCornerShape(15)),
@@ -41,13 +61,13 @@ fun OverView(
         contentScale = contentScale
     )
     Text(
-        modifier = modifier.padding(bottom = 32.dp),
+        modifier = Modifier.padding(bottom = 32.dp),
         text = objectName,
         style = MaterialTheme.typography.headlineLarge.copy(fontSize = 56.sp),
         textAlign = TextAlign.Center
     )
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -59,7 +79,7 @@ fun OverView(
                 style = MaterialTheme.typography.bodySmall
             )
             Text(
-                modifier = modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(top = 8.dp),
                 text = info1,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -69,10 +89,20 @@ fun OverView(
         ) {
             Text(text = title2, style = MaterialTheme.typography.bodySmall)
             Text(
-                modifier = modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(top = 8.dp),
                 text = info2,
                 style = MaterialTheme.typography.bodyMedium
             )
         }
+    }
+}
+
+private fun isMeteor(name: String): Boolean {
+    return when (name) {
+        SpaceObjects.lenoids -> { true }
+        SpaceObjects.lyrids -> { true }
+        SpaceObjects.orinoids -> { true }
+        SpaceObjects.perseids -> { true }
+        else -> { false }
     }
 }

@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.*
+import com.spaceapp.core.designsystem.component.ErrorCard
+import com.spaceapp.core.designsystem.component.LoadingSpinner
 import com.spaceapp.domain.model.glossary_data.GlossaryContent
 import com.spaceapp.presentation.universe_glossary.components.SearchField
 import com.spaceapp.presentation.universe_glossary.components.SearchResultEmpty
@@ -38,7 +38,10 @@ fun UniverseGlossaryScreen(
     UniverseGlossaryContent(
         modifier = modifier,
         glossaryState = glossaryState,
-        viewModel = viewModel
+        searchValue = viewModel.search,
+        onSearchValChange = {
+            viewModel.updateSearchField(it)
+        }
     )
 }
 
@@ -46,9 +49,9 @@ fun UniverseGlossaryScreen(
 private fun UniverseGlossaryContent(
     modifier: Modifier,
     glossaryState: GlossaryState,
-    viewModel: UniverseGlossaryViewModel
+    searchValue: String,
+    onSearchValChange: (String) -> Unit
 ) {
-    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -62,8 +65,11 @@ private fun UniverseGlossaryContent(
             style = MaterialTheme.typography.headlineLarge
         )
         SearchField(
-            modifier = modifier,
-            viewModel = viewModel
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+            searchValue = searchValue,
+            onSearchValChange = onSearchValChange
         )
         when (glossaryState) {
             is GlossaryState.Loading -> {
@@ -73,10 +79,9 @@ private fun UniverseGlossaryContent(
             is GlossaryState.Success -> {
                 glossaryState.data?.glossary?.let { list ->
                     TermList(
-                        modifier = modifier,
                         filteredGlossaryList = list.filter {
                             it.name.contains(
-                                viewModel.search,
+                                searchValue,
                                 ignoreCase = true
                             )
                         }
@@ -92,15 +97,12 @@ private fun UniverseGlossaryContent(
 }
 
 @Composable
-private fun TermList(
-    modifier: Modifier,
-    filteredGlossaryList: List<GlossaryContent>
-) {
+private fun TermList(filteredGlossaryList: List<GlossaryContent>) {
     if (filteredGlossaryList.isEmpty()) {
-        SearchResultEmpty(modifier = modifier)
+        SearchResultEmpty()
     } else {
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
             contentPadding = PaddingValues(vertical = 32.dp),

@@ -24,14 +24,17 @@ import com.spaceapp.R
 import com.spaceapp.core.designsystem.component.DefaultButton
 import com.spaceapp.core.designsystem.component.DefaultOutlinedTextField
 import com.spaceapp.core.designsystem.theme.White
-import com.spaceapp.presentation.forgot_password.ForgotPasswordViewModel
 import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 
 // For HMS
 @Composable
-fun SendVerifyCode(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
+fun SendVerifyCode(
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    onSendCodeClick: () -> Unit
+) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .imePadding()
             .navigationBarsPadding()
@@ -41,7 +44,7 @@ fun SendVerifyCode(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp),
             painter = painterResource(id = R.drawable.forgot_password_main),
@@ -49,7 +52,7 @@ fun SendVerifyCode(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
             contentScale = ContentScale.Fit
         )
         Text(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 24.dp),
             text = ForgotPasswordScreenConstants.enter_email,
@@ -58,22 +61,20 @@ fun SendVerifyCode(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
             color = White
         )
         DefaultOutlinedTextField(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 36.dp),
-            onValueChanged = { viewModel.updateUserEmailField(newValue = it) },
+            onValueChanged = onEmailValChange,
             labelText = ForgotPasswordScreenConstants.email,
             keyboardType = KeyboardType.Email,
             leadingIconId = R.drawable.ic_baseline_email,
-            value = viewModel.userEmail
+            value = emailValue
         )
         DefaultButton(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
-            onClick = {
-                viewModel.verifyForgotPassword()
-            },
+            onClick = onSendCodeClick,
             contentText = ForgotPasswordScreenConstants.send_email_hms
         )
     }

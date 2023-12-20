@@ -25,18 +25,16 @@ import com.spaceapp.core.designsystem.component.LoadingSpinner
 import com.spaceapp.core.designsystem.component.Underline
 import com.spaceapp.core.designsystem.theme.TransparentKimberly
 import com.spaceapp.domain.model.where_is_the_iss.Iss
-import com.spaceapp.presentation.home.HomeViewModel
 import com.spaceapp.presentation.home.state.WhereIsTheIssState
 import com.spaceapp.presentation.utils.HomeScreenConstants
 
 @Composable
 fun WhereIsTheIssSection(
-    modifier: Modifier,
     whereIsTheIssState: WhereIsTheIssState,
-    viewModel: HomeViewModel
+    retryIssPositionInfo: () -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(top = 32.dp, start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.Start
@@ -48,22 +46,19 @@ fun WhereIsTheIssSection(
         when (whereIsTheIssState) {
             is WhereIsTheIssState.Loading -> {
                 LoadingSpinner(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 48.dp)
                 )
             }
             is WhereIsTheIssState.Success -> {
                 Card(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
                     colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
                 ) {
-                    IssPositionInfo(
-                        modifier = modifier,
-                        data = whereIsTheIssState.data!!,
-                    )
+                    IssPositionInfo(data = whereIsTheIssState.data!!,)
                 }
             }
             is WhereIsTheIssState.Error -> {
@@ -72,7 +67,7 @@ fun WhereIsTheIssSection(
                     paddingValues = PaddingValues(top = 16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
-                    onClick = { viewModel.getIssPositionFromNetwork() }
+                    onClick = retryIssPositionInfo
                 )
             }
         }
@@ -80,25 +75,25 @@ fun WhereIsTheIssSection(
 }
 
 @Composable
-private fun IssPositionInfo(modifier: Modifier, data: Iss) {
+private fun IssPositionInfo(data: Iss) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.SpaceAround
     ) {
         Gif(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp),
             gifId = R.drawable.iss
         )
         Text(
-            modifier = modifier.padding(start = 16.dp, top = 16.dp),
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp),
             text = EpochConverter.readTimestamp(data.date),
             style = MaterialTheme.typography.displayMedium
         )
         Text(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
             text = "The ISS is ${data.altitude.toInt()}km above the Earth",
@@ -106,7 +101,7 @@ private fun IssPositionInfo(modifier: Modifier, data: Iss) {
             textAlign = TextAlign.Center,
         )
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceAround,
@@ -119,7 +114,7 @@ private fun IssPositionInfo(modifier: Modifier, data: Iss) {
                 )
                 Underline(width = 64.dp)
                 Text(
-                    modifier = modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = 8.dp),
                     text = "${data.velocity.toInt()}km",
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -131,7 +126,7 @@ private fun IssPositionInfo(modifier: Modifier, data: Iss) {
                 )
                 Underline(width = 64.dp)
                 Text(
-                    modifier = modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = 8.dp),
                     text = data.visibility,
                     style = MaterialTheme.typography.bodyMedium
                 )

@@ -1,6 +1,5 @@
 package com.spaceapp.presentation.home.components
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.imageLoader
@@ -37,18 +37,23 @@ import com.spaceapp.presentation.utils.HomeScreenConstants
 
 @Composable
 fun MarsPhotosSection(
-    modifier: Modifier,
     marsPhotoState: MarsPhotoState,
-    context: Context,
     dataComingFromDb: Boolean,
-    marsPhotoErrorOnClick: () -> Unit
+    retryMarsPhotoData: () -> Unit
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        MarsPhotosTitle(modifier = modifier)
+    Column(modifier = Modifier.fillMaxWidth()) {
+        MarsPhotosTitle(
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 32.dp,
+                bottom = 16.dp
+            )
+        )
         when (marsPhotoState) {
             is MarsPhotoState.Loading -> {
                 LoadingSpinner(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 48.dp, bottom = 16.dp)
                 )
@@ -56,10 +61,8 @@ fun MarsPhotosSection(
 
             is MarsPhotoState.Success -> {
                 MarsPhotoList(
-                    modifier = modifier,
                     dataComingFromDb = dataComingFromDb,
                     photoList = marsPhotoState.data!!,
-                    context = context
                 )
             }
 
@@ -69,7 +72,7 @@ fun MarsPhotosSection(
                     paddingValues = PaddingValues(top = 16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
-                    onClick = marsPhotoErrorOnClick
+                    onClick = retryMarsPhotoData
                 )
             }
         }
@@ -79,7 +82,7 @@ fun MarsPhotosSection(
 @Composable
 private fun MarsPhotosTitle(modifier: Modifier) {
     Text(
-        modifier = modifier.padding(start = 16.dp, end = 16.dp, top = 32.dp, bottom = 16.dp),
+        modifier = modifier,
         text = HomeScreenConstants.photos_from_mars_title,
         style = MaterialTheme.typography.headlineLarge
     )
@@ -87,13 +90,11 @@ private fun MarsPhotosTitle(modifier: Modifier) {
 
 @Composable
 private fun MarsPhotoList(
-    modifier: Modifier,
     dataComingFromDb: Boolean,
     photoList: List<MarsPhoto>,
-    context: Context
 ) {
     LazyRow(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 32.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -102,25 +103,23 @@ private fun MarsPhotoList(
         if (dataComingFromDb) {
             items(photoList) {
                 MarsCard(
-                    modifier = modifier
+                    modifier = Modifier
                         .width(LocalConfiguration.current.screenWidthDp.dp - 96.dp)
                         .height(300.dp),
                     earthDate = it.photos[0].date,
                     rover = it.photos[0].rover.name,
                     marsImageUrl = it.photos[0].image,
-                    context = context
                 )
             }
         } else {
             items(photoList[0].photos) {
                 MarsCard(
-                    modifier = modifier
+                    modifier = Modifier
                         .width(LocalConfiguration.current.screenWidthDp.dp - 96.dp)
                         .height(300.dp),
                     earthDate = it.date,
                     rover = it.rover.name,
-                    marsImageUrl = it.image,
-                    context = context
+                    marsImageUrl = it.image
                 )
             }
         }
@@ -132,10 +131,9 @@ fun MarsCard(
     modifier: Modifier,
     rover: String,
     earthDate: String,
-    marsImageUrl: String,
-    context: Context
+    marsImageUrl: String
 ) {
-    val imageRequest = ImageRequest.Builder(context = context)
+    val imageRequest = ImageRequest.Builder(context = LocalContext.current)
         .data(marsImageUrl)
         .memoryCacheKey(marsImageUrl)
         .diskCacheKey(marsImageUrl)
@@ -158,7 +156,7 @@ fun MarsCard(
                     .fillMaxWidth()
                     .weight(6f),
                 model = imageRequest,
-                imageLoader = context.imageLoader,
+                imageLoader = LocalContext.current.imageLoader,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
@@ -169,31 +167,41 @@ fun MarsCard(
                     .padding(top = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "rover", style = MaterialTheme.typography.displayMedium)
-                    Underline(width = 96.dp)
-                    Text(
-                        modifier = Modifier.padding(top = 4.dp),
-                        text = rover,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "earth date", style = MaterialTheme.typography.displayMedium)
-                    Underline(width = 96.dp)
-                    Text(
-                        modifier = Modifier.padding(top = 4.dp),
-                        text = earthDate,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
+                Rover(rover)
+                Date(earthDate)
             }
         }
+    }
+}
+
+@Composable
+private fun Date(earthDate: String) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "earth date", style = MaterialTheme.typography.displayMedium)
+        Underline(width = 96.dp)
+        Text(
+            modifier = Modifier.padding(top = 4.dp),
+            text = earthDate,
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+private fun Rover(rover: String) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "rover", style = MaterialTheme.typography.displayMedium)
+        Underline(width = 96.dp)
+        Text(
+            modifier = Modifier.padding(top = 4.dp),
+            text = rover,
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }

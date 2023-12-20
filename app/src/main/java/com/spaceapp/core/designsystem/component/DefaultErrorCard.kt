@@ -24,7 +24,6 @@ import com.spaceapp.core.designsystem.theme.White
 
 @Composable
 fun ErrorCard(
-    modifier: Modifier = Modifier,
     errorDescription: String,
     paddingValues: PaddingValues = PaddingValues(16.dp),
     errorIconSize: Dp = 96.dp,
@@ -34,7 +33,7 @@ fun ErrorCard(
     buttonText: String = "OK"
 ) {
     Card(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(if (isButtonAvailable) 300.dp else height)
             .padding(paddingValues),
@@ -63,7 +62,7 @@ fun ErrorCard(
             )
             if(isButtonAvailable) {
                 OutlinedButton(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp, start = 32.dp, end = 32.dp),
                     onClick = onClick,

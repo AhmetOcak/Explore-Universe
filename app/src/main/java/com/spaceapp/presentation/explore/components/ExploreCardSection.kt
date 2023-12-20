@@ -46,13 +46,12 @@ import com.spaceapp.presentation.utils.SpaceObjectImageType
 
 @Composable
 fun ExploreCardSection(
-    modifier: Modifier,
     exploreGalaxyState: ExploreGalaxyState,
     exploreCategoryState: ExploreCategoryState,
     navController: NavController
 ) {
     LazyRow(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {

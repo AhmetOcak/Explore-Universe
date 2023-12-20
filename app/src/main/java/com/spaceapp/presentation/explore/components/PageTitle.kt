@@ -11,14 +11,14 @@ import androidx.compose.ui.unit.dp
 import com.spaceapp.presentation.utils.ExploreScreenConstants
 
 @Composable
-fun PageTitle(modifier: Modifier) {
+fun PageTitle() {
     Text(
-        modifier = modifier.padding(start = 16.dp),
+        modifier = Modifier.padding(start = 16.dp),
         text = ExploreScreenConstants.title_1,
         style = MaterialTheme.typography.headlineLarge
     )
     Divider(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 4.dp),
         thickness = 1.dp

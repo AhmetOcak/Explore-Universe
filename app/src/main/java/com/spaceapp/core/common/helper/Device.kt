@@ -13,7 +13,6 @@ enum class MobileServiceType {
 }
 
 object Device {
-
     fun mobileServiceType(
         context: Context,
         firstPriority: MobileServiceType? = null

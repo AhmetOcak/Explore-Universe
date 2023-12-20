@@ -13,9 +13,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.spaceapp.R
+import com.spaceapp.core.designsystem.component.DefaultButton
+import com.spaceapp.core.designsystem.component.ErrorCard
+import com.spaceapp.core.designsystem.component.LoadingSpinner
 import com.spaceapp.core.navigation.NavScreen
-import com.spaceapp.core.designsystem.component.*
 import com.spaceapp.presentation.login.components.EmailPasswordSection
 import com.spaceapp.presentation.login.components.ForgotPasswordSection
 import com.spaceapp.presentation.login.components.SignUpSection
@@ -38,9 +39,25 @@ fun LoginScreen(
     LoginContent(
         modifier = modifier,
         navController = navController,
-        viewModel = viewModel,
         loginState = loginState,
-        loginInputFieldState = loginInputFieldState
+        loginInputFieldState = loginInputFieldState,
+        emailValue = viewModel.email,
+        onEmailValChange = {
+            viewModel.updateEmailField(it)
+        },
+        passwordValue = viewModel.password,
+        onPasswordValChange = {
+            viewModel.updatePasswordField(it)
+        },
+        onNavigateForgotPasswordScreen = {
+            navController.navigate(NavScreen.ForgotPasswordScreen.route)
+        },
+        onSignUpClick = {
+            viewModel.resetLoginInputFieldState()
+            navController.navigate(NavScreen.SignUpScreen.route)
+        },
+        onLoginClick = viewModel::login,
+        resetState = viewModel::resetState
     )
 }
 
@@ -48,20 +65,30 @@ fun LoginScreen(
 private fun LoginContent(
     modifier: Modifier,
     navController: NavController,
-    viewModel: LoginViewModel,
     loginState: LoginState,
-    loginInputFieldState: LoginInputFieldState
+    loginInputFieldState: LoginInputFieldState,
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    passwordValue: String,
+    onPasswordValChange: (String) -> Unit,
+    onNavigateForgotPasswordScreen: () -> Unit,
+    onSignUpClick: () -> Unit,
+    onLoginClick: () -> Unit,
+    resetState: () -> Unit
 ) {
-    BackgroundImage(
-        modifier = modifier,
-        imageId = R.drawable.background_image
-    )
     LoginSection(
         modifier = modifier,
         navController = navController,
-        viewModel = viewModel,
         loginState = loginState,
-        loginInputFieldState = loginInputFieldState
+        loginInputFieldState = loginInputFieldState,
+        emailValue = emailValue,
+        onEmailValChange = onEmailValChange,
+        passwordValue = passwordValue,
+        onPasswordValChange = onPasswordValChange,
+        onNavigateForgotPasswordScreen = onNavigateForgotPasswordScreen,
+        onSignUpClick = onSignUpClick,
+        onLoginClick = onLoginClick,
+        resetState = resetState
     )
 }
 
@@ -69,9 +96,16 @@ private fun LoginContent(
 private fun LoginSection(
     modifier: Modifier,
     navController: NavController,
-    viewModel: LoginViewModel,
     loginState: LoginState,
-    loginInputFieldState: LoginInputFieldState
+    loginInputFieldState: LoginInputFieldState,
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    passwordValue: String,
+    onPasswordValChange: (String) -> Unit,
+    onNavigateForgotPasswordScreen: () -> Unit,
+    onSignUpClick: () -> Unit,
+    onLoginClick: () -> Unit,
+    resetState: () -> Unit
 ) {
     when (loginState) {
         is LoginState.Loading -> {
@@ -91,7 +125,7 @@ private fun LoginSection(
                 ErrorCard(
                     errorDescription = loginState.errorMessage,
                     isButtonAvailable = true,
-                    onClick = { viewModel.resetState() }
+                    onClick = resetState
                 )
             }
         }
@@ -99,9 +133,14 @@ private fun LoginSection(
         is LoginState.Nothing -> {
             LoginInputSection(
                 modifier = modifier,
-                viewModel = viewModel,
-                navController = navController,
-                loginInputFieldState = loginInputFieldState
+                loginInputFieldState = loginInputFieldState,
+                emailValue = emailValue,
+                onEmailValChange = onEmailValChange,
+                passwordValue = passwordValue,
+                onPasswordValChange = onPasswordValChange,
+                onNavigateForgotPasswordScreen = onNavigateForgotPasswordScreen,
+                onSignUpClick = onSignUpClick,
+                onLoginClick = onLoginClick
             )
         }
     }
@@ -110,9 +149,14 @@ private fun LoginSection(
 @Composable
 private fun LoginInputSection(
     modifier: Modifier,
-    viewModel: LoginViewModel,
-    navController: NavController,
-    loginInputFieldState: LoginInputFieldState
+    loginInputFieldState: LoginInputFieldState,
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    passwordValue: String,
+    onPasswordValChange: (String) -> Unit,
+    onNavigateForgotPasswordScreen: () -> Unit,
+    onSignUpClick: () -> Unit,
+    onLoginClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -124,32 +168,23 @@ private fun LoginInputSection(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Center
     ) {
-        TitleSection(modifier = modifier)
+        TitleSection(modifier = Modifier.padding(bottom = 72.dp))
         EmailPasswordSection(
-            modifier = modifier,
-            viewModel = viewModel
+            emailValue = emailValue,
+            onEmailValChange = onEmailValChange,
+            passwordValue = passwordValue,
+            onPasswordValChange = onPasswordValChange
         )
-        ForgotPasswordSection(
-            modifier = modifier,
-            navController = navController
-        )
+        ForgotPasswordSection(onNavigateForgotPasswordScreen = onNavigateForgotPasswordScreen)
         DefaultButton(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 24.dp),
-            onClick = {
-                viewModel.login()
-            },
+            onClick = onLoginClick,
             contentText = constants.button_text
         )
-        SignUpSection(
-            modifier = modifier,
-            navController = navController,
-            viewModel = viewModel
-        )
-        ShowInputFieldErrors(
-            loginInputFieldState = loginInputFieldState
-        )
+        SignUpSection(onSignUpClick = onSignUpClick)
+        ShowInputFieldErrors(loginInputFieldState = loginInputFieldState)
     }
 }
 

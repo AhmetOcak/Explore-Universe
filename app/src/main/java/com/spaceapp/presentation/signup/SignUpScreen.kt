@@ -8,9 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.spaceapp.R
 import com.spaceapp.core.common.helper.MobileServiceType
-import com.spaceapp.core.designsystem.component.*
+import com.spaceapp.core.designsystem.component.ErrorCard
+import com.spaceapp.core.designsystem.component.LoadingSpinner
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.presentation.signup.components.SignUpSection
 import com.spaceapp.presentation.signup.components.VerifyEmailSection
@@ -34,7 +34,27 @@ fun SignUpScreen(
         verifyEmailState = verifyEmailState,
         viewModel = viewModel,
         signUpInputFieldState = inputFieldState,
-        signUpState = signUpState
+        signUpState = signUpState,
+        emailValue = viewModel.userEmail,
+        onEmailValChange = {
+            viewModel.updateUserEmailField(it)
+        },
+        passwordValue = viewModel.userPassword,
+        onPasswordValChange = {
+            viewModel.updateUserPasswordField(it)
+        },
+        confirmPasswordValue = viewModel.userConfirmPassword,
+        onConfirmPasswordValChange = {
+            viewModel.updateUserConfirmPasswordField(it)
+        },
+        onSignUpClick = {
+            if (viewModel.device == MobileServiceType.HMS) {
+                viewModel.verifyEmail()
+            } else {
+                viewModel.signUp()
+            }
+        },
+        resetState = viewModel::resetState
     )
 }
 
@@ -45,36 +65,44 @@ private fun SignUpContent(
     viewModel: SignUpViewModel,
     verifyEmailState: VerifyEmailState,
     signUpInputFieldState: SignUpInputFieldState,
-    signUpState: SignUpState
+    signUpState: SignUpState,
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    passwordValue: String,
+    onPasswordValChange: (String) -> Unit,
+    confirmPasswordValue: String,
+    onConfirmPasswordValChange: (String) -> Unit,
+    onSignUpClick: () -> Unit,
+    resetState: () -> Unit
 ) {
-    BackgroundImage(
-        modifier = modifier.fillMaxSize(),
-        imageId = R.drawable.background_image
-    )
     when (verifyEmailState) {
         is VerifyEmailState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxSize())
+            LoadingSpinner(modifier = Modifier.fillMaxSize())
         }
 
         is VerifyEmailState.Success -> {
             when (signUpState) {
                 is SignUpState.Loading -> {
-                    LoadingSpinner(modifier = modifier.fillMaxSize())
+                    LoadingSpinner(modifier = Modifier.fillMaxSize())
                 }
 
                 is SignUpState.Success -> {
-                    navNextScreen(viewModel = viewModel, navController = navController)
+                    if (viewModel.device == MobileServiceType.HMS) {
+                        navController.navigate(NavScreen.HomeScreen.route) {
+                            popUpTo(NavScreen.HomeScreen.route)
+                        }
+                    }
                 }
 
                 is SignUpState.Error -> {
                     Box(
-                        modifier = modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         ErrorCard(
                             errorDescription = signUpState.errorMessage,
                             isButtonAvailable = true,
-                            onClick = { viewModel.resetState() }
+                            onClick = resetState
                         )
                     }
                 }
@@ -90,11 +118,11 @@ private fun SignUpContent(
         }
 
         is VerifyEmailState.Error -> {
-            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 ErrorCard(
                     errorDescription = verifyEmailState.errorMessage.toString(),
                     isButtonAvailable = true,
-                    onClick = { viewModel.resetState() }
+                    onClick = resetState
                 )
             }
         }
@@ -102,17 +130,15 @@ private fun SignUpContent(
         is VerifyEmailState.Nothing -> {
             SignUpSection(
                 modifier = modifier,
-                viewModel = viewModel,
-                signUpInputFieldState = signUpInputFieldState
+                signUpInputFieldState = signUpInputFieldState,
+                emailValue = emailValue,
+                onEmailValChange = onEmailValChange,
+                passwordValue = passwordValue,
+                onPasswordValChange = onPasswordValChange,
+                confirmPasswordValue = confirmPasswordValue,
+                onConfirmPasswordValChange = onConfirmPasswordValChange,
+                onSignUpClick = onSignUpClick
             )
-        }
-    }
-}
-
-private fun navNextScreen(viewModel: SignUpViewModel, navController: NavController) {
-    if (viewModel.device == MobileServiceType.HMS) {
-        navController.navigate(NavScreen.HomeScreen.route) {
-            popUpTo(NavScreen.HomeScreen.route)
         }
     }
 }

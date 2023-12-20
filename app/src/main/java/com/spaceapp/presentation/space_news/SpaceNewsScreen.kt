@@ -17,9 +17,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.spaceapp.R
 import com.spaceapp.core.common.helper.DateFormatter
-import com.spaceapp.core.designsystem.component.*
+import com.spaceapp.core.designsystem.component.ErrorCard
+import com.spaceapp.core.designsystem.component.LoadingSpinner
 import com.spaceapp.core.navigation.NavName
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.presentation.space_news.components.LatestNewsCard
@@ -62,7 +62,6 @@ private fun NewsContent(
     navController: NavController,
     viewModel: SpaceNewsViewModel
 ) {
-    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
     Column(
         modifier = modifier
             .fillMaxSize()

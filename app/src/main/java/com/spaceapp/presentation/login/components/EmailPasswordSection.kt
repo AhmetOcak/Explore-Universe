@@ -8,32 +8,33 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
 import com.spaceapp.core.designsystem.component.DefaultOutlinedTextField
-import com.spaceapp.presentation.login.LoginViewModel
 import com.spaceapp.presentation.utils.LoginScreenConstants
 
 @Composable
 fun EmailPasswordSection(
-    modifier: Modifier,
-    viewModel: LoginViewModel
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    passwordValue: String,
+    onPasswordValChange: (String) -> Unit
 ) {
     DefaultOutlinedTextField(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(top = 36.dp, bottom = 16.dp),
-        onValueChanged = { viewModel.updateEmailField(newValue = it) },
+        onValueChanged = onEmailValChange,
         labelText = LoginScreenConstants.email_field,
         keyboardType = KeyboardType.Email,
         leadingIconId = R.drawable.ic_baseline_email,
-        value = viewModel.email
+        value = emailValue
     )
     DefaultOutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
-        onValueChanged = { viewModel.updatePasswordField(newValue = it) },
+        onValueChanged = onPasswordValChange,
         labelText = LoginScreenConstants.password_field,
         keyboardType = KeyboardType.Password,
         leadingIconId = R.drawable.ic_baseline_key,
-        value = viewModel.password
+        value = passwordValue
     )
 }

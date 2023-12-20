@@ -10,14 +10,13 @@ import androidx.compose.ui.res.painterResource
 
 @Composable
 fun BackgroundImage(
-    modifier: Modifier,
     imageId: Int,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop
 ) {
-    Box(modifier = modifier) {
+    Box {
         Image(
-            modifier = modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             painter = painterResource(id = imageId),
             contentDescription = contentDescription,
             contentScale = contentScale

@@ -61,7 +61,6 @@ fun StatefulGlossaryCard(
 
 @Composable
 private fun GlossaryCard(
-    modifier: Modifier = Modifier,
     iconOnClick: () -> Unit,
     isOpen: Boolean,
     isExpanded: Boolean,
@@ -72,7 +71,7 @@ private fun GlossaryCard(
     interactionSource: MutableInteractionSource
 ) {
     Card(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .clickable(
                 interactionSource = interactionSource,
@@ -83,7 +82,7 @@ private fun GlossaryCard(
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Image(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
                 painter = painterResource(id = imageId),
@@ -91,18 +90,18 @@ private fun GlossaryCard(
                 contentScale = ContentScale.Crop
             )
             Row(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    modifier = modifier.padding(start = 16.dp),
+                    modifier = Modifier.padding(start = 16.dp),
                     text = title,
                     style = MaterialTheme.typography.displayMedium
                 )
                 IconButton(onClick = iconOnClick) {
                     Icon(
-                        modifier = modifier.scale(1f, if (isOpen) -1f else 1f),
+                        modifier = Modifier.scale(1f, if (isOpen) -1f else 1f),
                         painter = painterResource(id = R.drawable.ic_baseline_expand_more),
                         contentDescription = null
                     )
@@ -110,7 +109,7 @@ private fun GlossaryCard(
             }
             AnimatedVisibility(visible = isExpanded) {
                 Text(
-                    modifier = modifier.padding(
+                    modifier = Modifier.padding(
                         start = 16.dp,
                         end = 16.dp,
                         bottom = 16.dp

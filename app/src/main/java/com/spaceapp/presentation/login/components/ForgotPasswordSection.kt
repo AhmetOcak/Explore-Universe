@@ -8,21 +8,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.presentation.utils.LoginScreenConstants
 
 @Composable
-fun ForgotPasswordSection(modifier: Modifier, navController: NavController) {
+fun ForgotPasswordSection(onNavigateForgotPasswordScreen: () -> Unit) {
     Row(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
     ) {
         TextButton(
-            onClick = {
-                navController.navigate(NavScreen.ForgotPasswordScreen.route)
-            }
+            onClick = onNavigateForgotPasswordScreen
         ) {
             Text(
                 text = LoginScreenConstants.forgot_password,

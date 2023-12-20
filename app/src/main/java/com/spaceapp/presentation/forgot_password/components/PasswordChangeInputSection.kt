@@ -24,13 +24,20 @@ import com.spaceapp.R
 import com.spaceapp.core.designsystem.component.DefaultButton
 import com.spaceapp.core.designsystem.component.DefaultOutlinedTextField
 import com.spaceapp.core.designsystem.theme.White
-import com.spaceapp.presentation.forgot_password.ForgotPasswordViewModel
 import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 
 @Composable
-fun PasswordChangeInputSection(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
+fun PasswordChangeInputSection(
+    onVerifyCodeValChange: (String) -> Unit,
+    onPasswordValChange: (String) -> Unit,
+    onConfirmPasswordValChange: (String) -> Unit,
+    onSaveNewPasswordClick: () -> Unit,
+    verifyValue: String,
+    passwordValue: String,
+    confirmPasswordValue: String
+) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .imePadding()
             .navigationBarsPadding()
@@ -40,7 +47,7 @@ fun PasswordChangeInputSection(modifier: Modifier, viewModel: ForgotPasswordView
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp),
             painter = painterResource(id = R.drawable.forgot_password_email),
@@ -48,7 +55,7 @@ fun PasswordChangeInputSection(modifier: Modifier, viewModel: ForgotPasswordView
             contentScale = ContentScale.Fit
         )
         Text(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 48.dp),
             text = ForgotPasswordScreenConstants.enter_new_password,
@@ -60,38 +67,35 @@ fun PasswordChangeInputSection(modifier: Modifier, viewModel: ForgotPasswordView
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            onValueChanged = { viewModel.updateVerifyCodeField(newValue = it) },
+            onValueChanged = onVerifyCodeValChange,
             labelText = ForgotPasswordScreenConstants.verification_code,
             keyboardType = KeyboardType.Number,
             leadingIconId = R.drawable.ic_baseline_key,
-            value = viewModel.verifyCode
+            value = verifyValue
         )
         DefaultOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            onValueChanged = { viewModel.updateUserPasswordField(newValue = it) },
+            onValueChanged = onPasswordValChange,
             labelText = ForgotPasswordScreenConstants.new_password,
             keyboardType = KeyboardType.Password,
             leadingIconId = R.drawable.ic_baseline_key,
-            value = viewModel.userPassword
+            value = passwordValue
         )
         DefaultOutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
-            onValueChanged = { viewModel.updateUserConfirmPasswordField(newValue = it) },
+            onValueChanged = onConfirmPasswordValChange,
             labelText = ForgotPasswordScreenConstants.confirm_password,
             keyboardType = KeyboardType.Password,
             leadingIconId = R.drawable.ic_baseline_key,
-            value = viewModel.userConfirmPassword
+            value = confirmPasswordValue
         )
         DefaultButton(
-            modifier = modifier
-                .fillMaxWidth(),
-            onClick = {
-                viewModel.changePassword()
-            },
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onSaveNewPasswordClick,
             contentText = ForgotPasswordScreenConstants.save_new_password
         )
     }

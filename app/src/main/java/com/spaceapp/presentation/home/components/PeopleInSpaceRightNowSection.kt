@@ -18,22 +18,20 @@ import com.spaceapp.core.designsystem.component.ErrorCard
 import com.spaceapp.core.designsystem.component.LoadingSpinner
 import com.spaceapp.core.designsystem.component.Underline
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
-import com.spaceapp.presentation.home.HomeViewModel
 import com.spaceapp.presentation.home.state.PeopleInSpaceState
 import com.spaceapp.presentation.utils.HomeScreenConstants
 
 @Composable
 fun PeopleInSpaceRightNowSection(
-    modifier: Modifier,
     peopleInSpaceState: PeopleInSpaceState,
     dataComingFromDb: Boolean,
-    viewModel: HomeViewModel
+    retryAstronautsInfo: () -> Unit
 ) {
-    PeopleInSpaceTitle(modifier = modifier)
+    PeopleInSpaceTitle(modifier = Modifier.padding(top = 32.dp, start = 16.dp))
     when (peopleInSpaceState) {
         is PeopleInSpaceState.Loading -> {
             LoadingSpinner(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 48.dp)
             )
@@ -41,7 +39,6 @@ fun PeopleInSpaceRightNowSection(
 
         is PeopleInSpaceState.Success -> {
             PeopleInSpaceList(
-                modifier = modifier,
                 data = peopleInSpaceState.data!!,
                 dataComingFromDb = dataComingFromDb
             )
@@ -53,7 +50,7 @@ fun PeopleInSpaceRightNowSection(
                 paddingValues = PaddingValues(top = 16.dp),
                 isButtonAvailable = true,
                 buttonText = "Try Again",
-                onClick = { viewModel.getPeopleInSpaceFromNetwork() }
+                onClick = retryAstronautsInfo
             )
         }
     }
@@ -62,7 +59,7 @@ fun PeopleInSpaceRightNowSection(
 @Composable
 private fun PeopleInSpaceTitle(modifier: Modifier) {
     Text(
-        modifier = modifier.padding(top = 32.dp, start = 16.dp),
+        modifier = modifier,
         text = HomeScreenConstants.people_in_space_right_now_title,
         style = MaterialTheme.typography.headlineLarge,
         textAlign = TextAlign.Start
@@ -71,25 +68,24 @@ private fun PeopleInSpaceTitle(modifier: Modifier) {
 
 @Composable
 private fun PeopleInSpaceList(
-    modifier: Modifier,
     data: List<PeopleInSpace>,
     dataComingFromDb: Boolean
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
             .background(color = MaterialTheme.colorScheme.surface),
         horizontalAlignment = Alignment.Start
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             PeopleInSpace(
-                modifier = modifier.weight(1f),
+                modifier = Modifier.weight(1f),
                 dataComingFromDb = dataComingFromDb,
                 data = data
             )

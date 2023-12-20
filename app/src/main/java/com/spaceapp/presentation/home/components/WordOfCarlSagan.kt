@@ -21,16 +21,16 @@ import com.spaceapp.core.designsystem.component.Gif
 import com.spaceapp.presentation.utils.HomeScreenConstants
 
 @Composable
-fun WordOfCarlSagan(modifier: Modifier) {
+fun WordOfCarlSagan() {
     Row(
-        modifier = modifier
+        modifier = Modifier
             .width(LocalConfiguration.current.screenWidthDp.dp)
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
             horizontalAlignment = Alignment.Start
@@ -40,13 +40,13 @@ fun WordOfCarlSagan(modifier: Modifier) {
                 style = MaterialTheme.typography.headlineLarge
             )
             Text(
-                modifier = modifier.padding(top = 16.dp),
+                modifier = Modifier.padding(top = 16.dp),
                 text = HomeScreenConstants.carl_sagan,
                 style = MaterialTheme.typography.headlineSmall
             )
         }
         Gif(
-            modifier = modifier
+            modifier = Modifier
                 .clip(RoundedCornerShape(10))
                 .fillMaxWidth()
                 .weight(1f)

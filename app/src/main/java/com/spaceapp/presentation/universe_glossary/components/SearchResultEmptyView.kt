@@ -19,22 +19,22 @@ import com.spaceapp.R
 import com.spaceapp.presentation.utils.UniverseGlossaryScreenConstants
 
 @Composable
-fun SearchResultEmpty(modifier: Modifier) {
+fun SearchResultEmpty() {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = modifier.size(72.dp),
+            modifier = Modifier.size(72.dp),
             painter = painterResource(id = R.drawable.empty_list),
             contentDescription = null,
             contentScale = ContentScale.Fit
         )
         Text(
-            modifier = modifier.padding(top = 16.dp),
+            modifier = Modifier.padding(top = 16.dp),
             text = UniverseGlossaryScreenConstants.no_result,
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center

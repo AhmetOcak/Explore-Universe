@@ -87,10 +87,7 @@ fun NavGraph(
             }
         },
         content = {
-            BackgroundImage(
-                modifier = modifier.fillMaxSize(),
-                imageId = R.drawable.background_image
-            )
+            BackgroundImage(imageId = R.drawable.background_image)
             NavHost(
                 modifier = modifier.padding(it),
                 navController = navController,
@@ -119,12 +116,16 @@ fun NavGraph(
                     NewsDetailScreen()
                     showFab = false
                 }
-                composable(NavScreen.UniverseGlossaryScreen.route) { UniverseGlossaryScreen() }
+                composable(NavScreen.UniverseGlossaryScreen.route) {
+                    UniverseGlossaryScreen()
+                }
                 composable(NavScreen.ExploreScreen.route) {
                     ExploreScreen(navController = navController)
                     showFab = true
                 }
-                composable(NavScreen.HomeScreen.route) { HomeScreen(viewModel = homeViewModel) }
+                composable(NavScreen.HomeScreen.route) {
+                    HomeScreen(viewModel = homeViewModel)
+                }
                 composable(
                     route = NavScreen.ExploreDetailScreen.route,
                     arguments = listOf(

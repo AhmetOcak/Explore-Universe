@@ -19,10 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.BackgroundImage
 import com.spaceapp.core.designsystem.component.DefaultTextButton
-import com.spaceapp.presentation.explore_detail.components.OverView
+import com.spaceapp.presentation.explore_detail.components.OverViewSection
 import com.spaceapp.presentation.explore_detail.state.CategoryState
 import com.spaceapp.presentation.utils.*
 
@@ -36,7 +34,11 @@ fun ExploreDetailScreen(
     ExploreDetailScreenContent(
         modifier = modifier,
         viewModel = viewModel,
-        categoryState = categoryState
+        categoryState = categoryState,
+        objectName = viewModel.name,
+        objectInfo1 = viewModel.info1,
+        objectInfo2 = viewModel.info2,
+        objectDescription = viewModel.description
     )
 }
 
@@ -45,8 +47,11 @@ private fun ExploreDetailScreenContent(
     modifier: Modifier,
     viewModel: ExploreDetailViewModel,
     categoryState: CategoryState,
+    objectName: String?,
+    objectInfo1: String?,
+    objectInfo2: String?,
+    objectDescription: String?
 ) {
-    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -56,14 +61,18 @@ private fun ExploreDetailScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        CategoriesSection(modifier = modifier, viewModel = viewModel)
+        CategoriesSection(modifier = modifier.fillMaxWidth(), viewModel = viewModel)
         when (categoryState) {
             is CategoryState.Overview -> {
-                OverViewSection(modifier = modifier, viewModel = viewModel)
+                OverViewSection(
+                    objectName = objectName,
+                    objectInfo1 = objectInfo1,
+                    objectInfo2 = objectInfo2
+                )
             }
 
             is CategoryState.Information -> {
-                InformationSection(modifier = modifier, viewModel = viewModel)
+                InformationSection(objectName = objectName, objectDescription = objectDescription)
             }
         }
     }
@@ -74,7 +83,7 @@ private fun CategoriesSection(modifier: Modifier, viewModel: ExploreDetailViewMo
     var selected by rememberSaveable { mutableIntStateOf(0) }
 
     LazyRow(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         itemsIndexed(categories) { index, item ->
@@ -92,39 +101,24 @@ private fun CategoriesSection(modifier: Modifier, viewModel: ExploreDetailViewMo
 }
 
 @Composable
-fun OverViewSection(modifier: Modifier, viewModel: ExploreDetailViewModel) {
-    viewModel.name?.let { SpaceObjectImageType.setSpaceObjectImageType(it) }?.let {
-        OverView(
-            modifier = modifier,
-            title1 = "radius",
-            info1 = if (viewModel.info1 == NoData.noData) NoData.noData else "r = ${viewModel.info1}km",
-            title2 = if (isMeteor(viewModel.name)) "velocity" else "distance from sun",
-            info2 = if (isMeteor(viewModel.name)) "${viewModel.info2}km/s" else "${viewModel.info2}km",
-            objectName = viewModel.name,
-            objectImage = it
-        )
-    }
-}
-
-@Composable
-private fun InformationSection(modifier: Modifier, viewModel: ExploreDetailViewModel) {
+private fun InformationSection(objectName: String?, objectDescription: String?) {
     Image(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(320.dp)
             .clip(RoundedCornerShape(15)),
-        painter = painterResource(id = SpaceObjectImageType.setSpaceObjectImageType(viewModel.name!!)),
+        painter = painterResource(id = SpaceObjectImageType.setSpaceObjectImageType(objectName!!)),
         contentDescription = null,
         contentScale = ContentScale.Fit
     )
     Text(
-        modifier = modifier.padding(vertical = 16.dp),
-        text = viewModel.name,
+        modifier = Modifier.padding(vertical = 16.dp),
+        text = objectName,
         style = MaterialTheme.typography.headlineLarge
     )
     Text(
-        modifier = modifier.verticalScroll(rememberScrollState()),
-        text = viewModel.description ?: "",
+        modifier = Modifier.verticalScroll(rememberScrollState()),
+        text = objectDescription ?: "",
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Center
     )
@@ -134,27 +128,3 @@ private val categories = listOf(
     ExploreDetailCategories.overview,
     ExploreDetailCategories.information
 )
-
-private fun isMeteor(name: String): Boolean {
-    return when (name) {
-        SpaceObjects.lenoids -> {
-            true
-        }
-
-        SpaceObjects.lyrids -> {
-            true
-        }
-
-        SpaceObjects.orinoids -> {
-            true
-        }
-
-        SpaceObjects.perseids -> {
-            true
-        }
-
-        else -> {
-            false
-        }
-    }
-}

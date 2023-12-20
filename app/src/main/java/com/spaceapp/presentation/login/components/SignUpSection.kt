@@ -10,20 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.spaceapp.core.navigation.NavScreen
-import com.spaceapp.presentation.login.LoginViewModel
 import com.spaceapp.presentation.utils.LoginScreenConstants
 
 @Composable
-fun SignUpSection(
-    modifier: Modifier,
-    navController: NavController,
-    viewModel: LoginViewModel
-) {
+fun SignUpSection(onSignUpClick: () -> Unit) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -31,12 +23,7 @@ fun SignUpSection(
             text = LoginScreenConstants.no_account_text,
             style = MaterialTheme.typography.bodyMedium.copy(color = Color(0xBFFFFFFF))
         )
-        TextButton(
-            onClick = {
-                viewModel.resetLoginInputFieldState()
-                navController.navigate(NavScreen.SignUpScreen.route)
-            }
-        ) {
+        TextButton(onClick = onSignUpClick) {
             Text(
                 text = LoginScreenConstants.sign_up_Text,
                 color = MaterialTheme.colorScheme.onPrimary,

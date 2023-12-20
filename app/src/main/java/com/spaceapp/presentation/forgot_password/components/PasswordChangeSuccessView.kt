@@ -15,24 +15,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.spaceapp.R
-import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.core.designsystem.component.DefaultButton
 import com.spaceapp.core.designsystem.theme.White
 import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 
 @Composable
-fun PasswordChangeSuccessView(modifier: Modifier, navController: NavController) {
+fun PasswordChangeSuccessView(onNavigateLoginScreen: () -> Unit) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp),
             painter = painterResource(id = R.drawable.forgot_password_success),
@@ -40,7 +38,7 @@ fun PasswordChangeSuccessView(modifier: Modifier, navController: NavController) 
             contentScale = ContentScale.Fit
         )
         Text(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 24.dp),
             text = ForgotPasswordScreenConstants.success_message,
@@ -49,13 +47,8 @@ fun PasswordChangeSuccessView(modifier: Modifier, navController: NavController) 
             color = White
         )
         DefaultButton(
-            modifier = modifier
-                .fillMaxWidth(),
-            onClick = {
-                navController.navigate(NavScreen.LoginScreen.route) {
-                    popUpTo(0)
-                }
-            },
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onNavigateLoginScreen,
             contentText = ForgotPasswordScreenConstants.return_login_page
         )
     }

@@ -20,7 +20,7 @@ import com.spaceapp.core.designsystem.theme.fonts
 
 @Composable
 fun DefaultOutlinedTextField(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     value: String = "",
     onValueChanged: (String) -> Unit,
     labelText: String,

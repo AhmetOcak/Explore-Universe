@@ -1,7 +1,6 @@
 package com.spaceapp.presentation.home
 
 import android.app.Activity
-import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -13,8 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.*
 import com.spaceapp.presentation.home.components.MarsPhotosSection
 import com.spaceapp.presentation.home.components.PeopleInSpaceRightNowSection
 import com.spaceapp.presentation.home.components.WhereIsTheIssSection
@@ -37,10 +34,11 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
         marsPhotoState = marsPhotoState,
         whereIsTheIssState = whereIsTheIssState,
         peopleInSpaceState = peopleInSpaceState,
-        context = LocalContext.current,
         marsPhotoComingFromDb = viewModel.isMarsPhotoDataTakenFromDatabase,
         peopleComingFromDb = viewModel.isPeopleInSpaceDataTakenFromDatabase,
-        viewModel = viewModel
+        retryAstronautsInfo = viewModel::getPeopleInSpaceFromNetwork,
+        retryMarsPhotoData = viewModel::getLatestMarsPhotosFromNetwork,
+        retryIssPositionInfo = viewModel::getIssPositionFromNetwork
     )
 }
 
@@ -50,12 +48,12 @@ private fun HomeScreenContent(
     marsPhotoState: MarsPhotoState,
     whereIsTheIssState: WhereIsTheIssState,
     peopleInSpaceState: PeopleInSpaceState,
-    context: Context,
     marsPhotoComingFromDb: Boolean,
     peopleComingFromDb: Boolean,
-    viewModel: HomeViewModel
+    retryAstronautsInfo: () -> Unit,
+    retryMarsPhotoData: () -> Unit,
+    retryIssPositionInfo: () -> Unit
 ) {
-    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -65,24 +63,20 @@ private fun HomeScreenContent(
             .navigationBarsPadding(),
         horizontalAlignment = Alignment.Start
     ) {
-        WordOfCarlSagan(modifier = modifier)
+        WordOfCarlSagan()
         WhereIsTheIssSection(
-            modifier = modifier,
             whereIsTheIssState = whereIsTheIssState,
-            viewModel = viewModel
+            retryIssPositionInfo = retryIssPositionInfo
         )
         PeopleInSpaceRightNowSection(
-            modifier = modifier,
             peopleInSpaceState = peopleInSpaceState,
             dataComingFromDb = peopleComingFromDb,
-            viewModel = viewModel
+            retryAstronautsInfo = retryAstronautsInfo
         )
         MarsPhotosSection(
-            modifier = modifier,
             marsPhotoState = marsPhotoState,
-            context = context,
             dataComingFromDb = marsPhotoComingFromDb,
-            marsPhotoErrorOnClick = { viewModel.getLatestMarsPhotosFromNetwork() }
+            retryMarsPhotoData = retryMarsPhotoData
         )
     }
 }

@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // we are getting current user
-        val currentUser = if(AGConnectAuth.getInstance().currentUser != null) {
+        val currentUser: Any? = if(AGConnectAuth.getInstance().currentUser != null) {
             AGConnectAuth.getInstance().currentUser
         } else {
             FirebaseAuth.getInstance().currentUser

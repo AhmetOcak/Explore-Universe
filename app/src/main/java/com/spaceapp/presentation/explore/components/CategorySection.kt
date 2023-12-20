@@ -14,7 +14,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.spaceapp.core.designsystem.component.DefaultTextButton
-import com.spaceapp.presentation.explore.ExploreViewModel
 import com.spaceapp.presentation.utils.ExploreCategories
 
 private val categories = listOf(
@@ -27,11 +26,11 @@ private val categories = listOf(
 )
 
 @Composable
-fun CategorySection(modifier: Modifier = Modifier, viewModel: ExploreViewModel) {
+fun CategorySection(onCategoryClick: (String) -> Unit) {
     var selected by rememberSaveable { mutableIntStateOf(0) }
 
     LazyRow(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -43,7 +42,7 @@ fun CategorySection(modifier: Modifier = Modifier, viewModel: ExploreViewModel) 
                 index = index,
                 onClick = {
                     selected = index
-                    viewModel.exploreCategoryOnClick(categoryName = item)
+                    onCategoryClick(item)
                 },
                 selected = selected
             )

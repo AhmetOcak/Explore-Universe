@@ -35,22 +35,22 @@ import com.spaceapp.presentation.explore.state.ApodState
 import com.spaceapp.presentation.utils.ExploreScreenConstants
 
 @Composable
-fun UniverseImageSection(modifier: Modifier, apodState: ApodState) {
+fun UniverseImageSection(apodState: ApodState) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 16.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            modifier = modifier.padding(start = 16.dp, top = 32.dp, bottom = 16.dp),
+            modifier = Modifier.padding(start = 16.dp, top = 32.dp, bottom = 16.dp),
             text = ExploreScreenConstants.title_2,
             style = MaterialTheme.typography.headlineMedium
         )
         when (apodState) {
             is ApodState.Loading -> {
                 LoadingSpinner(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 48.dp)
                 )
@@ -79,7 +79,6 @@ fun UniverseImageSection(modifier: Modifier, apodState: ApodState) {
 
 @Composable
 private fun ApodCard(
-    modifier: Modifier = Modifier,
     imagePadding: PaddingValues = PaddingValues(0.dp),
     contentScale: ContentScale = ContentScale.Fit,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
@@ -97,18 +96,18 @@ private fun ApodCard(
 
     Box {
         Card(
-            modifier = modifier
+            modifier = Modifier
                 .width(LocalConfiguration.current.screenWidthDp.dp - 96.dp)
                 .height(320.dp),
             shape = RoundedCornerShape(32.dp),
             colors = CardDefaults.cardColors(containerColor = backgroundColor)
         ) {
             Column(
-                modifier = modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.Start
             ) {
                 AsyncImage(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .weight(6f)
                         .padding(imagePadding),
@@ -118,7 +117,7 @@ private fun ApodCard(
                     contentScale = contentScale
                 )
                 Text(
-                    modifier = modifier
+                    modifier = Modifier
                         .padding(start = 16.dp, bottom = 16.dp, top = 16.dp)
                         .weight(2f),
                     text = title,
