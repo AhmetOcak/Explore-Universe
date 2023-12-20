@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import com.spaceapp.core.designsystem.component.ErrorCard
 import com.spaceapp.core.designsystem.component.Gif
 import com.spaceapp.core.designsystem.component.LoadingSpinner
 import com.spaceapp.core.designsystem.component.Underline
+import com.spaceapp.core.designsystem.theme.TransparentKimberly
 import com.spaceapp.domain.model.where_is_the_iss.Iss
 import com.spaceapp.presentation.home.HomeViewModel
 import com.spaceapp.presentation.home.state.WhereIsTheIssState
@@ -55,7 +57,8 @@ fun WhereIsTheIssSection(
                 Card(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp)
+                        .padding(top = 16.dp),
+                    colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
                 ) {
                     IssPositionInfo(
                         modifier = modifier,

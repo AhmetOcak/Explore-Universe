@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
+import com.spaceapp.core.designsystem.theme.TransparentKimberly
 
 @Composable
 fun StatefulGlossaryCard(
@@ -76,7 +78,8 @@ private fun GlossaryCard(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = cardOnClick
-            )
+            ),
+        colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Image(

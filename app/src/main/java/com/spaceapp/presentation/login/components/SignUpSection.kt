@@ -9,6 +9,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.spaceapp.core.navigation.NavScreen
@@ -28,7 +29,7 @@ fun SignUpSection(
     ) {
         Text(
             text = LoginScreenConstants.no_account_text,
-            fontSize = 16.sp
+            style = MaterialTheme.typography.bodyMedium.copy(color = Color(0xBFFFFFFF))
         )
         TextButton(
             onClick = {

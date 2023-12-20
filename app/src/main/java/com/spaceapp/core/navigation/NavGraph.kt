@@ -1,13 +1,18 @@
 package com.spaceapp.core.navigation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.FabPosition
+import androidx.compose.material.Scaffold
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +34,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.spaceapp.R
 import com.spaceapp.core.designsystem.component.BackgroundImage
+import com.spaceapp.core.designsystem.theme.Mirage
+import com.spaceapp.core.designsystem.theme.White500
 import com.spaceapp.presentation.explore.ExploreScreen
 import com.spaceapp.presentation.explore_detail.ExploreDetailScreen
 import com.spaceapp.presentation.forgot_password.ForgotPasswordScreen
@@ -55,21 +62,17 @@ fun NavGraph(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        isFloatingActionButtonDocked = true,
+        floatingActionButtonPosition = FabPosition.Center,
         bottomBar = {
             BottomNavItems.items.forEach { navItem ->
                 if (navItem.route == currentRoute) {
                     showFab = true
 
-                    BottomAppBar(
-                        modifier = modifier.navigationBarsPadding(),
-                        elevation = 8.dp,
-                        cutoutShape = CircleShape
-                    ) {
-                        BottomAppBarContent(
-                            currentRoute = currentRoute,
-                            navController = navController
-                        )
-                    }
+                    MyBottomNavigationBar(
+                        currentRoute = currentRoute,
+                        navController = navController
+                    )
                 }
             }
         },
@@ -144,46 +147,66 @@ fun NavGraph(
 
 
 @Composable
-private fun RowScope.BottomAppBarContent(currentRoute: String?, navController: NavController) {
-    BottomNavItems.items.forEachIndexed { index, screen ->
-        if (index != 2) {
-            BottomNavigationItem(
-                selected = currentRoute == screen.route,
-                onClick = {
-                    if (currentRoute == screen.route) {
-                        return@BottomNavigationItem
-                    }
+private fun MyBottomNavigationBar(currentRoute: String?, navController: NavController) {
+    BottomAppBar(
+        modifier = Modifier.navigationBarsPadding(),
+        elevation = 8.dp,
+        cutoutShape = CircleShape,
+        backgroundColor = Mirage
+    ) {
+        BottomNavItems.items.forEachIndexed { index, screen ->
+            if (index != 2) {
+                BottomNavigationItem(
+                    selected = currentRoute == screen.route,
+                    onClick = {
+                        if (currentRoute == screen.route) {
+                            return@BottomNavigationItem
+                        }
 
-                    if (currentRoute != screen.route) {
-                        navController.navigate(screen.route) {
-                            NavScreen.HomeScreen.route.let {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                        if (currentRoute != screen.route) {
+                            navController.navigate(screen.route) {
+                                NavScreen.HomeScreen.route.let {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
                             }
                         }
+                    },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = screen.icon),
+                            contentDescription = null,
+                            tint = if (currentRoute == screen.route) {
+                                Color.White
+                            } else {
+                                White500
+                            }
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = screen.labelText,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = if (currentRoute == screen.route) {
+                                Color.White
+                            } else {
+                                White500
+                            }
+                        )
                     }
-                },
-                icon = {
-                    Icon(
-                        painter = painterResource(id = screen.icon),
-                        contentDescription = null
-                    )
-                },
-                label = {
-                    Text(text = screen.labelText)
-                }
-            )
-        } else {
-            BottomNavigationItem(
-                selected = false,
-                onClick = {},
-                enabled = false,
-                label = {},
-                icon = {}
-            )
+                )
+            } else {
+                BottomNavigationItem(
+                    selected = false,
+                    onClick = {},
+                    enabled = false,
+                    label = {},
+                    icon = {}
+                )
+            }
         }
     }
 }

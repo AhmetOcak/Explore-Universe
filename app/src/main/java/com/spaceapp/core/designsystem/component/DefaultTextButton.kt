@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.spaceapp.core.designsystem.theme.BlueHaze
 
 @Composable
 fun DefaultTextButton(
@@ -29,19 +30,17 @@ fun DefaultTextButton(
             ) {
                 Text(
                     text = category,
-                    color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.displayMedium
                 )
                 Divider(
                     modifier = modifier.width(32.dp).padding(top = 4.dp),
-                    color = MaterialTheme.colorScheme.secondary,
                     thickness = 2.dp,
                 )
             }
         } else {
             Text(
                 text = category,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = BlueHaze,
                 style = MaterialTheme.typography.displayMedium
             )
         }

@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import com.spaceapp.R
 import com.spaceapp.core.designsystem.theme.FullTransparentKimberly
 import com.spaceapp.core.designsystem.theme.TransparentKimberly
+import com.spaceapp.core.designsystem.theme.White
 import com.spaceapp.core.navigation.NavName
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.domain.model.explore_galaxy_data.Object
@@ -281,7 +282,8 @@ private fun ExploreCard(
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_ios),
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = White
                         )
                     }
                 }

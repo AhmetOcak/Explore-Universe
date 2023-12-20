@@ -46,27 +46,28 @@ private fun ExploreDetailScreenContent(
     viewModel: ExploreDetailViewModel,
     categoryState: CategoryState,
 ) {
-        BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .navigationBarsPadding()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            CategoriesSection(modifier = modifier, viewModel = viewModel)
-            when (categoryState) {
-                is CategoryState.Overview -> {
-                    OverViewSection(modifier = modifier, viewModel = viewModel)
-                }
-                is CategoryState.Information -> {
-                    InformationSection(modifier = modifier, viewModel = viewModel)
-                }
+    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding()
+            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        CategoriesSection(modifier = modifier, viewModel = viewModel)
+        when (categoryState) {
+            is CategoryState.Overview -> {
+                OverViewSection(modifier = modifier, viewModel = viewModel)
+            }
+
+            is CategoryState.Information -> {
+                InformationSection(modifier = modifier, viewModel = viewModel)
             }
         }
     }
+}
 
 @Composable
 private fun CategoriesSection(modifier: Modifier, viewModel: ExploreDetailViewModel) {
@@ -139,15 +140,19 @@ private fun isMeteor(name: String): Boolean {
         SpaceObjects.lenoids -> {
             true
         }
+
         SpaceObjects.lyrids -> {
             true
         }
+
         SpaceObjects.orinoids -> {
             true
         }
+
         SpaceObjects.perseids -> {
             true
         }
+
         else -> {
             false
         }

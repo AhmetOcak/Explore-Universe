@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import com.spaceapp.R
 import com.spaceapp.core.designsystem.component.ErrorCard
 import com.spaceapp.core.designsystem.component.LoadingSpinner
 import com.spaceapp.core.designsystem.component.Underline
+import com.spaceapp.core.designsystem.theme.TransparentKimberly
 import com.spaceapp.domain.model.mars_photos.MarsPhoto
 import com.spaceapp.presentation.home.state.MarsPhotoState
 import com.spaceapp.presentation.utils.HomeScreenConstants
@@ -143,7 +145,8 @@ fun MarsCard(
 
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(32.dp)
+        shape = RoundedCornerShape(32.dp),
+        colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
