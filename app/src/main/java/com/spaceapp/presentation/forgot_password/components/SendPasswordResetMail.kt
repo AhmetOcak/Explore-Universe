@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -59,7 +59,7 @@ fun SendPasswordResetMail(
                 .padding(vertical = 24.dp),
             text = ForgotPasswordScreenConstants.forgot_password_email,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.h3,
+            style = MaterialTheme.typography.headlineSmall,
             color = White
         )
         DefaultButton(

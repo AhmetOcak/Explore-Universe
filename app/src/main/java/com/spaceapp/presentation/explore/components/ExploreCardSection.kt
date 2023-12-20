@@ -17,11 +17,12 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -221,7 +222,7 @@ private fun ExploreCard(
     imageId: Int,
     imagePadding: PaddingValues = PaddingValues(0.dp),
     contentScale: ContentScale = ContentScale.Fit,
-    backgroundColor: Color = MaterialTheme.colors.surface
+    backgroundColor: Color = MaterialTheme.colorScheme.surface
 ) {
     Box {
         Card(
@@ -233,13 +234,12 @@ private fun ExploreCard(
                         navController.navigate("${NavName.explore_detail_screen_name}/$name/$description/$info1/$info2") {
                             popUpTo(route = NavScreen.ExploreScreen.route)
                         }
-                    }catch (e: Exception) {
+                    } catch (e: Exception) {
                         Log.e("e", e.toString())
                     }
                 },
             shape = RoundedCornerShape(32.dp),
-            elevation = 4.dp,
-            backgroundColor = backgroundColor,
+            colors = CardDefaults.cardColors(backgroundColor),
         ) {
             Column(
                 modifier = modifier.fillMaxSize(),
@@ -265,7 +265,7 @@ private fun ExploreCard(
                     Text(
                         modifier = modifier.padding(start = 16.dp, bottom = 16.dp),
                         text = name,
-                        style = MaterialTheme.typography.h3
+                        style = MaterialTheme.typography.headlineSmall
                     )
                     IconButton(
                         modifier = modifier.padding(bottom = 16.dp),

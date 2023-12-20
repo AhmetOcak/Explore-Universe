@@ -3,7 +3,12 @@ package com.spaceapp.core.designsystem.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,10 +36,10 @@ fun ErrorCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height( if(isButtonAvailable) 300.dp else height )
+            .height(if (isButtonAvailable) 300.dp else height)
             .padding(paddingValues),
         shape = RoundedCornerShape(15),
-        backgroundColor = TransparentKimberly,
+        colors = CardDefaults.cardColors(containerColor = TransparentKimberly),
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -62,9 +67,9 @@ fun ErrorCard(
                         .fillMaxWidth()
                         .padding(top = 16.dp, start = 32.dp, end = 32.dp),
                     onClick = onClick,
-                    colors = ButtonDefaults.outlinedButtonColors(backgroundColor = ErrorColor)
+                    colors = ButtonDefaults.outlinedButtonColors(containerColor = ErrorColor)
                 ) {
-                    Text(text = buttonText, style = MaterialTheme.typography.button, color = White)
+                    Text(text = buttonText, style = MaterialTheme.typography.labelMedium, color = White)
                 }
             }
         }

@@ -4,7 +4,7 @@ pluginManagement {
         google()
         mavenCentral()
         // Configure the Maven repository address for the HMS Core SDK.
-        maven { url 'https://developer.huawei.com/repo/' }
+        maven(url = "https://developer.huawei.com/repo/")
     }
 }
 dependencyResolutionManagement {
@@ -14,8 +14,8 @@ dependencyResolutionManagement {
         mavenCentral()
         mavenCentral()
         // Configure the Maven repository address for the HMS Core SDK.
-        maven { url 'https://developer.huawei.com/repo/' }
+        maven(url = "https://developer.huawei.com/repo/")
     }
 }
 rootProject.name = "SpaceApp"
-include ':app'
+include(":app")

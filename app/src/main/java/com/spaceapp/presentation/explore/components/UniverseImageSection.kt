@@ -13,9 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,7 +45,7 @@ fun UniverseImageSection(modifier: Modifier, apodState: ApodState) {
         Text(
             modifier = modifier.padding(start = 16.dp, top = 32.dp, bottom = 16.dp),
             text = ExploreScreenConstants.title_2,
-            style = MaterialTheme.typography.h2
+            style = MaterialTheme.typography.headlineMedium
         )
         when (apodState) {
             is ApodState.Loading -> {
@@ -81,7 +82,7 @@ private fun ApodCard(
     modifier: Modifier = Modifier,
     imagePadding: PaddingValues = PaddingValues(0.dp),
     contentScale: ContentScale = ContentScale.Fit,
-    backgroundColor: Color = MaterialTheme.colors.surface,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     context: Context,
     title: String,
     imageUrl: String
@@ -100,8 +101,7 @@ private fun ApodCard(
                 .width(LocalConfiguration.current.screenWidthDp.dp - 96.dp)
                 .height(320.dp),
             shape = RoundedCornerShape(32.dp),
-            elevation = 4.dp,
-            backgroundColor = backgroundColor
+            colors = CardDefaults.cardColors(containerColor = backgroundColor)
         ) {
             Column(
                 modifier = modifier.fillMaxSize(),
@@ -122,7 +122,7 @@ private fun ApodCard(
                         .padding(start = 16.dp, bottom = 16.dp, top = 16.dp)
                         .weight(2f),
                     text = title,
-                    style = MaterialTheme.typography.h3
+                    style = MaterialTheme.typography.headlineSmall
                 )
             }
         }

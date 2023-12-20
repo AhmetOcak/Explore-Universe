@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +41,7 @@ fun WhereIsTheIssSection(
     ) {
         Text(
             text = HomeScreenConstants.where_is_the_iss_title,
-            style = MaterialTheme.typography.h1
+            style = MaterialTheme.typography.headlineLarge
         )
         when (whereIsTheIssState) {
             is WhereIsTheIssState.Loading -> {
@@ -92,14 +92,14 @@ private fun IssPositionInfo(modifier: Modifier, data: Iss) {
         Text(
             modifier = modifier.padding(start = 16.dp, top = 16.dp),
             text = EpochConverter.readTimestamp(data.date),
-            style = MaterialTheme.typography.h4
+            style = MaterialTheme.typography.displayMedium
         )
         Text(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
             text = "The ISS is ${data.altitude.toInt()}km above the Earth",
-            style = MaterialTheme.typography.body1,
+            style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
         Row(
@@ -112,25 +112,25 @@ private fun IssPositionInfo(modifier: Modifier, data: Iss) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = HomeScreenConstants.iss_speed,
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.displayMedium
                 )
                 Underline(width = 64.dp)
                 Text(
                     modifier = modifier.padding(top = 8.dp),
                     text = "${data.velocity.toInt()}km",
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = HomeScreenConstants.iss_visibility,
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.displayMedium
                 )
                 Underline(width = 64.dp)
                 Text(
                     modifier = modifier.padding(top = 8.dp),
                     text = data.visibility,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }

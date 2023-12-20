@@ -1,9 +1,7 @@
 package com.spaceapp.presentation.forgot_password
 
-import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,7 +37,6 @@ fun ForgotPasswordScreen(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun ForgotPasswordScreenContent(
     modifier: Modifier,
@@ -49,20 +46,18 @@ private fun ForgotPasswordScreenContent(
     forgotPasswordState: ForgotPasswordState,
     forgotPasswordInputFieldState: ForgotPasswordInputFieldState
 ) {
-    Scaffold(modifier = modifier) {
-        BackgroundImage(
-            modifier = modifier,
-            imageId = R.drawable.background_image
-        )
-        ForgotPasswordSection(
-            modifier = modifier,
-            navController = navController,
-            viewModel = viewModel,
-            verifyForgotPasswordState = verifyForgotPasswordState,
-            forgotPasswordState = forgotPasswordState,
-            forgotPasswordInputFieldState = forgotPasswordInputFieldState
-        )
-    }
+    BackgroundImage(
+        modifier = modifier,
+        imageId = R.drawable.background_image
+    )
+    ForgotPasswordSection(
+        modifier = modifier,
+        navController = navController,
+        viewModel = viewModel,
+        verifyForgotPasswordState = verifyForgotPasswordState,
+        forgotPasswordState = forgotPasswordState,
+        forgotPasswordInputFieldState = forgotPasswordInputFieldState
+    )
 }
 
 @Composable
@@ -79,9 +74,11 @@ private fun ForgotPasswordSection(
             SendVerifyCode(modifier = modifier, viewModel = viewModel)
             ShowInputFieldErrors(forgotPasswordInputFieldState = forgotPasswordInputFieldState)
         }
+
         is VerifyForgotPasswordState.Loading -> {
             LoadingSpinner(modifier = modifier.fillMaxSize())
         }
+
         is VerifyForgotPasswordState.Success -> {
             ChangePasswordSection(
                 modifier = modifier,
@@ -91,6 +88,7 @@ private fun ForgotPasswordSection(
                 forgotPasswordInputFieldState = forgotPasswordInputFieldState
             )
         }
+
         is VerifyForgotPasswordState.Error -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 ErrorCard(
@@ -120,9 +118,11 @@ private fun ChangePasswordSection(
                 LoadingSpinner(modifier = modifier.fillMaxSize())
             }
         }
+
         is ForgotPasswordState.Loading -> {
             LoadingSpinner(modifier = modifier.fillMaxSize())
         }
+
         is ForgotPasswordState.Success -> {
             if (viewModel.device == MobileServiceType.HMS) {
                 PasswordChangeSuccessView(modifier = modifier, navController = navController)
@@ -134,6 +134,7 @@ private fun ChangePasswordSection(
                 )
             }
         }
+
         is ForgotPasswordState.Error -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 ErrorCard(
@@ -156,6 +157,7 @@ private fun ShowInputFieldErrors(forgotPasswordInputFieldState: ForgotPasswordIn
                 Toast.LENGTH_SHORT
             ).show()
         }
+
         is ForgotPasswordInputFieldState.Nothing -> {}
     }
 }

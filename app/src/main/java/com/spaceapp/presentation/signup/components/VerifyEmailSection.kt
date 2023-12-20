@@ -11,13 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -80,7 +81,7 @@ private fun VerifyEmailCard(
                 .fillMaxWidth()
                 .height(420.dp)
                 .padding(horizontal = 32.dp),
-            backgroundColor = MaterialTheme.colors.surface,
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             shape = RoundedCornerShape(15)
         ) {
             Column(
@@ -89,14 +90,16 @@ private fun VerifyEmailCard(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Image(
-                    modifier = Modifier.padding(vertical = 16.dp).size(120.dp),
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .size(120.dp),
                     painter = painterResource(id = R.drawable.verify),
                     contentDescription = null,
                     contentScale = ContentScale.Fit
                 )
                 Text(
                     text = if (isTextFieldAvailable) "$hmsVerificationMessage $userEmail" else gmsVerificationMessage,
-                    style = MaterialTheme.typography.h3,
+                    style = MaterialTheme.typography.headlineSmall,
                     textAlign = TextAlign.Center
                 )
                 if (isTextFieldAvailable) {
@@ -107,7 +110,7 @@ private fun VerifyEmailCard(
                         value = value,
                         onValueChange = onValueChanged,
                         label = {
-                            Text(text = "verify code", style = MaterialTheme.typography.body2)
+                            Text(text = "verify code", style = MaterialTheme.typography.bodySmall)
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         maxLines = 1,
@@ -117,11 +120,11 @@ private fun VerifyEmailCard(
                                 contentDescription = null
                             )
                         },
-                        textStyle = MaterialTheme.typography.body1,
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            cursorColor = MaterialTheme.colors.secondary,
-                            focusedBorderColor = MaterialTheme.colors.secondary,
-                            focusedLabelColor = MaterialTheme.colors.secondary,
+                        textStyle = MaterialTheme.typography.bodyMedium,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            cursorColor = MaterialTheme.colorScheme.secondary,
+                            focusedBorderColor = MaterialTheme.colorScheme.secondary,
+                            focusedLabelColor = MaterialTheme.colorScheme.secondary,
                         )
                     )
                 }

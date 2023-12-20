@@ -1,11 +1,9 @@
 package com.spaceapp.presentation.login
 
-import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -46,7 +44,6 @@ fun LoginScreen(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun LoginContent(
     modifier: Modifier,
@@ -55,19 +52,17 @@ private fun LoginContent(
     loginState: LoginState,
     loginInputFieldState: LoginInputFieldState
 ) {
-    Scaffold(modifier = modifier) {
-        BackgroundImage(
-            modifier = modifier,
-            imageId = R.drawable.background_image
-        )
-        LoginSection(
-            modifier = modifier,
-            navController = navController,
-            viewModel = viewModel,
-            loginState = loginState,
-            loginInputFieldState = loginInputFieldState
-        )
-    }
+    BackgroundImage(
+        modifier = modifier,
+        imageId = R.drawable.background_image
+    )
+    LoginSection(
+        modifier = modifier,
+        navController = navController,
+        viewModel = viewModel,
+        loginState = loginState,
+        loginInputFieldState = loginInputFieldState
+    )
 }
 
 @Composable
@@ -82,6 +77,7 @@ private fun LoginSection(
         is LoginState.Loading -> {
             LoadingSpinner(modifier = modifier.fillMaxSize())
         }
+
         is LoginState.Success -> {
             navController.navigate(NavScreen.HomeScreen.route) {
                 popUpTo(NavScreen.HomeScreen.route) {
@@ -89,6 +85,7 @@ private fun LoginSection(
                 }
             }
         }
+
         is LoginState.Error -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 ErrorCard(
@@ -98,6 +95,7 @@ private fun LoginSection(
                 )
             }
         }
+
         is LoginState.Nothing -> {
             LoginInputSection(
                 modifier = modifier,
@@ -165,6 +163,7 @@ private fun ShowInputFieldErrors(loginInputFieldState: LoginInputFieldState) {
                 Toast.LENGTH_SHORT
             ).show()
         }
+
         is LoginInputFieldState.Nothing -> {}
     }
 }

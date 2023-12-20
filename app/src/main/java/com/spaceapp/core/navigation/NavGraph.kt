@@ -1,12 +1,14 @@
 package com.spaceapp.core.navigation
 
-import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,40 +22,38 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.spaceapp.R
 import com.spaceapp.core.designsystem.component.BackgroundImage
-import com.spaceapp.core.designsystem.component.CustomScaffold
 import com.spaceapp.presentation.explore.ExploreScreen
 import com.spaceapp.presentation.explore_detail.ExploreDetailScreen
 import com.spaceapp.presentation.forgot_password.ForgotPasswordScreen
 import com.spaceapp.presentation.home.HomeScreen
 import com.spaceapp.presentation.home.HomeViewModel
 import com.spaceapp.presentation.login.LoginScreen
-import com.spaceapp.presentation.space_news.NewsScreen
-import com.spaceapp.presentation.space_news_detail.NewsDetailScreen
 import com.spaceapp.presentation.profile.ProfileScreen
 import com.spaceapp.presentation.signup.SignUpScreen
+import com.spaceapp.presentation.space_news.NewsScreen
+import com.spaceapp.presentation.space_news_detail.NewsDetailScreen
 import com.spaceapp.presentation.universe_glossary.UniverseGlossaryScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
     startDestination: String,
     homeViewModel: HomeViewModel
 ) {
-    val navController = rememberAnimatedNavController()
+    val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     var showFab by rememberSaveable { mutableStateOf(false) }
 
-    CustomScaffold(
+    Scaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
             BottomNavItems.items.forEach { navItem ->
@@ -87,22 +87,10 @@ fun NavGraph(
                 modifier = modifier.fillMaxSize(),
                 imageId = R.drawable.background_image
             )
-            AnimatedNavHost(
+            NavHost(
                 modifier = modifier.padding(it),
                 navController = navController,
-                startDestination = startDestination,
-                enterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
-                    )
-                },
-                exitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                }
+                startDestination = startDestination
             ) {
                 composable(route = NavScreen.ProfileScreen.route) {
                     ProfileScreen(navController = navController)
@@ -219,7 +207,7 @@ private fun MyFab(modifier: Modifier, currentRoute: String?, navController: NavC
             }
         },
         shape = CircleShape,
-        backgroundColor = Color.Transparent
+        containerColor = Color.Transparent
     ) {
         Image(
             modifier = modifier.size(56.dp),

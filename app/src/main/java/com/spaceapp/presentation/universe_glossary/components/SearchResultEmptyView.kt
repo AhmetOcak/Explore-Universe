@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +36,7 @@ fun SearchResultEmpty(modifier: Modifier) {
         Text(
             modifier = modifier.padding(top = 16.dp),
             text = UniverseGlossaryScreenConstants.no_result,
-            style = MaterialTheme.typography.h3,
+            style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center
         )
     }

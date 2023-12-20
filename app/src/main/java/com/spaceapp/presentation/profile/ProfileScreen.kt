@@ -1,10 +1,8 @@
 package com.spaceapp.presentation.profile
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,30 +30,27 @@ fun ProfileScreen(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun ProfileScreenContent(
     modifier: Modifier,
     navController: NavController,
     viewModel: ProfileViewModel
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) {
-        BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .statusBarsPadding(),
-            horizontalAlignment = Alignment.End
-        ) {
-            LogOutSection(
-                navController = navController,
-                viewModel = viewModel
-            )
-            ProfilePreviewSection(
-                modifier = modifier,
-                viewModel = viewModel
-            )
-        }
+    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding(),
+        horizontalAlignment = Alignment.End
+    ) {
+        LogOutSection(
+            navController = navController,
+            viewModel = viewModel
+        )
+        ProfilePreviewSection(
+            modifier = modifier,
+            viewModel = viewModel
+        )
     }
 }
 

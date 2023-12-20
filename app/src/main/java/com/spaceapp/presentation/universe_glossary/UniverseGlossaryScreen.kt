@@ -1,12 +1,12 @@
 package com.spaceapp.presentation.universe_glossary
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,51 +42,50 @@ fun UniverseGlossaryScreen(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun UniverseGlossaryContent(
     modifier: Modifier,
     glossaryState: GlossaryState,
     viewModel: UniverseGlossaryViewModel
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) {
-        BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(top = 16.dp)
-                .statusBarsPadding(),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                modifier = modifier.padding(start = 16.dp, end = 16.dp),
-                text = constants.title,
-                style = MaterialTheme.typography.h1
-            )
-            SearchField(
-                modifier = modifier,
-                viewModel = viewModel
-            )
-            when (glossaryState) {
-                is GlossaryState.Loading -> {
-                    LoadingSpinner(modifier = modifier.fillMaxSize())
+    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(top = 16.dp)
+            .statusBarsPadding(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            modifier = modifier.padding(start = 16.dp, end = 16.dp),
+            text = constants.title,
+            style = MaterialTheme.typography.headlineLarge
+        )
+        SearchField(
+            modifier = modifier,
+            viewModel = viewModel
+        )
+        when (glossaryState) {
+            is GlossaryState.Loading -> {
+                LoadingSpinner(modifier = modifier.fillMaxSize())
+            }
+
+            is GlossaryState.Success -> {
+                glossaryState.data?.glossary?.let { list ->
+                    TermList(
+                        modifier = modifier,
+                        filteredGlossaryList = list.filter {
+                            it.name.contains(
+                                viewModel.search,
+                                ignoreCase = true
+                            )
+                        }
+                    )
                 }
-                is GlossaryState.Success -> {
-                    glossaryState.data?.glossary?.let { list ->
-                        TermList(
-                            modifier = modifier,
-                            filteredGlossaryList = list.filter {
-                                it.name.contains(
-                                    viewModel.search,
-                                    ignoreCase = true
-                                )
-                            }
-                        )
-                    }
-                }
-                is GlossaryState.Error -> {
-                    ErrorCard(errorDescription = glossaryState.errorMessage.toString())
-                }
+            }
+
+            is GlossaryState.Error -> {
+                ErrorCard(errorDescription = glossaryState.errorMessage.toString())
             }
         }
     }

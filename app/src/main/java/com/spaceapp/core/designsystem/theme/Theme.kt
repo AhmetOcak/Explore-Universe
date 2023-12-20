@@ -1,17 +1,13 @@
 package com.spaceapp.core.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-private val DarkColorPalette = darkColors(
+private val darkColorPalette = darkColorScheme(
     primary = Mirage,
-    primaryVariant = White,
     secondary = BlueHaze,
     surface = TransparentKimberly,
     onSurface = White,
@@ -19,9 +15,8 @@ private val DarkColorPalette = darkColors(
     onBackground = White500
 )
 
-private val LightColorPalette = lightColors(
+private val lightColorPalette = lightColorScheme(
     primary = Mirage,
-    primaryVariant = White,
     secondary = BlueHaze,
     surface = TransparentKimberly,
     onSurface = White,
@@ -32,21 +27,14 @@ private val LightColorPalette = lightColors(
 @Composable
 fun SpaceAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+        darkColorPalette
     } else {
-        LightColorPalette
-    }
-
-    val systemUiController = rememberSystemUiController()
-
-    SideEffect {
-        systemUiController.setStatusBarColor(color = Color.Transparent)
+        lightColorPalette
     }
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         typography = Typography,
-        shapes = Shapes,
         content = content
     )
 }

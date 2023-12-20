@@ -12,17 +12,14 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.AGConnectAuth
 import com.spaceapp.core.common.helper.ImageLoader
+import com.spaceapp.core.designsystem.theme.SpaceAppTheme
 import com.spaceapp.core.navigation.NavGraph
 import com.spaceapp.core.navigation.NavScreen
-import com.spaceapp.core.designsystem.theme.SpaceAppTheme
 import com.spaceapp.presentation.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,10 +74,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SpaceAppTheme {
-                val systemUiController = rememberSystemUiController()
-                SideEffect {
-                    systemUiController.setStatusBarColor(color = Color.Transparent)
-                }
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background

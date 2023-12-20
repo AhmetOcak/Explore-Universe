@@ -1,13 +1,13 @@
 package com.spaceapp.presentation.space_news
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -54,7 +54,6 @@ fun NewsScreen(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun NewsContent(
     modifier: Modifier,
@@ -63,33 +62,31 @@ private fun NewsContent(
     navController: NavController,
     viewModel: SpaceNewsViewModel
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) {
-        BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .padding(top = 16.dp),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Top
-        ) {
-            WelcomeSection(
-                modifier = modifier,
-                weatherConditionState = weatherConditionState
-            )
-            LatestNewsSection(
-                modifier = modifier,
-                spaceNewsState = spaceNewsState,
-                navController = navController,
-                viewModel = viewModel
-            )
-            NewsSection(
-                modifier = modifier,
-                spaceNewsState = spaceNewsState,
-                navController = navController,
-                viewModel = viewModel
-            )
-        }
+    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .padding(top = 16.dp),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.Top
+    ) {
+        WelcomeSection(
+            modifier = modifier,
+            weatherConditionState = weatherConditionState
+        )
+        LatestNewsSection(
+            modifier = modifier,
+            spaceNewsState = spaceNewsState,
+            navController = navController,
+            viewModel = viewModel
+        )
+        NewsSection(
+            modifier = modifier,
+            spaceNewsState = spaceNewsState,
+            navController = navController,
+            viewModel = viewModel
+        )
     }
 }
 
@@ -101,13 +98,15 @@ private fun LatestNewsSection(
     viewModel: SpaceNewsViewModel
 ) {
     Column(
-        modifier = modifier.fillMaxWidth().padding(top = 32.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 32.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
             modifier = modifier.padding(bottom = 16.dp, start = 16.dp),
             text = constants.latest_news_title,
-            style = MaterialTheme.typography.h2
+            style = MaterialTheme.typography.headlineMedium
         )
         when (spaceNewsState) {
             is SpaceNewsState.Loading -> {
@@ -117,6 +116,7 @@ private fun LatestNewsSection(
                         .height(125.dp)
                 )
             }
+
             is SpaceNewsState.Success -> {
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -141,6 +141,7 @@ private fun LatestNewsSection(
                     }
                 }
             }
+
             is SpaceNewsState.Error -> {
                 ErrorCard(
                     errorDescription = spaceNewsState.errorMessage.toString(),
@@ -162,7 +163,7 @@ private fun NewsSection(
     viewModel: SpaceNewsViewModel
 ) {
     Column(modifier = modifier.padding(top = 32.dp, start = 16.dp, end = 16.dp)) {
-        Text(text = constants.news_title, style = MaterialTheme.typography.h2)
+        Text(text = constants.news_title, style = MaterialTheme.typography.headlineMedium)
         when (spaceNewsState) {
             is SpaceNewsState.Loading -> {
                 LoadingSpinner(
@@ -172,6 +173,7 @@ private fun NewsSection(
                         .padding(top = 48.dp)
                 )
             }
+
             is SpaceNewsState.Success -> {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -197,6 +199,7 @@ private fun NewsSection(
                     }
                 }
             }
+
             is SpaceNewsState.Error -> {
                 ErrorCard(
                     errorDescription = spaceNewsState.errorMessage.toString(),

@@ -3,7 +3,11 @@ package com.spaceapp.presentation.space_news.components
 import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +21,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.spaceapp.R
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsCard(
     modifier: Modifier = Modifier,
@@ -42,7 +46,6 @@ fun NewsCard(
             .fillMaxWidth()
             .height(125.dp),
         shape = RoundedCornerShape(8.dp),
-        elevation = 8.dp,
         onClick = onClick
     ) {
         Row(modifier = modifier.fillMaxSize(), horizontalArrangement = Arrangement.Start) {
@@ -75,15 +78,15 @@ fun NewsCard(
                         painter = painterResource(id = R.drawable.ic_baseline_access_time),
                         contentDescription = null
                     )
-                    Text(text = newsTime, style = MaterialTheme.typography.body2)
+                    Text(text = newsTime, style = MaterialTheme.typography.bodySmall)
                 }
                 Text(
                     text = newsTitle,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyMedium
                 )
-                Text(text = newsAuthor, style = MaterialTheme.typography.body2)
+                Text(text = newsAuthor, style = MaterialTheme.typography.bodySmall)
             }
         }
     }

@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -76,8 +76,7 @@ private fun GlossaryCard(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = cardOnClick
-            ),
-        elevation = 4.dp
+            )
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Image(
@@ -96,7 +95,7 @@ private fun GlossaryCard(
                 Text(
                     modifier = modifier.padding(start = 16.dp),
                     text = title,
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.displayMedium
                 )
                 IconButton(onClick = iconOnClick) {
                     Icon(
@@ -114,7 +113,7 @@ private fun GlossaryCard(
                         bottom = 16.dp
                     ),
                     text = description,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }

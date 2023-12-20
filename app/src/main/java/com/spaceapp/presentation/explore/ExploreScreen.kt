@@ -1,12 +1,10 @@
 package com.spaceapp.presentation.explore
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +40,6 @@ fun ExploreScreen(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun ExploreScreenContent(
     modifier: Modifier,
@@ -52,34 +49,32 @@ private fun ExploreScreenContent(
     viewModel: ExploreViewModel,
     navController: NavController
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) {
-        BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
+    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .padding(top = 16.dp)
+    ) {
+        PageTitle(modifier = modifier)
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .statusBarsPadding()
-                .padding(top = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Top,
         ) {
-            PageTitle(modifier = modifier)
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top,
-            ) {
-                ExploreSection(
-                    modifier = modifier,
-                    exploreGalaxyState = exploreGalaxyState,
-                    exploreCategoryState = exploreCategoryState,
-                    viewModel = viewModel,
-                    navController = navController
-                )
-                UniverseImageSection(
-                    modifier = modifier,
-                    apodState = apodState
-                )
-            }
+            ExploreSection(
+                modifier = modifier,
+                exploreGalaxyState = exploreGalaxyState,
+                exploreCategoryState = exploreCategoryState,
+                viewModel = viewModel,
+                navController = navController
+            )
+            UniverseImageSection(
+                modifier = modifier,
+                apodState = apodState
+            )
         }
     }
 }

@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,20 +29,20 @@ fun DefaultTextButton(
             ) {
                 Text(
                     text = category,
-                    color = MaterialTheme.colors.secondary,
-                    style = MaterialTheme.typography.h4
+                    color = MaterialTheme.colorScheme.secondary,
+                    style = MaterialTheme.typography.displayMedium
                 )
                 Divider(
                     modifier = modifier.width(32.dp).padding(top = 4.dp),
-                    color = MaterialTheme.colors.secondary,
+                    color = MaterialTheme.colorScheme.secondary,
                     thickness = 2.dp,
                 )
             }
         } else {
             Text(
                 text = category,
-                color = MaterialTheme.colors.onBackground,
-                style = MaterialTheme.typography.h4
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.displayMedium
             )
         }
     }

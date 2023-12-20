@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +43,7 @@ fun OverView(
     Text(
         modifier = modifier.padding(bottom = 32.dp),
         text = objectName,
-        style = MaterialTheme.typography.h1.copy(fontSize = 56.sp),
+        style = MaterialTheme.typography.headlineLarge.copy(fontSize = 56.sp),
         textAlign = TextAlign.Center
     )
     Row(
@@ -56,22 +56,22 @@ fun OverView(
         ) {
             Text(
                 text = title1,
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.bodySmall
             )
             Text(
                 modifier = modifier.padding(top = 8.dp),
                 text = info1,
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.bodyMedium
             )
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = title2, style = MaterialTheme.typography.body2)
+            Text(text = title2, style = MaterialTheme.typography.bodySmall)
             Text(
                 modifier = modifier.padding(top = 8.dp),
                 text = info2,
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }

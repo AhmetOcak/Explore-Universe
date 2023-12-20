@@ -3,8 +3,8 @@ package com.spaceapp.core.designsystem.component
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,7 +16,7 @@ fun Underline(
     thickness: Dp = 2.dp,
     paddingValues: PaddingValues = PaddingValues(top = 4.dp),
     width: Dp = 32.dp,
-    color: Color = MaterialTheme.colors.secondary,
+    color: Color = MaterialTheme.colorScheme.secondary,
 ) {
     Divider(
         modifier = Modifier

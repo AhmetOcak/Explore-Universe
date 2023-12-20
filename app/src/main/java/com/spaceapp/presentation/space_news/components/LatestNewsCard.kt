@@ -12,11 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,7 +36,7 @@ import coil.request.ImageRequest
 import com.spaceapp.R
 import com.spaceapp.core.designsystem.theme.White
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LatestNewsCard(
     modifier: Modifier = Modifier,
@@ -55,10 +56,9 @@ fun LatestNewsCard(
         modifier = modifier
             .height(200.dp)
             .width(LocalConfiguration.current.screenWidthDp.dp - 64.dp),
-        backgroundColor = Color.White,
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(8.dp),
-        onClick = onClick,
-        elevation = 8.dp
+        onClick = onClick
     ) {
         Box(modifier = modifier.fillMaxSize()) {
             AsyncImage(
@@ -81,7 +81,7 @@ fun LatestNewsCard(
                 text = newsTitle,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.button.copy(
+                style = MaterialTheme.typography.labelMedium.copy(
                     fontSize = 16.sp,
                     color = White,
                     fontFamily = FontFamily.SansSerif,
@@ -102,7 +102,7 @@ fun LatestNewsCard(
                 )
                 Text(
                     text = newsAuthor,
-                    style = MaterialTheme.typography.button.copy(
+                    style = MaterialTheme.typography.labelMedium.copy(
                         fontSize = 16.sp,
                         color = White,
                         fontFamily = FontFamily.SansSerif,

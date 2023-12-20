@@ -1,13 +1,11 @@
 package com.spaceapp.presentation.home
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -46,7 +44,6 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier,
@@ -58,37 +55,35 @@ private fun HomeScreenContent(
     peopleComingFromDb: Boolean,
     viewModel: HomeViewModel
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) {
-        BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .verticalScroll(rememberScrollState())
-                .padding(vertical = 16.dp)
-                .navigationBarsPadding(),
-            horizontalAlignment = Alignment.Start
-        ) {
-            WordOfCarlSagan(modifier = modifier)
-            WhereIsTheIssSection(
-                modifier = modifier,
-                whereIsTheIssState = whereIsTheIssState,
-                viewModel = viewModel
-            )
-            PeopleInSpaceRightNowSection(
-                modifier = modifier,
-                peopleInSpaceState = peopleInSpaceState,
-                dataComingFromDb = peopleComingFromDb,
-                viewModel = viewModel
-            )
-            MarsPhotosSection(
-                modifier = modifier,
-                marsPhotoState = marsPhotoState,
-                context = context,
-                dataComingFromDb = marsPhotoComingFromDb,
-                marsPhotoErrorOnClick = { viewModel.getLatestMarsPhotosFromNetwork() }
-            )
-        }
+    BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 16.dp)
+            .navigationBarsPadding(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        WordOfCarlSagan(modifier = modifier)
+        WhereIsTheIssSection(
+            modifier = modifier,
+            whereIsTheIssState = whereIsTheIssState,
+            viewModel = viewModel
+        )
+        PeopleInSpaceRightNowSection(
+            modifier = modifier,
+            peopleInSpaceState = peopleInSpaceState,
+            dataComingFromDb = peopleComingFromDb,
+            viewModel = viewModel
+        )
+        MarsPhotosSection(
+            modifier = modifier,
+            marsPhotoState = marsPhotoState,
+            context = context,
+            dataComingFromDb = marsPhotoComingFromDb,
+            marsPhotoErrorOnClick = { viewModel.getLatestMarsPhotosFromNetwork() }
+        )
     }
 }
 

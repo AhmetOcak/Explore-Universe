@@ -1,6 +1,5 @@
 package com.spaceapp.presentation.explore_detail
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -8,7 +7,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -40,14 +40,12 @@ fun ExploreDetailScreen(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun ExploreDetailScreenContent(
     modifier: Modifier,
     viewModel: ExploreDetailViewModel,
     categoryState: CategoryState,
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) {
         BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
         Column(
             modifier = modifier
@@ -69,11 +67,10 @@ private fun ExploreDetailScreenContent(
             }
         }
     }
-}
 
 @Composable
 private fun CategoriesSection(modifier: Modifier, viewModel: ExploreDetailViewModel) {
-    var selected by rememberSaveable { mutableStateOf(0) }
+    var selected by rememberSaveable { mutableIntStateOf(0) }
 
     LazyRow(
         modifier = modifier.fillMaxWidth(),
@@ -122,12 +119,12 @@ private fun InformationSection(modifier: Modifier, viewModel: ExploreDetailViewM
     Text(
         modifier = modifier.padding(vertical = 16.dp),
         text = viewModel.name,
-        style = MaterialTheme.typography.h1
+        style = MaterialTheme.typography.headlineLarge
     )
     Text(
         modifier = modifier.verticalScroll(rememberScrollState()),
         text = viewModel.description ?: "",
-        style = MaterialTheme.typography.body1,
+        style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Center
     )
 }

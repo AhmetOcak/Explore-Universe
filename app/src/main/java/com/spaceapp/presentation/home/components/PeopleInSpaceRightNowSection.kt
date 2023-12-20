@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,7 +64,7 @@ private fun PeopleInSpaceTitle(modifier: Modifier) {
     Text(
         modifier = modifier.padding(top = 32.dp, start = 16.dp),
         text = HomeScreenConstants.people_in_space_right_now_title,
-        style = MaterialTheme.typography.h1,
+        style = MaterialTheme.typography.headlineLarge,
         textAlign = TextAlign.Start
     )
 }
@@ -79,7 +79,7 @@ private fun PeopleInSpaceList(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .background(color = MaterialTheme.colors.surface),
+            .background(color = MaterialTheme.colorScheme.surface),
         horizontalAlignment = Alignment.Start
     ) {
         Row(
@@ -107,7 +107,7 @@ private fun PeopleInSpace(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = HomeScreenConstants.astronaut_name, style = MaterialTheme.typography.h4)
+        Text(text = HomeScreenConstants.astronaut_name, style = MaterialTheme.typography.displayMedium)
         Underline(width = 64.dp)
         AstronautName(dataComingFromDb = dataComingFromDb, data = data)
     }
@@ -115,7 +115,7 @@ private fun PeopleInSpace(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = HomeScreenConstants.astronaut_craft, style = MaterialTheme.typography.h4)
+        Text(text = HomeScreenConstants.astronaut_craft, style = MaterialTheme.typography.displayMedium)
         Underline(width = 64.dp)
         AstronautCraft(dataComingFromDb = dataComingFromDb, data = data)
     }
@@ -129,7 +129,7 @@ private fun AstronautName(dataComingFromDb: Boolean, data: List<PeopleInSpace>) 
                 modifier = Modifier.padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Text(text = it.people[0].name, style = MaterialTheme.typography.body1)
+                Text(text = it.people[0].name, style = MaterialTheme.typography.bodyMedium)
             }
         }
     } else {
@@ -138,7 +138,7 @@ private fun AstronautName(dataComingFromDb: Boolean, data: List<PeopleInSpace>) 
                 modifier = Modifier.padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Text(text = it.name, style = MaterialTheme.typography.body1)
+                Text(text = it.name, style = MaterialTheme.typography.bodyMedium)
             }
         }
     }
@@ -152,7 +152,7 @@ private fun AstronautCraft(dataComingFromDb: Boolean, data: List<PeopleInSpace>)
                 modifier = Modifier.padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Text(text = it.people[0].craft, style = MaterialTheme.typography.body1)
+                Text(text = it.people[0].craft, style = MaterialTheme.typography.bodyMedium)
             }
         }
     } else {
@@ -161,7 +161,7 @@ private fun AstronautCraft(dataComingFromDb: Boolean, data: List<PeopleInSpace>)
                 modifier = Modifier.padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Text(text = it.craft, style = MaterialTheme.typography.body1)
+                Text(text = it.craft, style = MaterialTheme.typography.bodyMedium)
             }
         }
     }

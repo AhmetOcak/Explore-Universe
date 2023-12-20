@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -28,7 +28,7 @@ private val categories = listOf(
 
 @Composable
 fun CategorySection(modifier: Modifier = Modifier, viewModel: ExploreViewModel) {
-    var selected by rememberSaveable { mutableStateOf(0) }
+    var selected by rememberSaveable { mutableIntStateOf(0) }
 
     LazyRow(
         modifier = modifier

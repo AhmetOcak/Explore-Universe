@@ -1,6 +1,6 @@
 package com.spaceapp.core.designsystem.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -13,43 +13,43 @@ val fonts = FontFamily(
 )
 
 val Typography = Typography(
-    h1 = TextStyle(
+    headlineLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
         fontSize = 28.sp,
         letterSpacing = 1.15.sp
     ),
-    h2 = TextStyle(
+    headlineMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
         fontSize = 22.sp,
         letterSpacing = 1.15.sp
     ),
-    h3 = TextStyle(
+    headlineSmall = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
         letterSpacing = 1.15.sp
     ),
-    h4 = TextStyle(
+    displayMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
         letterSpacing = 1.15.sp
     ),
-    body1 = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         letterSpacing = 0.sp
     ),
-    body2 = TextStyle(
+    bodySmall = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
         letterSpacing = 1.15.sp
     ) ,
-    button = TextStyle(
+    labelMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
         letterSpacing = 1.15.sp

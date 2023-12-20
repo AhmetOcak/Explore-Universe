@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,7 +79,7 @@ private fun MarsPhotosTitle(modifier: Modifier) {
     Text(
         modifier = modifier.padding(start = 16.dp, end = 16.dp, top = 32.dp, bottom = 16.dp),
         text = HomeScreenConstants.photos_from_mars_title,
-        style = MaterialTheme.typography.h1
+        style = MaterialTheme.typography.headlineLarge
     )
 }
 
@@ -170,24 +170,24 @@ fun MarsCard(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "rover", style = MaterialTheme.typography.h4)
+                    Text(text = "rover", style = MaterialTheme.typography.displayMedium)
                     Underline(width = 96.dp)
                     Text(
                         modifier = Modifier.padding(top = 4.dp),
                         text = rover,
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "earth date", style = MaterialTheme.typography.h4)
+                    Text(text = "earth date", style = MaterialTheme.typography.displayMedium)
                     Underline(width = 96.dp)
                     Text(
                         modifier = Modifier.padding(top = 4.dp),
                         text = earthDate,
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }

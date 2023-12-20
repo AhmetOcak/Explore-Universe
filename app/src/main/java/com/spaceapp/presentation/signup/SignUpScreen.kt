@@ -1,8 +1,6 @@
 package com.spaceapp.presentation.signup
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,7 +38,6 @@ fun SignUpScreen(
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun SignUpContent(
     modifier: Modifier,
@@ -50,60 +47,64 @@ private fun SignUpContent(
     signUpInputFieldState: SignUpInputFieldState,
     signUpState: SignUpState
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) {
-        BackgroundImage(
-            modifier = modifier.fillMaxSize(),
-            imageId = R.drawable.background_image
-        )
-        when (verifyEmailState) {
-            is VerifyEmailState.Loading -> {
-                LoadingSpinner(modifier = modifier.fillMaxSize())
-            }
-            is VerifyEmailState.Success -> {
-                when (signUpState) {
-                    is SignUpState.Loading -> {
-                        LoadingSpinner(modifier = modifier.fillMaxSize())
-                    }
-                    is SignUpState.Success -> {
-                        navNextScreen(viewModel = viewModel, navController = navController)
-                    }
-                    is SignUpState.Error -> {
-                        Box(
-                            modifier = modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            ErrorCard(
-                                errorDescription = signUpState.errorMessage,
-                                isButtonAvailable = true,
-                                onClick = { viewModel.resetState() }
-                            )
-                        }
-                    }
-                    is SignUpState.Nothing -> {
-                        VerifyEmailSection(
-                            modifier = modifier,
-                            viewModel = viewModel,
-                            navController = navController
+    BackgroundImage(
+        modifier = modifier.fillMaxSize(),
+        imageId = R.drawable.background_image
+    )
+    when (verifyEmailState) {
+        is VerifyEmailState.Loading -> {
+            LoadingSpinner(modifier = modifier.fillMaxSize())
+        }
+
+        is VerifyEmailState.Success -> {
+            when (signUpState) {
+                is SignUpState.Loading -> {
+                    LoadingSpinner(modifier = modifier.fillMaxSize())
+                }
+
+                is SignUpState.Success -> {
+                    navNextScreen(viewModel = viewModel, navController = navController)
+                }
+
+                is SignUpState.Error -> {
+                    Box(
+                        modifier = modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ErrorCard(
+                            errorDescription = signUpState.errorMessage,
+                            isButtonAvailable = true,
+                            onClick = { viewModel.resetState() }
                         )
                     }
                 }
-            }
-            is VerifyEmailState.Error -> {
-                Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    ErrorCard(
-                        errorDescription = verifyEmailState.errorMessage.toString(),
-                        isButtonAvailable = true,
-                        onClick = { viewModel.resetState() }
+
+                is SignUpState.Nothing -> {
+                    VerifyEmailSection(
+                        modifier = modifier,
+                        viewModel = viewModel,
+                        navController = navController
                     )
                 }
             }
-            is VerifyEmailState.Nothing -> {
-                SignUpSection(
-                    modifier = modifier,
-                    viewModel = viewModel,
-                    signUpInputFieldState = signUpInputFieldState
+        }
+
+        is VerifyEmailState.Error -> {
+            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                ErrorCard(
+                    errorDescription = verifyEmailState.errorMessage.toString(),
+                    isButtonAvailable = true,
+                    onClick = { viewModel.resetState() }
                 )
             }
+        }
+
+        is VerifyEmailState.Nothing -> {
+            SignUpSection(
+                modifier = modifier,
+                viewModel = viewModel,
+                signUpInputFieldState = signUpInputFieldState
+            )
         }
     }
 }
