@@ -1,92 +1,136 @@
 package com.spaceapp.core.di
 
 import com.spaceapp.data.datasource.local.apod.*
+import com.spaceapp.data.datasource.local.apod.db.room.dao.ApodDao
 import com.spaceapp.data.datasource.local.explore_galaxy_data.*
 import com.spaceapp.data.datasource.local.glossary_data.*
 import com.spaceapp.data.datasource.local.mars_photos.*
+import com.spaceapp.data.datasource.local.mars_photos.db.room.dao.MarsPhotoDao
 import com.spaceapp.data.datasource.local.people_in_space.*
+import com.spaceapp.data.datasource.local.people_in_space.db.room.dao.PeopleInSpaceDao
 import com.spaceapp.data.datasource.local.space_news.*
+import com.spaceapp.data.datasource.local.space_news.db.room.dao.SpaceNewsDao
 import com.spaceapp.data.datasource.local.weather_condition.*
+import com.spaceapp.data.datasource.local.weather_condition.db.room.dao.WeatherConditionDao
 import com.spaceapp.data.datasource.local.where_is_the_iss.*
+import com.spaceapp.data.datasource.local.where_is_the_iss.db.room.dao.IssDao
 import com.spaceapp.data.datasource.remote.apod.*
+import com.spaceapp.data.datasource.remote.apod.api.ApodApi
 import com.spaceapp.data.datasource.remote.auth.firebase.*
 import com.spaceapp.data.datasource.remote.auth.hms.*
 import com.spaceapp.data.datasource.remote.mars_photos.*
+import com.spaceapp.data.datasource.remote.mars_photos.api.MarsPhotoApi
 import com.spaceapp.data.datasource.remote.people_in_space.*
+import com.spaceapp.data.datasource.remote.people_in_space.api.PeopleInSpaceRightNowApi
 import com.spaceapp.data.datasource.remote.space_news.*
+import com.spaceapp.data.datasource.remote.space_news.api.SpaceNewsApi
 import com.spaceapp.data.datasource.remote.weather_condition.*
+import com.spaceapp.data.datasource.remote.weather_condition.api.CurrentWeatherApi
 import com.spaceapp.data.datasource.remote.where_is_the_iss.*
-import dagger.Binds
+import com.spaceapp.data.datasource.remote.where_is_the_iss.api.WhereIsTheIssApi
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataSourceModule {
+object DataSourceModule {
 
-    @Binds
     @Singleton
-    abstract fun bindFirebaseAuthDataSource(firebaseAuthDataSourceImpl: FirebaseAuthDataSourceImpl) : FirebaseAuthDataSource
+    @Provides
+    fun provideGMSAuthDataSource(): FirebaseAuthDataSource {
+        return FirebaseAuthDataSourceImpl()
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindHmsAuthDataSource(hmsAuthDataSourceImpl: HmsAuthDataSourceImpl) : HmsAuthDataSource
+    @Provides
+    fun provideHMSAuthDataSource(): HmsAuthDataSource {
+        return HmsAuthDataSourceImpl()
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindLocalApodDataSource(apodLocalDataSourceImpl: ApodLocalDataSourceImpl) : ApodLocalDataSource
+    @Provides
+    fun provideLocalApodDataSource(dao: ApodDao): ApodLocalDataSource {
+        return ApodLocalDataSourceImpl(dao)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindRemoteApodDataSource(apodRemoteDataSourceImpl: ApodRemoteDataSourceImpl) : ApodRemoteDataSource
+    @Provides
+    fun provideRemoteApodDataSource(api: ApodApi): ApodRemoteDataSource {
+        return ApodRemoteDataSourceImpl(api)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindLocalMarsPhotoDataSource(marsPhotosLocalDataSourceImpl: MarsPhotosLocalDataSourceImpl) : MarsPhotosLocalDataSource
+    @Provides
+    fun provideLocalMarsPhotoDataSource(dao: MarsPhotoDao): MarsPhotosLocalDataSource {
+        return MarsPhotosLocalDataSourceImpl(dao)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindRemoteMarsPhotoDataSource(marsPhotoRemoteDataSourceImpl: MarsPhotoRemoteDataSourceImpl) : MarsPhotoRemoteDataSource
+    @Provides
+    fun provideRemoteMarsPhotoDataSource(api: MarsPhotoApi): MarsPhotoRemoteDataSource {
+        return MarsPhotoRemoteDataSourceImpl(api)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindLocalPeopleInSpaceDataSource(peopleInSpaceLocalDataSourceImpl: PeopleInSpaceLocalDataSourceImpl) : PeopleInSpaceLocalDataSource
+    @Provides
+    fun provideLocalPeopleInSpaceDataSource(dao: PeopleInSpaceDao): PeopleInSpaceLocalDataSource {
+        return PeopleInSpaceLocalDataSourceImpl(dao)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindRemotePeopleInSpaceDataSource(peopleInSpaceRemoteDataSourceImpl: PeopleInSpaceRemoteDataSourceImpl) : PeopleInSpaceRemoteDataSource
+    @Provides
+    fun provideRemotePeopleInSpaceDataSource(api: PeopleInSpaceRightNowApi): PeopleInSpaceRemoteDataSource {
+        return PeopleInSpaceRemoteDataSourceImpl(api)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindLocalSpaceNewsDataSource(spaceNewsLocalDataSourceImpl: SpaceNewsLocalDataSourceImpl) : SpaceNewsLocalDataSource
+    @Provides
+    fun provideLocalSpaceNewsDataSource(dao: SpaceNewsDao): SpaceNewsLocalDataSource {
+        return SpaceNewsLocalDataSourceImpl(dao)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindRemoteSpaceNewsDataSource(spaceNewsRemoteDataSourceImpl: SpaceNewsRemoteDataSourceImpl) : SpaceNewsRemoteDataSource
+    @Provides
+    fun provideRemoteSpaceNewsDataSource(api: SpaceNewsApi): SpaceNewsRemoteDataSource {
+        return SpaceNewsRemoteDataSourceImpl(api)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindLocalWeatherConditionDataSource(weatherConditionLocalDataSourceImpl: WeatherConditionLocalDataSourceImpl) : WeatherConditionLocalDataSource
+    @Provides
+    fun provideLocalWeatherConditionDataSource(dao: WeatherConditionDao): WeatherConditionLocalDataSource {
+        return WeatherConditionLocalDataSourceImpl(dao)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindRemoteWeatherConditionDataSource(weatherConditionRemoteDataSourceImpl: WeatherConditionRemoteDataSourceImpl) : WeatherConditionRemoteDataSource
+    @Provides
+    fun provideRemoteWeatherConditionDataSource(api: CurrentWeatherApi): WeatherConditionRemoteDataSource {
+        return WeatherConditionRemoteDataSourceImpl(api)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindLocalWhereIsTheIssDataSource(whereIsTheIssLocalDataSourceImpl: WhereIsTheIssLocalDataSourceImpl) : WhereIsTheIssLocalDataSource
+    @Provides
+    fun provideLocalWhereIsTheIssDataSource(dao: IssDao): WhereIsTheIssLocalDataSource {
+        return WhereIsTheIssLocalDataSourceImpl(dao)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindRemoteWhereIsTheIssDataSource(whereIsTheIssRemoteDataSourceImpl: WhereIsTheIssRemoteDataSourceImpl) : WhereIsTheIssRemoteDataSource
+    @Provides
+    fun provideRemoteWhereIsTheIssDataSource(api: WhereIsTheIssApi): WhereIsTheIssRemoteDataSource {
+        return WhereIsTheIssRemoteDataSourceImpl(api)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindExploreGalaxyDataLocalDataSource(exploreGalaxyLocalDataSourceImpl: ExploreGalaxyLocalDataSourceImpl) : ExploreGalaxyDataSource
+    @Provides
+    fun provideExploreGalaxyDataLocalDataSource(): ExploreGalaxyDataSource {
+        return ExploreGalaxyLocalDataSourceImpl()
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindGlossaryLocalDataSource(glossaryLocalDataSourceImpl: GlossaryLocalDataSourceImpl) : GlossaryLocalDataSource
+    @Provides
+    fun provideGlossaryLocalDataSource(): GlossaryLocalDataSource {
+        return GlossaryLocalDataSourceImpl()
+    }
 }

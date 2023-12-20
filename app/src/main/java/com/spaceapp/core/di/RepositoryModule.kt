@@ -1,42 +1,100 @@
 package com.spaceapp.core.di
 
+import com.spaceapp.data.datasource.local.apod.ApodLocalDataSource
+import com.spaceapp.data.datasource.local.explore_galaxy_data.ExploreGalaxyDataSource
+import com.spaceapp.data.datasource.local.glossary_data.GlossaryLocalDataSource
+import com.spaceapp.data.datasource.local.mars_photos.MarsPhotosLocalDataSource
+import com.spaceapp.data.datasource.local.people_in_space.PeopleInSpaceLocalDataSource
+import com.spaceapp.data.datasource.local.space_news.SpaceNewsLocalDataSource
+import com.spaceapp.data.datasource.local.weather_condition.WeatherConditionLocalDataSource
+import com.spaceapp.data.datasource.local.where_is_the_iss.WhereIsTheIssLocalDataSource
+import com.spaceapp.data.datasource.remote.apod.ApodRemoteDataSource
+import com.spaceapp.data.datasource.remote.auth.firebase.FirebaseAuthDataSource
+import com.spaceapp.data.datasource.remote.auth.hms.HmsAuthDataSource
+import com.spaceapp.data.datasource.remote.mars_photos.MarsPhotoRemoteDataSource
+import com.spaceapp.data.datasource.remote.people_in_space.PeopleInSpaceRemoteDataSource
+import com.spaceapp.data.datasource.remote.space_news.SpaceNewsRemoteDataSource
+import com.spaceapp.data.datasource.remote.weather_condition.WeatherConditionRemoteDataSource
+import com.spaceapp.data.datasource.remote.where_is_the_iss.WhereIsTheIssRemoteDataSource
 import com.spaceapp.data.repository.*
 import com.spaceapp.domain.repository.*
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+object RepositoryModule {
 
-    @Binds
     @Singleton
-    abstract fun bindPeopleInSpaceRepository(peopleInSpaceRepositoryImpl: PeopleInSpaceRepositoryImpl): PeopleInSpaceRepository
+    @Provides
+    fun providePeopleInSpaceRepository(
+        localDataSource: PeopleInSpaceLocalDataSource,
+        remoteDataSource: PeopleInSpaceRemoteDataSource
+    ): PeopleInSpaceRepository {
+        return PeopleInSpaceRepositoryImpl(localDataSource, remoteDataSource)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindSpaceNewsRepository(spaceRepositoryImpl: SpaceNewsRepositoryImpl): SpaceNewsRepository
+    @Provides
+    fun provideSpaceNewsRepository(
+        localDataSource: SpaceNewsLocalDataSource,
+        remoteDataSource: SpaceNewsRemoteDataSource
+    ): SpaceNewsRepository {
+        return SpaceNewsRepositoryImpl(localDataSource, remoteDataSource)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindWeatherConditionRepository(weatherConditionRepositoryImpl: WeatherConditionRepositoryImpl): WeatherConditionRepository
+    @Provides
+    fun provideWeatherConditionRepository(
+        localDataSource: WeatherConditionLocalDataSource,
+        remoteDataSource: WeatherConditionRemoteDataSource
+    ): WeatherConditionRepository {
+        return WeatherConditionRepositoryImpl(localDataSource, remoteDataSource)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindWhereIsTheIssRepository(whereIsTheIssRepositoryImpl: WhereIsTheIssRepositoryImpl): WhereIsTheIssRepository
+    @Provides
+    fun provideWhereIsTheIssRepository(
+        localDataSource: WhereIsTheIssLocalDataSource,
+        remoteDataSource: WhereIsTheIssRemoteDataSource
+    ): WhereIsTheIssRepository {
+        return WhereIsTheIssRepositoryImpl(localDataSource, remoteDataSource)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindNasaRepository(nasaRepositoryImpl: NasaRepositoryImpl): NasaRepository
+    @Provides
+    fun provideNasaRepository(
+        remoteApodDataSource: ApodRemoteDataSource,
+        localApodDataSource: ApodLocalDataSource,
+        localMarsDataSource: MarsPhotosLocalDataSource,
+        remoteMarsDataSource: MarsPhotoRemoteDataSource
+    ): NasaRepository {
+        return NasaRepositoryImpl(
+            remoteApodDataSource,
+            localApodDataSource,
+            localMarsDataSource,
+            remoteMarsDataSource
+        )
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+    @Provides
+    fun provideAuthRepository(
+        gmsAuthDataSource: FirebaseAuthDataSource,
+        hmsAuthDataSource: HmsAuthDataSource
+    ): AuthRepository {
+        return AuthRepositoryImpl(gmsAuthDataSource, hmsAuthDataSource)
+    }
 
-    @Binds
     @Singleton
-    abstract fun bindSpaceObjectsRepository(spaceObjectsRepositoryImpl: SpaceObjectsRepositoryImpl): SpaceObjectsRepository
+    @Provides
+    fun provideSpaceObjectsRepository(
+        exploreGalaxyLocalDataSource: ExploreGalaxyDataSource,
+        glossaryLocalDataSource: GlossaryLocalDataSource
+    ): SpaceObjectsRepository {
+        return SpaceObjectsRepositoryImpl(exploreGalaxyLocalDataSource, glossaryLocalDataSource)
+    }
 }
