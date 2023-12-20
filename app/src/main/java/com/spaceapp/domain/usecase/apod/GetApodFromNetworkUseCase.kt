@@ -5,16 +5,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.repository.ApodRepository
+import com.spaceapp.domain.repository.NasaRepository
 import okio.IOException
 
-class GetApodFromNetworkUseCase @Inject constructor(private val apodRepository: ApodRepository) {
+class GetApodFromNetworkUseCase @Inject constructor(private val nasaRepository: NasaRepository) {
 
     operator fun invoke(): Flow<Result<List<Apod>>> = flow {
         try {
             emit(Result.Loading)
 
-            emit(Result.Success(apodRepository.getApodFromNetwork()))
+            emit(Result.Success(nasaRepository.getApodFromNetwork()))
         } catch (e: IOException) {
             emit(Result.Error(message = "Please check your internet connection."))
         } catch (e: Exception) {

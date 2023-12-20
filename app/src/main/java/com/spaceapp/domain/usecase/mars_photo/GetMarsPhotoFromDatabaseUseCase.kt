@@ -2,19 +2,19 @@ package com.spaceapp.domain.usecase.mars_photo
 
 import com.spaceapp.core.common.Result
 import com.spaceapp.domain.model.mars_photos.MarsPhoto
-import com.spaceapp.domain.repository.MarsPhotosRepository
+import com.spaceapp.domain.repository.NasaRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetMarsPhotoFromDatabaseUseCase @Inject constructor(private val marsPhotoRepository: MarsPhotosRepository) {
+class GetMarsPhotoFromDatabaseUseCase @Inject constructor(private val nasaRepository: NasaRepository) {
 
     operator fun invoke(): Flow<Result<List<MarsPhoto>>> = flow {
         try {
             emit(Result.Loading)
 
-            val data = marsPhotoRepository.getMarsPhotoFromLocal()
+            val data = nasaRepository.getMarsPhotoFromLocal()
 
             if (data.isNotEmpty()) {
                 emit(Result.Success(data = data))

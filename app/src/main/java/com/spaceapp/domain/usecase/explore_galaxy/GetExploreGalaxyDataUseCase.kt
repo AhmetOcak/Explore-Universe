@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.repository.ExploreGalaxyRepository
+import com.spaceapp.domain.repository.SpaceObjectsRepository
 
-class GetExploreGalaxyDataUseCase @Inject constructor(private val exploreGalaxyRepository: ExploreGalaxyRepository) {
+class GetExploreGalaxyDataUseCase @Inject constructor(private val repository: SpaceObjectsRepository) {
 
     suspend operator fun invoke(applicationContext: Context): Flow<Result<SpaceObject>> = flow {
         try {
@@ -17,7 +17,7 @@ class GetExploreGalaxyDataUseCase @Inject constructor(private val exploreGalaxyR
 
             emit(
                 Result.Success(
-                    data = exploreGalaxyRepository.getExploreGalaxyDataFromLocal(
+                    data = repository.getExploreGalaxyDataFromLocal(
                         applicationContext = applicationContext
                     )
                 )

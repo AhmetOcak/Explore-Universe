@@ -1,8 +1,17 @@
 package com.spaceapp.domain.repository
 
+import com.spaceapp.domain.model.apod.Apod
 import com.spaceapp.domain.model.mars_photos.MarsPhoto
 
-interface MarsPhotosRepository {
+interface NasaRepository {
+
+    suspend fun addApodToLocal(apod: Apod)
+
+    suspend fun getApodFromNetwork(): List<Apod>
+
+    suspend fun getApodFromLocal(): List<Apod>
+
+    suspend fun deleteLocalApod()
 
     suspend fun addMarsPhotoToLocal(marsPhoto: MarsPhoto)
 

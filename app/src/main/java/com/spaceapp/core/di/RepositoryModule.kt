@@ -14,41 +14,29 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindExploreGalaxyRepository(exploreGalaxyRepositoryImpl: ExploreGalaxyRepositoryImpl): ExploreGalaxyRepository
+    abstract fun bindPeopleInSpaceRepository(peopleInSpaceRepositoryImpl: PeopleInSpaceRepositoryImpl): PeopleInSpaceRepository
 
     @Binds
     @Singleton
-    abstract fun bindGlossaryRepository(glossaryRepositoryImpl: GlossaryRepositoryImpl): GlossaryRepository
+    abstract fun bindSpaceNewsRepository(spaceRepositoryImpl: SpaceNewsRepositoryImpl): SpaceNewsRepository
 
     @Binds
     @Singleton
-    abstract fun bindApodRepository(apodRepositoryImpl: ApodRepositoryImpl): ApodRepository
+    abstract fun bindWeatherConditionRepository(weatherConditionRepositoryImpl: WeatherConditionRepositoryImpl): WeatherConditionRepository
 
     @Binds
     @Singleton
-    abstract fun bindFirebaseAuthRepository(firebaseAuthRepositoryImpl: FirebaseAuthRepositoryImpl): FirebaseAuthRepository
+    abstract fun bindWhereIsTheIssRepository(whereIsTheIssRepositoryImpl: WhereIsTheIssRepositoryImpl): WhereIsTheIssRepository
 
     @Binds
     @Singleton
-    abstract fun bindHmsAuthRepository(hmsAuthRepositoryImpl: HmsAuthRepositoryImpl): HmsAuthRepository
+    abstract fun bindNasaRepository(nasaRepositoryImpl: NasaRepositoryImpl): NasaRepository
 
     @Binds
     @Singleton
-    abstract fun bindMarsPhotoRepository(marsPhotosRepositoryImpl: MarsPhotosRepositoryImpl) : MarsPhotosRepository
+    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
     @Binds
     @Singleton
-    abstract fun bindPeopleInSpaceRepository(peopleInSpaceRepositoryImpl: PeopleInSpaceRepositoryImpl) : PeopleInSpaceRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindSpaceNewsRepository(spaceRepositoryImpl: SpaceNewsRepositoryImpl) : SpaceNewsRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindWeatherConditionRepository(weatherConditionRepositoryImpl: WeatherConditionRepositoryImpl) : WeatherConditionRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindWhereIsTheIssRepository(whereIsTheIssRepositoryImpl: WhereIsTheIssRepositoryImpl) : WhereIsTheIssRepository
+    abstract fun bindSpaceObjectsRepository(spaceObjectsRepositoryImpl: SpaceObjectsRepositoryImpl): SpaceObjectsRepository
 }

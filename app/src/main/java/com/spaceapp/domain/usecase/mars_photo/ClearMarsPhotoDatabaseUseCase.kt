@@ -1,9 +1,9 @@
 package com.spaceapp.domain.usecase.mars_photo
 
-import com.spaceapp.domain.repository.MarsPhotosRepository
+import com.spaceapp.domain.repository.NasaRepository
 import javax.inject.Inject
 
-class ClearMarsPhotoDatabaseUseCase @Inject constructor(private val marsPhotoRepository: MarsPhotosRepository) {
+class ClearMarsPhotoDatabaseUseCase @Inject constructor(private val nasaRepository: NasaRepository) {
 
-    suspend operator fun invoke() = marsPhotoRepository.deleteLocalMars()
+    suspend operator fun invoke() = nasaRepository.deleteLocalMars()
 }

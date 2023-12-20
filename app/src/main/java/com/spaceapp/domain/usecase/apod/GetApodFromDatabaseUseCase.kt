@@ -5,16 +5,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.repository.ApodRepository
+import com.spaceapp.domain.repository.NasaRepository
 import com.spaceapp.domain.utils.ERROR
 
-class GetApodFromDatabaseUseCase @Inject constructor(private val apodRepository: ApodRepository) {
+class GetApodFromDatabaseUseCase @Inject constructor(private val nasaRepository: NasaRepository) {
 
     operator fun invoke(): Flow<Result<List<Apod>>> = flow {
         try {
             emit(Result.Loading)
 
-            val data = apodRepository.getApodFromLocal()
+            val data = nasaRepository.getApodFromLocal()
 
             if (data.isNotEmpty()) {
                 emit(Result.Success(data = data))
