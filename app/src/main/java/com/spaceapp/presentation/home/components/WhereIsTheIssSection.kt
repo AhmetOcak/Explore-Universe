@@ -19,10 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
 import com.spaceapp.core.common.helper.EpochConverter
-import com.spaceapp.core.designsystem.component.ErrorCard
-import com.spaceapp.core.designsystem.component.Gif
-import com.spaceapp.core.designsystem.component.LoadingSpinner
-import com.spaceapp.core.designsystem.component.Underline
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.Gif
+import com.spaceapp.core.designsystem.components.LoadingSpinner
+import com.spaceapp.core.designsystem.components.Underline
 import com.spaceapp.core.designsystem.theme.TransparentKimberly
 import com.spaceapp.domain.model.where_is_the_iss.Iss
 import com.spaceapp.presentation.home.state.WhereIsTheIssState

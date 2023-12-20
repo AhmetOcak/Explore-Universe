@@ -18,9 +18,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.spaceapp.core.designsystem.component.DefaultTextButton
-import com.spaceapp.presentation.explore_detail.components.OverViewSection
+import com.spaceapp.core.designsystem.components.DefaultTextButton
 import com.spaceapp.presentation.explore_detail.state.CategoryState
 import com.spaceapp.presentation.utils.*
 
@@ -122,6 +122,90 @@ private fun InformationSection(objectName: String?, objectDescription: String?) 
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Center
     )
+}
+
+@Composable
+fun OverViewSection(
+    objectName: String?,
+    objectInfo1: String?,
+    objectInfo2: String?
+) {
+    objectName?.let { SpaceObjectImageType.setSpaceObjectImageType(it) }?.let {
+        OverView(
+            title1 = "radius",
+            info1 = if (objectInfo1 == NoData.noData) NoData.noData else "r = ${objectInfo1}km",
+            title2 = if (isMeteor(objectName)) "velocity" else "distance from sun",
+            info2 = if (isMeteor(objectName)) "${objectInfo2}km/s" else "${objectInfo2}km",
+            objectName = objectName,
+            objectImage = it
+        )
+    }
+}
+
+@Composable
+private fun OverView(
+    title1: String,
+    info1: String,
+    title2: String,
+    info2: String,
+    objectName: String,
+    objectImage: Int,
+    contentScale: ContentScale = ContentScale.Fit
+) {
+    Image(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(320.dp)
+            .clip(RoundedCornerShape(15)),
+        painter = painterResource(id = objectImage),
+        contentDescription = null,
+        contentScale = contentScale
+    )
+    Text(
+        modifier = Modifier.padding(bottom = 32.dp),
+        text = objectName,
+        style = MaterialTheme.typography.headlineLarge.copy(fontSize = 56.sp),
+        textAlign = TextAlign.Center
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = title1,
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                modifier = Modifier.padding(top = 8.dp),
+                text = info1,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(text = title2, style = MaterialTheme.typography.bodySmall)
+            Text(
+                modifier = Modifier.padding(top = 8.dp),
+                text = info2,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+}
+
+private fun isMeteor(name: String): Boolean {
+    return when (name) {
+        SpaceObjects.lenoids -> { true }
+        SpaceObjects.lyrids -> { true }
+        SpaceObjects.orinoids -> { true }
+        SpaceObjects.perseids -> { true }
+        else -> { false }
+    }
 }
 
 private val categories = listOf(

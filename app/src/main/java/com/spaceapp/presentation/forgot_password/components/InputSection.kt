@@ -21,13 +21,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.DefaultButton
-import com.spaceapp.core.designsystem.component.DefaultOutlinedTextField
+import com.spaceapp.core.designsystem.components.DefaultButton
+import com.spaceapp.core.designsystem.components.DefaultOutlinedTextField
 import com.spaceapp.core.designsystem.theme.White
 import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 
 @Composable
-fun PasswordChangeInputSection(
+fun InputSection(
     onVerifyCodeValChange: (String) -> Unit,
     onPasswordValChange: (String) -> Unit,
     onConfirmPasswordValChange: (String) -> Unit,

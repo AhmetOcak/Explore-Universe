@@ -22,7 +22,7 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.AGConnectAuth
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.Gif
+import com.spaceapp.core.designsystem.components.Gif
 import com.spaceapp.core.navigation.NavScreen
 
 @Composable

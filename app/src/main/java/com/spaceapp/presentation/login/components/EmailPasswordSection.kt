@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.DefaultOutlinedTextField
+import com.spaceapp.core.designsystem.components.DefaultOutlinedTextField
 import com.spaceapp.presentation.utils.LoginScreenConstants
 
 @Composable

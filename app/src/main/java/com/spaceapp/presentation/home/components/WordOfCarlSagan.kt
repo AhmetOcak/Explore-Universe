@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.Gif
+import com.spaceapp.core.designsystem.components.Gif
 import com.spaceapp.presentation.utils.HomeScreenConstants
 
 @Composable

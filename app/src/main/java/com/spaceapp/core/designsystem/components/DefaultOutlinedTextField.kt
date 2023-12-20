@@ -1,4 +1,4 @@
-package com.spaceapp.core.designsystem.component
+package com.spaceapp.core.designsystem.components
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions

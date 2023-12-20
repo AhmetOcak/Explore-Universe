@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.spaceapp.core.designsystem.component.ErrorCard
-import com.spaceapp.core.designsystem.component.LoadingSpinner
-import com.spaceapp.core.designsystem.component.Underline
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.LoadingSpinner
+import com.spaceapp.core.designsystem.components.Underline
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 import com.spaceapp.presentation.home.state.PeopleInSpaceState
 import com.spaceapp.presentation.utils.HomeScreenConstants

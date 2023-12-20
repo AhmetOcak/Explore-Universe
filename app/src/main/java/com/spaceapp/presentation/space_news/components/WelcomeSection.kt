@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.LoadingSpinner
+import com.spaceapp.core.designsystem.components.LoadingSpinner
 import com.spaceapp.presentation.space_news.state.WeatherConditionState
 import com.spaceapp.presentation.utils.NewsScreenConstants
 

@@ -27,9 +27,9 @@ import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.ErrorCard
-import com.spaceapp.core.designsystem.component.LoadingSpinner
-import com.spaceapp.core.designsystem.component.Underline
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.LoadingSpinner
+import com.spaceapp.core.designsystem.components.Underline
 import com.spaceapp.core.designsystem.theme.TransparentKimberly
 import com.spaceapp.domain.model.mars_photos.MarsPhoto
 import com.spaceapp.presentation.home.state.MarsPhotoState

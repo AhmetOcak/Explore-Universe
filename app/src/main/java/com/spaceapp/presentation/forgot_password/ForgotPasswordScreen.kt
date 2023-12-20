@@ -1,22 +1,33 @@
 package com.spaceapp.presentation.forgot_password
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.spaceapp.R
 import com.spaceapp.core.common.helper.MobileServiceType
-import com.spaceapp.core.designsystem.component.ErrorCard
-import com.spaceapp.core.designsystem.component.LoadingSpinner
+import com.spaceapp.core.designsystem.components.DefaultButton
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.LoadingSpinner
+import com.spaceapp.core.designsystem.theme.White
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.domain.utils.ERROR
 import com.spaceapp.presentation.forgot_password.components.*
 import com.spaceapp.presentation.forgot_password.state.*
+import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 
 @Composable
 fun ForgotPasswordScreen(
@@ -139,7 +150,7 @@ private fun ChangePasswordSection(
     when (forgotPasswordState) {
         is ForgotPasswordState.Nothing -> {
             if (deviceType == MobileServiceType.HMS) {
-                PasswordChangeInputSection(
+                InputSection(
                     onVerifyCodeValChange = onVerifyCodeValChange,
                     onPasswordValChange = onPasswordValChange,
                     onConfirmPasswordValChange = onConfirmPasswordValChange,
@@ -160,7 +171,7 @@ private fun ChangePasswordSection(
 
         is ForgotPasswordState.Success -> {
             if (deviceType == MobileServiceType.HMS) {
-                PasswordChangeSuccessView(onNavigateLoginScreen = onNavigateLoginScreen)
+                SuccessView(onNavigateLoginScreen = onNavigateLoginScreen)
             } else {
                 SendPasswordResetMail(
                     onNavigateLoginScreen = onNavigateLoginScreen,
@@ -182,6 +193,40 @@ private fun ChangePasswordSection(
 }
 
 @Composable
+private fun SuccessView(onNavigateLoginScreen: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 48.dp),
+            painter = painterResource(id = R.drawable.forgot_password_success),
+            contentDescription = null,
+            contentScale = ContentScale.Fit
+        )
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 24.dp),
+            text = ForgotPasswordScreenConstants.success_message,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall,
+            color = White
+        )
+        DefaultButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onNavigateLoginScreen,
+            contentText = ForgotPasswordScreenConstants.return_login_page
+        )
+    }
+}
+
+@Composable
 private fun ShowInputFieldErrors(forgotPasswordInputFieldState: ForgotPasswordInputFieldState) {
     when (forgotPasswordInputFieldState) {
         is ForgotPasswordInputFieldState.Error -> {
@@ -195,4 +240,3 @@ private fun ShowInputFieldErrors(forgotPasswordInputFieldState: ForgotPasswordIn
         is ForgotPasswordInputFieldState.Nothing -> {}
     }
 }
-

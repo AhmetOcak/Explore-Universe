@@ -34,7 +34,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.BackgroundImage
+import com.spaceapp.core.designsystem.components.BackgroundImage
 import com.spaceapp.core.designsystem.theme.Mirage
 import com.spaceapp.core.designsystem.theme.White500
 import com.spaceapp.presentation.explore.ExploreScreen

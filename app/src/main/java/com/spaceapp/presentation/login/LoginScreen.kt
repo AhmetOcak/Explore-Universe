@@ -4,23 +4,24 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.spaceapp.core.designsystem.component.DefaultButton
-import com.spaceapp.core.designsystem.component.ErrorCard
-import com.spaceapp.core.designsystem.component.LoadingSpinner
+import com.spaceapp.core.designsystem.components.DefaultButton
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.LoadingSpinner
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.presentation.login.components.EmailPasswordSection
-import com.spaceapp.presentation.login.components.ForgotPasswordSection
-import com.spaceapp.presentation.login.components.SignUpSection
-import com.spaceapp.presentation.login.components.TitleSection
 import com.spaceapp.presentation.login.state.LoginInputFieldState
 import com.spaceapp.presentation.login.state.LoginState
 import com.spaceapp.presentation.utils.LoginScreenConstants
@@ -168,7 +169,11 @@ private fun LoginInputSection(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Center
     ) {
-        TitleSection(modifier = Modifier.padding(bottom = 72.dp))
+        Text(
+            modifier = Modifier.padding(bottom = 72.dp),
+            text = LoginScreenConstants.welcome_title,
+            style = MaterialTheme.typography.headlineLarge
+        )
         EmailPasswordSection(
             emailValue = emailValue,
             onEmailValChange = onEmailValChange,
@@ -185,6 +190,45 @@ private fun LoginInputSection(
         )
         SignUpSection(onSignUpClick = onSignUpClick)
         ShowInputFieldErrors(loginInputFieldState = loginInputFieldState)
+    }
+}
+
+@Composable
+fun SignUpSection(onSignUpClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = LoginScreenConstants.no_account_text,
+            style = MaterialTheme.typography.bodyMedium.copy(color = Color(0xBFFFFFFF))
+        )
+        TextButton(onClick = onSignUpClick) {
+            Text(
+                text = LoginScreenConstants.sign_up_Text,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.displayMedium
+            )
+        }
+    }
+}
+
+@Composable
+fun ForgotPasswordSection(onNavigateForgotPasswordScreen: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start,
+    ) {
+        TextButton(
+            onClick = onNavigateForgotPasswordScreen
+        ) {
+            Text(
+                text = LoginScreenConstants.forgot_password,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.displayMedium
+            )
+        }
     }
 }
 

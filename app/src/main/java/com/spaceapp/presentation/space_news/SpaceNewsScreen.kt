@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.core.common.helper.DateFormatter
-import com.spaceapp.core.designsystem.component.ErrorCard
-import com.spaceapp.core.designsystem.component.LoadingSpinner
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.LoadingSpinner
 import com.spaceapp.core.navigation.NavName
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.presentation.space_news.components.LatestNewsCard
