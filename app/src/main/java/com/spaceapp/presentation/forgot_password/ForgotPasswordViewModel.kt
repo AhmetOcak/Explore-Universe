@@ -23,7 +23,9 @@ import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,18 +38,11 @@ class ForgotPasswordViewModel @Inject constructor(
     application: Application
 ) : ViewModel() {
 
-    var device: MobileServiceType = Device.mobileServiceType(context = application.applicationContext)
+    var device: MobileServiceType =
+        Device.mobileServiceType(context = application.applicationContext)
 
-    private val _verifyForgotPasswordState = MutableStateFlow<VerifyForgotPasswordState>(
-        VerifyForgotPasswordState.Nothing)
-    val verifyForgotPasswordState = _verifyForgotPasswordState.asStateFlow()
-
-    private val _forgotPasswordState = MutableStateFlow<ForgotPasswordState>(ForgotPasswordState.Nothing)
-    val forgotPasswordState = _forgotPasswordState.asStateFlow()
-
-    private val _forgotPasswordInputFieldState = MutableStateFlow<ForgotPasswordInputFieldState>(
-        ForgotPasswordInputFieldState.Nothing)
-    val forgotPasswordInputFieldState = _forgotPasswordInputFieldState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     var userEmail by mutableStateOf("")
         private set
@@ -59,7 +54,7 @@ class ForgotPasswordViewModel @Inject constructor(
     var verifyCode by mutableStateOf("")
         private set
 
-    fun verifyForgotPassword() =
+    fun verifyForgotPassword() {
         viewModelScope.launch(Dispatchers.IO) {
             if (checkEmail()) {
                 if (device == MobileServiceType.HMS) {
@@ -68,26 +63,47 @@ class ForgotPasswordViewModel @Inject constructor(
                             userEmail = userEmail,
                             action = VerifyCodeSettings.ACTION_RESET_PASSWORD
                         )
-                    ).collect() { result ->
+                    ).collect { result ->
+                        _uiState.update {
+                            it.copy(verifyForgotPasswordState = VerifyForgotPasswordState.Loading)
+                        }
                         when (result) {
                             is TaskResult.Success -> {
-                                _verifyForgotPasswordState.value = VerifyForgotPasswordState.Loading
                                 result.data
                                     ?.addOnSuccessListener {
-                                        _verifyForgotPasswordState.value = VerifyForgotPasswordState.Success
+                                        _uiState.update {
+                                            it.copy(verifyForgotPasswordState = VerifyForgotPasswordState.Success)
+                                        }
                                     }
-                                    ?.addOnFailureListener {
-                                        _verifyForgotPasswordState.value = VerifyForgotPasswordState.Error(errorMessage = it.message)
+                                    ?.addOnFailureListener { exception ->
+                                        _uiState.update {
+                                            it.copy(
+                                                verifyForgotPasswordState = VerifyForgotPasswordState.Error(
+                                                    errorMessage = exception.message
+                                                )
+                                            )
+                                        }
                                     }
                             }
+
                             is TaskResult.Error -> {
-                                _verifyForgotPasswordState.value = VerifyForgotPasswordState.Error(errorMessage = result.message)
+                                _uiState.update {
+                                    it.copy(
+                                        verifyForgotPasswordState = VerifyForgotPasswordState.Error(
+                                            errorMessage = result.message
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
                 } else {
                     // in firebase we don't verify email when we want reset password
-                    _verifyForgotPasswordState.value = VerifyForgotPasswordState.Success
+                    _uiState.update {
+                        it.copy(
+                            verifyForgotPasswordState = VerifyForgotPasswordState.Success
+                        )
+                    }
 
                     forgotPasswordUseCase.firebaseAuth(
                         forgotPassword = ForgotPassword(
@@ -95,50 +111,87 @@ class ForgotPasswordViewModel @Inject constructor(
                             newPassword = "",
                             verifyCode = ""
                         )
-                    ).collect() { result ->
+                    ).collect { result ->
                         when (result) {
                             is TaskResult.Success -> {
-                                _forgotPasswordState.value = ForgotPasswordState.Loading
+                                _uiState.update {
+                                    it.copy(forgotPasswordState = ForgotPasswordState.Loading)
+                                }
                                 result.data
                                     ?.addOnSuccessListener {
-                                        _forgotPasswordState.value = ForgotPasswordState.Success
+                                        _uiState.update {
+                                            it.copy(forgotPasswordState = ForgotPasswordState.Success)
+                                        }
                                     }
-                                    ?.addOnFailureListener {
-                                        _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
+                                    ?.addOnFailureListener { exception ->
+                                        _uiState.update {
+                                            it.copy(
+                                                forgotPasswordState = ForgotPasswordState.Error(
+                                                    errorMessage = exception.message
+                                                )
+                                            )
+                                        }
                                     }
                             }
+
                             is TaskResult.Error -> {
-                                _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
+                                _uiState.update {
+                                    it.copy(
+                                        forgotPasswordState = ForgotPasswordState.Error(
+                                            errorMessage = result.message
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
 
-    fun changePassword() = viewModelScope.launch(Dispatchers.IO) {
-        if(device == MobileServiceType.HMS) {
-            forgotPasswordUseCase.hmsAuth(
-                forgotPassword = ForgotPassword(
-                    email = userEmail,
-                    newPassword = userPassword,
-                    verifyCode = verifyCode
-                )
-            ).collect() { result ->
-                if (confirmPassword() && checkPassword()) {
-                    when (result) {
-                        is TaskResult.Success -> {
-                            _forgotPasswordState.value = ForgotPasswordState.Loading
-                            result.data
-                                ?.addOnSuccessListener {
-                                    _forgotPasswordState.value = ForgotPasswordState.Success
+    fun changePassword() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (device == MobileServiceType.HMS) {
+                forgotPasswordUseCase.hmsAuth(
+                    forgotPassword = ForgotPassword(
+                        email = userEmail,
+                        newPassword = userPassword,
+                        verifyCode = verifyCode
+                    )
+                ).collect { result ->
+                    if (confirmPassword() && checkPassword()) {
+                        when (result) {
+                            is TaskResult.Success -> {
+                                _uiState.update {
+                                    it.copy(forgotPasswordState = ForgotPasswordState.Loading)
                                 }
-                                ?.addOnFailureListener {
-                                    _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
+                                result.data
+                                    ?.addOnSuccessListener {
+                                        _uiState.update {
+                                            it.copy(forgotPasswordState = ForgotPasswordState.Success)
+                                        }
+                                    }
+                                    ?.addOnFailureListener { exception ->
+                                        _uiState.update {
+                                            it.copy(
+                                                forgotPasswordState = ForgotPasswordState.Error(
+                                                    errorMessage = exception.message
+                                                )
+                                            )
+                                        }
+                                    }
+                            }
+
+                            is TaskResult.Error -> {
+                                _uiState.update {
+                                    it.copy(
+                                        forgotPasswordState = ForgotPasswordState.Error(
+                                            errorMessage = result.message
+                                        )
+                                    )
                                 }
-                        }
-                        is TaskResult.Error -> {
-                            _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
+                            }
                         }
                     }
                 }
@@ -148,27 +201,44 @@ class ForgotPasswordViewModel @Inject constructor(
 
     private fun checkEmail(): Boolean {
         return if (EmailController.emailController(userEmail)) {
-            _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Nothing
+            _uiState.update {
+                it.copy(inputFieldState = ForgotPasswordInputFieldState.Nothing)
+            }
             true
         } else {
-            _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Error(errorMessage = constants.fill_all_fields)
+            _uiState.update {
+                it.copy(
+                    inputFieldState =
+                    ForgotPasswordInputFieldState.Error(errorMessage = constants.fill_all_fields)
+                )
+            }
             false
         }
     }
 
     private fun checkPassword(): Boolean {
         return if (userPassword.length < 8) {
-            _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Error(errorMessage = constants.password_length)
+            _uiState.update {
+                it.copy(
+                    inputFieldState =
+                    ForgotPasswordInputFieldState.Error(errorMessage = constants.password_length)
+                )
+            }
             false
         } else {
-            _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Nothing
+            _uiState.update {
+                it.copy(inputFieldState = ForgotPasswordInputFieldState.Nothing)
+            }
             true
         }
     }
 
     private fun confirmPassword(): Boolean {
         return if (userPassword != userConfirmPassword) {
-            _forgotPasswordInputFieldState.value = ForgotPasswordInputFieldState.Error(errorMessage = SignUpResponseMessages.password_match)
+            _uiState.update {
+                it.copy(inputFieldState =
+                ForgotPasswordInputFieldState.Error(errorMessage = SignUpResponseMessages.password_match))
+            }
             false
         } else {
             true
@@ -193,7 +263,17 @@ class ForgotPasswordViewModel @Inject constructor(
 
     // created for error card
     fun resetState() {
-        _forgotPasswordState.value = ForgotPasswordState.Nothing
-        _verifyForgotPasswordState.value = VerifyForgotPasswordState.Nothing
+        _uiState.update {
+            it.copy(
+                forgotPasswordState = ForgotPasswordState.Nothing,
+                verifyForgotPasswordState = VerifyForgotPasswordState.Nothing
+            )
+        }
     }
 }
+
+data class UiState(
+    val inputFieldState: ForgotPasswordInputFieldState = ForgotPasswordInputFieldState.Nothing,
+    val forgotPasswordState: ForgotPasswordState = ForgotPasswordState.Nothing,
+    val verifyForgotPasswordState: VerifyForgotPasswordState = VerifyForgotPasswordState.Nothing
+)

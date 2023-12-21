@@ -7,10 +7,11 @@ import retrofit2.http.Headers
 
 interface SpaceNewsApi {
 
-    @Headers(
-        "X-RapidAPI-Key: ${BuildConfig.SPACE_NEWS_API_KEY}",
-        "X-RapidAPI-Host: spacefo.p.rapidapi.com"
-    )
-    @GET("/articles")
-    suspend fun getSpaceNews(): List<SpaceNewsDto>
+    @Headers("X-Api-Key: ${BuildConfig.NEWS_API_KEY}")
+    @GET("/v2/everything?q=Space")
+    suspend fun getSpaceNews(): SpaceNewsDto
+
+    @Headers("X-Api-Key: ${BuildConfig.NEWS_API_KEY}")
+    @GET("/v2/everything?q=Technology")
+    suspend fun getLatestScienceNews(): SpaceNewsDto
 }

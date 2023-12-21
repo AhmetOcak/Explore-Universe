@@ -1,8 +1,8 @@
 package com.spaceapp.presentation.login.state
 
 sealed interface LoginState {
-    object Nothing : LoginState
-    object Loading : LoginState
-    object Success : LoginState
+    data object Nothing : LoginState
+    data object Loading : LoginState
+    data object Success : LoginState
     data class Error(val errorMessage: String) : LoginState
 }

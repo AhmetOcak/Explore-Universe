@@ -7,14 +7,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import com.spaceapp.data.datasource.local.db.room.SpaceDatabase
 import com.spaceapp.data.datasource.local.space_news.db.entity.SpaceNewsEntity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class SpaceNewsDaoTest {
 
@@ -43,8 +41,9 @@ class SpaceNewsDaoTest {
             title = "Space Accident",
             image = "space rocket",
             date = "10.10.2020",
-            newsSource = "source",
-            author = "Darth Vader"
+            author = "Darth Vader",
+            newsUrl = "url",
+            sourceName = "source"
         )
 
         dao.addSpaceNews(spaceNewsItem)
@@ -61,16 +60,18 @@ class SpaceNewsDaoTest {
             title = "Space Accident",
             image = "space rocket",
             date = "10.10.2020",
-            newsSource = "source",
-            author = "Darth Vader"
+            author = "Darth Vader",
+            newsUrl = "url",
+            sourceName = "source"
         )
         val spaceNewsItem2 = SpaceNewsEntity(
             id = 2,
             title = "Black Hole",
             image = "black hole",
             date = "22.12.2022",
-            newsSource = "source x",
-            author = "Anakin"
+            author = "Anakin",
+            newsUrl = "url",
+            sourceName = "lol"
         )
 
         dao.addSpaceNews(spaceNewsItem1)
@@ -89,8 +90,9 @@ class SpaceNewsDaoTest {
             title = "Space Accident",
             image = "space rocket",
             date = "10.10.2020",
-            newsSource = "source",
-            author = "Darth Vader"
+            author = "Darth Vader",
+            sourceName = "source",
+            newsUrl = "url"
         )
 
         dao.addSpaceNews(spaceNewsItem)

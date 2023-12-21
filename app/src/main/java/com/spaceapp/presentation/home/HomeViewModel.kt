@@ -5,17 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spaceapp.core.common.Result
+import com.spaceapp.core.common.Response
 import com.spaceapp.domain.usecase.mars_photo.*
 import com.spaceapp.domain.usecase.people_in_space.*
 import com.spaceapp.domain.usecase.where_is_the_iss.*
 import com.spaceapp.presentation.home.state.MarsPhotoState
 import com.spaceapp.presentation.home.state.PeopleInSpaceState
-import com.spaceapp.presentation.home.state.WhereIsTheIssState
+import com.spaceapp.presentation.home.state.IssState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,14 +37,8 @@ class HomeViewModel @Inject constructor(
     private val clearPeopleInSpaceDatabaseUseCase: ClearPeopleInSpaceDatabaseUseCase,
 ) : ViewModel() {
 
-    private val _marsPhotoState = MutableStateFlow<MarsPhotoState>(MarsPhotoState.Loading)
-    val marsPhotoState = _marsPhotoState.asStateFlow()
-
-    private val _whereIsTheIssState = MutableStateFlow<WhereIsTheIssState>(WhereIsTheIssState.Loading)
-    val whereIsTheIssState = _whereIsTheIssState.asStateFlow()
-
-    private val _peopleInSpaceState = MutableStateFlow<PeopleInSpaceState>(PeopleInSpaceState.Loading)
-    val peopleInSpaceState = _peopleInSpaceState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     var isMarsPhotoDataTakenFromDatabase by mutableStateOf(false)
         private set
@@ -50,123 +46,178 @@ class HomeViewModel @Inject constructor(
     var isPeopleInSpaceDataTakenFromDatabase by mutableStateOf(false)
         private set
 
-    fun getLatestMarsPhotosFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
-        getLatestMarsPhotoFromNetworkUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _marsPhotoState.value = MarsPhotoState.Loading
-                }
-                is Result.Success -> {
-                    isMarsPhotoDataTakenFromDatabase = false
-                    _marsPhotoState.value = MarsPhotoState.Success(data = result.data)
-                    if (!result.data.isNullOrEmpty()) {
-                        clearMarsPhotoDatabaseUseCase()
-                        addMarsPhotoToDatabaseUseCase(marsPhoto = result.data[0])
+    fun getLatestMarsPhotosFromNetwork() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getLatestMarsPhotoFromNetworkUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Loading)
+                        }
+                    }
+
+                    is Response.Success -> {
+                        isMarsPhotoDataTakenFromDatabase = false
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Success(data = result.data))
+                        }
+                        if (!result.data.isNullOrEmpty()) {
+                            clearMarsPhotoDatabaseUseCase()
+                            addMarsPhotoToDatabaseUseCase(marsPhoto = result.data[0])
+                        }
+                    }
+
+                    is Response.Error -> {
+                        getMarsPhotosFromDatabase()
                     }
                 }
-                is Result.Error -> {
-                    getMarsPhotosFromDatabase()
-                }
             }
         }
     }
 
-    private fun getMarsPhotosFromDatabase() = viewModelScope.launch(Dispatchers.IO) {
-        getMarsPhotoFromDatabaseUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _marsPhotoState.value = MarsPhotoState.Loading
-                }
-                is Result.Success -> {
-                    isMarsPhotoDataTakenFromDatabase = true
-                    _marsPhotoState.value = MarsPhotoState.Success(data = result.data)
-                }
-                is Result.Error -> {
-                    _marsPhotoState.value = MarsPhotoState.Error(errorMessage = result.message)
-                }
-            }
-        }
-    }
+    private fun getMarsPhotosFromDatabase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getMarsPhotoFromDatabaseUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Loading)
+                        }
+                    }
 
-    fun getIssPositionFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
-        getIssPositionFromNetworkUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _whereIsTheIssState.value = WhereIsTheIssState.Loading
-                }
-                is Result.Success -> {
-                    _whereIsTheIssState.value = WhereIsTheIssState.Success(data = result.data)
-                    if (result.data != null) {
-                        getIssPositionFromDatabaseUseCase().collect() {
-                            when (it) {
-                                is Result.Success -> {
-                                    updateIssPositionUseCase(iss = result.data)
-                                }
-                                is Result.Error -> {
-                                    addIssPositionToDatabaseUseCase(iss = result.data)
-                                }
-                                else -> {}
-                            }
+                    is Response.Success -> {
+                        isMarsPhotoDataTakenFromDatabase = true
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Success(data = result.data))
+                        }
+                    }
+
+                    is Response.Error -> {
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Error(errorMessage = result.message))
                         }
                     }
                 }
-                is Result.Error -> {
-                    getIssPositionFromDatabase()
-                }
             }
         }
     }
 
-    private fun getIssPositionFromDatabase() = viewModelScope.launch(Dispatchers.IO) {
-        getIssPositionFromDatabaseUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _whereIsTheIssState.value = WhereIsTheIssState.Loading
-                }
-                is Result.Success -> {
-                    _whereIsTheIssState.value = WhereIsTheIssState.Success(data = result.data)
-                }
-                is Result.Error -> {
-                    _whereIsTheIssState.value =
-                        WhereIsTheIssState.Error(errorMessage = result.message)
-                }
-            }
-        }
-    }
+    fun getIssPositionFromNetwork() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getIssPositionFromNetworkUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _uiState.update {
+                            it.copy(issState = IssState.Loading)
+                        }
+                    }
 
-    fun getPeopleInSpaceFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
-        getPeopleInSpaceRightNowUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _peopleInSpaceState.value = PeopleInSpaceState.Loading
-                }
-                is Result.Success -> {
-                    isPeopleInSpaceDataTakenFromDatabase = false
-                    _peopleInSpaceState.value = PeopleInSpaceState.Success(data = result.data)
-                    if (!result.data.isNullOrEmpty()) {
-                        clearPeopleInSpaceDatabaseUseCase()
-                        addPeopleInSpaceToDatabaseUseCase(peopleInSpace = result.data[0])
+                    is Response.Success -> {
+                        _uiState.update {
+                            it.copy(issState = IssState.Success(data = result.data))
+                        }
+                        if (result.data != null) {
+                            getIssPositionFromDatabaseUseCase().collect {
+                                when (it) {
+                                    is Response.Success -> {
+                                        updateIssPositionUseCase(iss = result.data)
+                                    }
+
+                                    is Response.Error -> {
+                                        addIssPositionToDatabaseUseCase(iss = result.data)
+                                    }
+
+                                    else -> {}
+                                }
+                            }
+                        }
+                    }
+
+                    is Response.Error -> {
+                        getIssPositionFromDatabase()
                     }
                 }
-                is Result.Error -> {
-                    getPeopleInSpaceFromDatabase()
+            }
+        }
+    }
+
+    private fun getIssPositionFromDatabase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getIssPositionFromDatabaseUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _uiState.update {
+                            it.copy(issState = IssState.Loading)
+                        }
+                    }
+
+                    is Response.Success -> {
+                        _uiState.update {
+                            it.copy(issState = IssState.Success(data = result.data))
+                        }
+                    }
+
+                    is Response.Error -> {
+                        _uiState.update {
+                            it.copy(issState = IssState.Error(errorMessage = result.message))
+                        }
+                    }
                 }
             }
         }
     }
 
-    private fun getPeopleInSpaceFromDatabase() = viewModelScope.launch(Dispatchers.IO) {
-        getPeopleInSpaceFromDatabaseUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _peopleInSpaceState.value = PeopleInSpaceState.Loading
+    fun getPeopleInSpaceFromNetwork() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getPeopleInSpaceRightNowUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Loading)
+                        }
+                    }
+
+                    is Response.Success -> {
+                        isPeopleInSpaceDataTakenFromDatabase = false
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Success(data = result.data))
+                        }
+                        if (!result.data.isNullOrEmpty()) {
+                            clearPeopleInSpaceDatabaseUseCase()
+                            addPeopleInSpaceToDatabaseUseCase(peopleInSpace = result.data[0])
+                        }
+                    }
+
+                    is Response.Error -> {
+                        getPeopleInSpaceFromDatabase()
+                    }
                 }
-                is Result.Success -> {
-                    isPeopleInSpaceDataTakenFromDatabase = true
-                    _peopleInSpaceState.value = PeopleInSpaceState.Success(data = result.data)
-                }
-                is Result.Error -> {
-                    _peopleInSpaceState.value = PeopleInSpaceState.Error(errorMessage = result.message)
+            }
+        }
+    }
+
+    private fun getPeopleInSpaceFromDatabase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getPeopleInSpaceFromDatabaseUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Loading)
+                        }
+                    }
+
+                    is Response.Success -> {
+                        isPeopleInSpaceDataTakenFromDatabase = true
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Success(data = result.data))
+                        }
+                    }
+
+                    is Response.Error -> {
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Error(errorMessage = result.message))
+                        }
+                    }
                 }
             }
         }
@@ -180,8 +231,14 @@ class HomeViewModel @Inject constructor(
 
     // created for splash screen
     fun isDataReady(): Boolean {
-        return _marsPhotoState.value != MarsPhotoState.Loading &&
-                _whereIsTheIssState.value != WhereIsTheIssState.Loading &&
-                _peopleInSpaceState.value != PeopleInSpaceState.Loading
+        return _uiState.value.marsPhotoState != MarsPhotoState.Loading &&
+                _uiState.value.issState != IssState.Loading &&
+                _uiState.value.peopleInSpace != PeopleInSpaceState.Loading
     }
 }
+
+data class UiState(
+    val marsPhotoState: MarsPhotoState = MarsPhotoState.Loading,
+    val peopleInSpace: PeopleInSpaceState = PeopleInSpaceState.Loading,
+    val issState: IssState = IssState.Loading
+)

@@ -1,12 +1,19 @@
 package com.spaceapp.core.navigation
 
-import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.FabPosition
+import androidx.compose.material.Scaffold
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,59 +24,56 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.BackgroundImage
-import com.spaceapp.core.designsystem.component.CustomScaffold
+import com.spaceapp.core.designsystem.components.BackgroundImage
+import com.spaceapp.core.designsystem.theme.Mirage
+import com.spaceapp.core.designsystem.theme.White500
 import com.spaceapp.presentation.explore.ExploreScreen
 import com.spaceapp.presentation.explore_detail.ExploreDetailScreen
 import com.spaceapp.presentation.forgot_password.ForgotPasswordScreen
 import com.spaceapp.presentation.home.HomeScreen
 import com.spaceapp.presentation.home.HomeViewModel
 import com.spaceapp.presentation.login.LoginScreen
-import com.spaceapp.presentation.space_news.NewsScreen
-import com.spaceapp.presentation.space_news_detail.NewsDetailScreen
 import com.spaceapp.presentation.profile.ProfileScreen
 import com.spaceapp.presentation.signup.SignUpScreen
+import com.spaceapp.presentation.space_news.NewsScreen
+import com.spaceapp.presentation.space_news_detail.NewsDetailScreen
 import com.spaceapp.presentation.universe_glossary.UniverseGlossaryScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
     startDestination: String,
     homeViewModel: HomeViewModel
 ) {
-    val navController = rememberAnimatedNavController()
+    val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     var showFab by rememberSaveable { mutableStateOf(false) }
 
-    CustomScaffold(
+    Scaffold(
         modifier = modifier.fillMaxSize(),
+        isFloatingActionButtonDocked = true,
+        floatingActionButtonPosition = FabPosition.Center,
         bottomBar = {
             BottomNavItems.items.forEach { navItem ->
                 if (navItem.route == currentRoute) {
                     showFab = true
 
-                    BottomAppBar(
-                        modifier = modifier.navigationBarsPadding(),
-                        elevation = 8.dp,
-                        cutoutShape = CircleShape
-                    ) {
-                        BottomAppBarContent(
-                            currentRoute = currentRoute,
-                            navController = navController
-                        )
-                    }
+                    MyBottomNavigationBar(
+                        currentRoute = currentRoute,
+                        navController = navController
+                    )
                 }
             }
         },
@@ -83,26 +87,11 @@ fun NavGraph(
             }
         },
         content = {
-            BackgroundImage(
-                modifier = modifier.fillMaxSize(),
-                imageId = R.drawable.background_image
-            )
-            AnimatedNavHost(
+            BackgroundImage(imageId = R.drawable.background_image)
+            NavHost(
                 modifier = modifier.padding(it),
                 navController = navController,
-                startDestination = startDestination,
-                enterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
-                    )
-                },
-                exitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                }
+                startDestination = startDestination
             ) {
                 composable(route = NavScreen.ProfileScreen.route) {
                     ProfileScreen(navController = navController)
@@ -127,12 +116,16 @@ fun NavGraph(
                     NewsDetailScreen()
                     showFab = false
                 }
-                composable(NavScreen.UniverseGlossaryScreen.route) { UniverseGlossaryScreen() }
+                composable(NavScreen.UniverseGlossaryScreen.route) {
+                    UniverseGlossaryScreen()
+                }
                 composable(NavScreen.ExploreScreen.route) {
                     ExploreScreen(navController = navController)
                     showFab = true
                 }
-                composable(NavScreen.HomeScreen.route) { HomeScreen(viewModel = homeViewModel) }
+                composable(NavScreen.HomeScreen.route) {
+                    HomeScreen(viewModel = homeViewModel)
+                }
                 composable(
                     route = NavScreen.ExploreDetailScreen.route,
                     arguments = listOf(
@@ -156,17 +149,22 @@ fun NavGraph(
 
 
 @Composable
-private fun RowScope.BottomAppBarContent(currentRoute: String?, navController: NavController) {
-    BottomNavItems.items.forEachIndexed { index, screen ->
-        if (index != 2) {
-            BottomNavigationItem(
-                selected = currentRoute == screen.route,
-                onClick = {
-                    if (currentRoute == screen.route) {
-                        return@BottomNavigationItem
-                    }
+private fun MyBottomNavigationBar(currentRoute: String?, navController: NavController) {
+    BottomAppBar(
+        modifier = Modifier.navigationBarsPadding(),
+        elevation = 8.dp,
+        cutoutShape = CircleShape,
+        backgroundColor = Mirage
+    ) {
+        BottomNavItems.items.forEachIndexed { index, screen ->
+            if (index != 2) {
+                BottomNavigationItem(
+                    selected = currentRoute == screen.route,
+                    onClick = {
+                        if (currentRoute == screen.route) {
+                            return@BottomNavigationItem
+                        }
 
-                    if (currentRoute != screen.route) {
                         navController.navigate(screen.route) {
                             NavScreen.HomeScreen.route.let {
                                 popUpTo(navController.graph.findStartDestination().id) {
@@ -176,26 +174,39 @@ private fun RowScope.BottomAppBarContent(currentRoute: String?, navController: N
                                 restoreState = true
                             }
                         }
+                    },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = screen.icon),
+                            contentDescription = null,
+                            tint = if (currentRoute == screen.route) {
+                                Color.White
+                            } else {
+                                White500
+                            }
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = screen.labelText,
+                            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp),
+                            color = if (currentRoute == screen.route) {
+                                Color.White
+                            } else {
+                                White500
+                            }
+                        )
                     }
-                },
-                icon = {
-                    Icon(
-                        painter = painterResource(id = screen.icon),
-                        contentDescription = null
-                    )
-                },
-                label = {
-                    Text(text = screen.labelText)
-                }
-            )
-        } else {
-            BottomNavigationItem(
-                selected = false,
-                onClick = {},
-                enabled = false,
-                label = {},
-                icon = {}
-            )
+                )
+            } else {
+                BottomNavigationItem(
+                    selected = false,
+                    onClick = {},
+                    enabled = false,
+                    label = {},
+                    icon = {}
+                )
+            }
         }
     }
 }
@@ -219,7 +230,7 @@ private fun MyFab(modifier: Modifier, currentRoute: String?, navController: NavC
             }
         },
         shape = CircleShape,
-        backgroundColor = Color.Transparent
+        containerColor = Color.Transparent
     ) {
         Image(
             modifier = modifier.size(56.dp),

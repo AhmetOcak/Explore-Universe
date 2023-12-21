@@ -1,29 +1,21 @@
 package com.spaceapp.core.di
 
+import android.app.Application
 import com.spaceapp.data.datasource.remote.location.ILocationManager
-import com.spaceapp.data.datasource.remote.location.gms.LocationTrackerGms
-import com.spaceapp.data.datasource.remote.location.hms.LocationTrackerHms
-import com.spaceapp.data.datasource.remote.location.ILocationTracker
 import com.spaceapp.data.datasource.remote.location.LocationManager
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class LocationModule {
+object LocationModule {
 
-    @Binds
     @Singleton
-    abstract fun bindHmsLocationTracker(defaultLocationTrackerHms: LocationTrackerHms): ILocationTracker
-
-    @Binds
-    @Singleton
-    abstract fun bindGmsLocationTracker(defaultLocationTrackerGms: LocationTrackerGms): ILocationTracker
-
-    @Binds
-    @Singleton
-    abstract fun bindLocationManager(locationManager: LocationManager) : ILocationManager
+    @Provides
+    fun provideLocationManager(application: Application): ILocationManager {
+        return LocationManager(application)
+    }
 }

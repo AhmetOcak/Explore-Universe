@@ -10,11 +10,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
+import com.spaceapp.core.designsystem.theme.TransparentKimberly
 
 @Composable
 fun StatefulGlossaryCard(
@@ -59,7 +61,6 @@ fun StatefulGlossaryCard(
 
 @Composable
 private fun GlossaryCard(
-    modifier: Modifier = Modifier,
     iconOnClick: () -> Unit,
     isOpen: Boolean,
     isExpanded: Boolean,
@@ -70,18 +71,18 @@ private fun GlossaryCard(
     interactionSource: MutableInteractionSource
 ) {
     Card(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = cardOnClick
             ),
-        elevation = 4.dp
+        colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Image(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
                 painter = painterResource(id = imageId),
@@ -89,18 +90,18 @@ private fun GlossaryCard(
                 contentScale = ContentScale.Crop
             )
             Row(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    modifier = modifier.padding(start = 16.dp),
+                    modifier = Modifier.padding(start = 16.dp),
                     text = title,
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.displayMedium
                 )
                 IconButton(onClick = iconOnClick) {
                     Icon(
-                        modifier = modifier.scale(1f, if (isOpen) -1f else 1f),
+                        modifier = Modifier.scale(1f, if (isOpen) -1f else 1f),
                         painter = painterResource(id = R.drawable.ic_baseline_expand_more),
                         contentDescription = null
                     )
@@ -108,13 +109,13 @@ private fun GlossaryCard(
             }
             AnimatedVisibility(visible = isExpanded) {
                 Text(
-                    modifier = modifier.padding(
+                    modifier = Modifier.padding(
                         start = 16.dp,
                         end = 16.dp,
                         bottom = 16.dp
                     ),
                     text = description,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }

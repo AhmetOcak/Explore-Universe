@@ -6,21 +6,17 @@ import com.google.firebase.auth.AuthResult
 import com.huawei.agconnect.auth.SignInResult
 import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.SignUp
-import com.spaceapp.domain.repository.FirebaseAuthRepository
-import com.spaceapp.domain.repository.HmsAuthRepository
+import com.spaceapp.data.repository.auth.AuthRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-class SignUpUseCase @Inject constructor(
-    private val firebaseAuthRepositoryImpl: FirebaseAuthRepository,
-    private val hmsAuthRepositoryImpl: HmsAuthRepository,
-) {
+class SignUpUseCase @Inject constructor(private val authRepository: AuthRepository) {
     fun firebaseAuth(signUp: SignUp) : Flow<TaskResult<gmsTask<AuthResult>>> = flow {
         try {
-            emit(TaskResult.Success(data = firebaseAuthRepositoryImpl.signUp(signUp = signUp)))
+            emit(TaskResult.Success(data = authRepository.signUpGMS(signUp = signUp)))
         } catch (e: IOException) {
             emit(TaskResult.Error(message = ERROR.INTERNET))
         } catch (e: Exception) {
@@ -30,7 +26,7 @@ class SignUpUseCase @Inject constructor(
 
     fun hmsAuth(signUp: SignUp) : Flow<TaskResult<hmsTask<SignInResult>>> = flow {
         try {
-            emit(TaskResult.Success(data = hmsAuthRepositoryImpl.signUp(signUp = signUp)))
+            emit(TaskResult.Success(data = authRepository.signUpHMS(signUp = signUp)))
         } catch (e: IOException) {
             emit(TaskResult.Error(message = ERROR.INTERNET))
         } catch (e: Exception) {

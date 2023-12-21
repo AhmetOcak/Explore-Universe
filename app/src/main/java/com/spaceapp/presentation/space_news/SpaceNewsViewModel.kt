@@ -2,10 +2,11 @@ package com.spaceapp.presentation.space_news
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spaceapp.core.common.Result
+import com.spaceapp.core.common.Response
 import com.spaceapp.domain.usecase.location.GetLocationUseCase
 import com.spaceapp.domain.usecase.space_news.*
 import com.spaceapp.domain.usecase.weather_condition.*
+import com.spaceapp.presentation.space_news.state.ScienceNewsState
 import com.spaceapp.presentation.space_news.state.SpaceNewsState
 import com.spaceapp.presentation.space_news.state.WeatherConditionState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,122 +26,206 @@ class SpaceNewsViewModel @Inject constructor(
     private val getWeatherFromDatabaseUseCase: GetWeatherFromDatabaseUseCase,
     private val addWeatherToDatabaseUseCase: AddWeatherToDatabaseUseCase,
     private val updateWeatherUseCase: UpdateWeatherUseCase,
-    private val getLocationUseCase: GetLocationUseCase
+    private val getLocationUseCase: GetLocationUseCase,
+    private val getLatestScienceNewsFromNetworkUseCase: GetLatestScienceNewsFromNetworkUseCase,
+    private val addScienceNewsToDatabaseUseCase: AddScienceNewsToDatabaseUseCase,
+    private val clearScienceNewsDbUseCase: ClearScienceNewsDbUseCase,
+    private val getScienceNewsFromDb: GetScienceNewsFromLocal
 ) : ViewModel() {
 
     private val _spaceNewsState = MutableStateFlow<SpaceNewsState>(SpaceNewsState.Loading)
     val spaceNewsState = _spaceNewsState.asStateFlow()
 
     private val _weatherConditionState = MutableStateFlow<WeatherConditionState>(
-        WeatherConditionState.Loading)
+        WeatherConditionState.Loading
+    )
+
+    private val _scienceNewsState = MutableStateFlow<ScienceNewsState>(ScienceNewsState.Loading)
+    val scienceNewsState = _scienceNewsState.asStateFlow()
+
     val weatherConditionState = _weatherConditionState.asStateFlow()
 
     init {
+        getScienceNewsFromNetwork()
         getSpaceNewsFromNetwork()
         loadLocation()
     }
 
-    fun getSpaceNewsFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
-        getSpaceNewsFromNetworkUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _spaceNewsState.value = SpaceNewsState.Loading
-                }
-                is Result.Success -> {
-                    _spaceNewsState.value = SpaceNewsState.Success(data = result.data)
-                    if (result.data != null) {
-                        clearLocalSpaceNews()
-                        addSpaceNewsToDatabaseUseCase(spaceNews = result.data)
+    fun getSpaceNewsFromNetwork() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getSpaceNewsFromNetworkUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _spaceNewsState.value = SpaceNewsState.Loading
+                    }
+
+                    is Response.Success -> {
+                        _spaceNewsState.value =
+                            SpaceNewsState.Success(data = result.data?.articles ?: listOf())
+                        if (result.data != null) {
+                            clearLocalSpaceNews()
+                            addSpaceNewsToDatabaseUseCase(spaceNews = result.data)
+                        }
+                    }
+
+                    is Response.Error -> {
+                        getSpaceNewsFromLocal()
                     }
                 }
-                is Result.Error -> {
-                    getSpaceNewsFromLocal()
-                }
             }
         }
     }
 
-    private fun getSpaceNewsFromLocal() = viewModelScope.launch(Dispatchers.IO) {
-        getSpaceNewsFromDatabaseUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _spaceNewsState.value = SpaceNewsState.Loading
-                }
-                is Result.Success -> {
-                    _spaceNewsState.value = SpaceNewsState.Success(data = result.data)
-                }
-                is Result.Error -> {
-                    _spaceNewsState.value = SpaceNewsState.Error(errorMessage = result.message)
-                }
-            }
-        }
-    }
+    private fun getScienceNewsFromNetwork() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getLatestScienceNewsFromNetworkUseCase().collect { response ->
+                when (response) {
+                    is Response.Loading -> {
+                        _scienceNewsState.value = ScienceNewsState.Loading
+                    }
 
-    private fun loadLocation() = viewModelScope.launch(Dispatchers.IO) {
-        getLocationUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> { _weatherConditionState.value = WeatherConditionState.Loading
-                }
-                is Result.Success -> {
-                    if (result.data != null) {
-                        getWeatherFromNetwork(
-                            latitude = result.data.latitude,
-                            longitude = result.data.longitude
-                        )
+                    is Response.Success -> {
+                        _scienceNewsState.value =
+                            ScienceNewsState.Success(response.data?.articles ?: listOf())
+                        if (response.data != null) {
+                            clearScienceNewsDbUseCase()
+                            addScienceNewsToDatabaseUseCase(spaceNews = response.data)
+                        }
+                    }
+
+                    is Response.Error -> {
+                        getScienceNewsFromLocal()
                     }
                 }
-                is Result.Error -> {
-                    _weatherConditionState.value = WeatherConditionState.Nothing
+            }
+        }
+    }
+
+    private fun getSpaceNewsFromLocal() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getSpaceNewsFromDatabaseUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _spaceNewsState.value = SpaceNewsState.Loading
+                    }
+
+                    is Response.Success -> {
+                        _spaceNewsState.value =
+                            SpaceNewsState.Success(data = result.data?.articles ?: listOf())
+                    }
+
+                    is Response.Error -> {
+                        _spaceNewsState.value =
+                            SpaceNewsState.Error(errorMessage = result.message ?: "error")
+                    }
                 }
             }
         }
     }
 
-    private fun getWeatherFromNetwork(latitude: Double, longitude: Double) =
+    private fun getScienceNewsFromLocal() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getScienceNewsFromDb().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _scienceNewsState.value = ScienceNewsState.Loading
+                    }
+
+                    is Response.Success -> {
+                        _scienceNewsState.value =
+                            ScienceNewsState.Success(data = result.data?.articles ?: listOf())
+                    }
+
+                    is Response.Error -> {
+                        _scienceNewsState.value =
+                            ScienceNewsState.Error(errorMessage = result.message ?: "error")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadLocation() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getLocationUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _weatherConditionState.value = WeatherConditionState.Loading
+                    }
+
+                    is Response.Success -> {
+                        if (result.data != null) {
+                            getWeatherFromNetwork(
+                                latitude = result.data.latitude,
+                                longitude = result.data.longitude
+                            )
+                        }
+                    }
+
+                    is Response.Error -> {
+                        _weatherConditionState.value = WeatherConditionState.Nothing
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getWeatherFromNetwork(latitude: Double, longitude: Double) {
         viewModelScope.launch(Dispatchers.IO) {
             getWeatherFromNetworkUseCase(
                 latitude = latitude,
                 longitude = longitude
-            ).collect() { result ->
+            ).collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _weatherConditionState.value = WeatherConditionState.Loading
                     }
-                    is Result.Success -> {
-                        _weatherConditionState.value = WeatherConditionState.Success(data = result.data)
+
+                    is Response.Success -> {
+                        _weatherConditionState.value =
+                            WeatherConditionState.Success(data = result.data)
 
                         if (result.data != null) {
-                            getWeatherFromDatabaseUseCase().collect() {
+                            getWeatherFromDatabaseUseCase().collect {
                                 when (it) {
-                                    is Result.Success -> {
+                                    is Response.Success -> {
                                         updateWeatherUseCase.invoke(weatherCondition = result.data)
                                     }
-                                    is Result.Error -> {
+
+                                    is Response.Error -> {
                                         addWeatherToDatabaseUseCase.invoke(weatherCondition = result.data)
                                     }
+
                                     else -> {}
                                 }
                             }
                         }
                     }
-                    is Result.Error -> {
+
+                    is Response.Error -> {
                         getWeatherFromDatabase()
                     }
                 }
             }
         }
+    }
 
-    private fun getWeatherFromDatabase() = viewModelScope.launch(Dispatchers.IO) {
-        getWeatherFromDatabaseUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _weatherConditionState.value = WeatherConditionState.Loading
-                }
-                is Result.Success -> {
-                    _weatherConditionState.value = WeatherConditionState.Success(data = result.data)
-                }
-                is Result.Error -> {
-                    _weatherConditionState.value = WeatherConditionState.Nothing
+    private fun getWeatherFromDatabase() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getWeatherFromDatabaseUseCase().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _weatherConditionState.value = WeatherConditionState.Loading
+                    }
+
+                    is Response.Success -> {
+                        _weatherConditionState.value =
+                            WeatherConditionState.Success(data = result.data)
+                    }
+
+                    is Response.Error -> {
+                        _weatherConditionState.value = WeatherConditionState.Nothing
+                    }
                 }
             }
         }

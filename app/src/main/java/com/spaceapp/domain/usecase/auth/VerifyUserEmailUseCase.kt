@@ -5,22 +5,18 @@ import com.huawei.hmf.tasks.Task as hmsTask
 import com.huawei.agconnect.auth.VerifyCodeResult
 import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.VerifyEmail
-import com.spaceapp.domain.repository.FirebaseAuthRepository
-import com.spaceapp.domain.repository.HmsAuthRepository
+import com.spaceapp.data.repository.auth.AuthRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-class VerifyUserEmailUseCase @Inject constructor(
-    private val firebaseAuthRepositoryImpl: FirebaseAuthRepository,
-    private val hmsAuthRepositoryImpl: HmsAuthRepository,
-) {
+class VerifyUserEmailUseCase @Inject constructor(private val repository: AuthRepository) {
 
     fun firebaseAuth(): Flow<TaskResult<gmsTask<Void>>> = flow {
         try {
-            emit(TaskResult.Success(data = firebaseAuthRepositoryImpl.verifyEmail()))
+            emit(TaskResult.Success(data = repository.verifyEmailGMS()))
         } catch (e: IOException) {
             emit(TaskResult.Error(message = ERROR.INTERNET))
         } catch (e: Exception) {
@@ -30,7 +26,7 @@ class VerifyUserEmailUseCase @Inject constructor(
 
     fun hmsAuth(verifyEmail: VerifyEmail): Flow<TaskResult<hmsTask<VerifyCodeResult>>> = flow {
         try {
-            emit(TaskResult.Success(data = hmsAuthRepositoryImpl.verifyUserEmail(verifyEmail = verifyEmail)))
+            emit(TaskResult.Success(data = repository.verifyUserEmailHMS(verifyEmail = verifyEmail)))
         } catch (e: IOException) {
             emit(TaskResult.Error(message = ERROR.INTERNET))
         } catch (e: Exception) {

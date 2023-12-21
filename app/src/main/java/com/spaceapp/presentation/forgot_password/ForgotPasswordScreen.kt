@@ -1,102 +1,129 @@
 package com.spaceapp.presentation.forgot_password
 
-import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.spaceapp.R
 import com.spaceapp.core.common.helper.MobileServiceType
-import com.spaceapp.core.designsystem.component.*
+import com.spaceapp.core.designsystem.components.DefaultButton
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.LoadingSpinner
+import com.spaceapp.core.designsystem.theme.White
+import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.domain.utils.ERROR
 import com.spaceapp.presentation.forgot_password.components.*
 import com.spaceapp.presentation.forgot_password.state.*
+import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 
 @Composable
 fun ForgotPasswordScreen(
-    modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: ForgotPasswordViewModel = hiltViewModel()
 ) {
-    val verifyForgotPasswordState by viewModel.verifyForgotPasswordState.collectAsState()
-    val forgotPasswordState by viewModel.forgotPasswordState.collectAsState()
-    val forgotPasswordInputFieldState by viewModel.forgotPasswordInputFieldState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     ForgotPasswordScreenContent(
-        modifier = modifier,
-        navController = navController,
-        viewModel = viewModel,
-        verifyForgotPasswordState = verifyForgotPasswordState,
-        forgotPasswordState = forgotPasswordState,
-        forgotPasswordInputFieldState = forgotPasswordInputFieldState
+        verifyForgotPasswordState = uiState.verifyForgotPasswordState,
+        forgotPasswordState = uiState.forgotPasswordState,
+        forgotPasswordInputFieldState = uiState.inputFieldState,
+        onVerifyCodeValChange = {
+            viewModel.updateVerifyCodeField(it)
+        },
+        onPasswordValChange = {
+            viewModel.updateUserPasswordField(it)
+        },
+        onConfirmPasswordValChange = {
+            viewModel.updateUserConfirmPasswordField(it)
+        },
+        onSaveNewPasswordClick = viewModel::changePassword,
+        verifyValue = viewModel.verifyCode,
+        passwordValue = viewModel.userPassword,
+        confirmPasswordValue = viewModel.userConfirmPassword,
+        onNavigateLoginScreen = {
+            navController.navigate(NavScreen.LoginScreen.route) {
+                popUpTo(0)
+            }
+        },
+        deviceType = viewModel.device,
+        emailValue = viewModel.userEmail,
+        onEmailValChange = {
+            viewModel.updateUserEmailField(it)
+        },
+        onSendCodeClick = viewModel::verifyForgotPassword,
+        resetState = viewModel::resetState
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun ForgotPasswordScreenContent(
-    modifier: Modifier,
-    navController: NavController,
-    viewModel: ForgotPasswordViewModel,
     verifyForgotPasswordState: VerifyForgotPasswordState,
     forgotPasswordState: ForgotPasswordState,
-    forgotPasswordInputFieldState: ForgotPasswordInputFieldState
-) {
-    Scaffold(modifier = modifier) {
-        BackgroundImage(
-            modifier = modifier,
-            imageId = R.drawable.background_image
-        )
-        ForgotPasswordSection(
-            modifier = modifier,
-            navController = navController,
-            viewModel = viewModel,
-            verifyForgotPasswordState = verifyForgotPasswordState,
-            forgotPasswordState = forgotPasswordState,
-            forgotPasswordInputFieldState = forgotPasswordInputFieldState
-        )
-    }
-}
-
-@Composable
-private fun ForgotPasswordSection(
-    modifier: Modifier,
-    navController: NavController,
-    viewModel: ForgotPasswordViewModel,
-    verifyForgotPasswordState: VerifyForgotPasswordState,
-    forgotPasswordState: ForgotPasswordState,
-    forgotPasswordInputFieldState: ForgotPasswordInputFieldState
+    forgotPasswordInputFieldState: ForgotPasswordInputFieldState,
+    onVerifyCodeValChange: (String) -> Unit,
+    onPasswordValChange: (String) -> Unit,
+    onConfirmPasswordValChange: (String) -> Unit,
+    onSaveNewPasswordClick: () -> Unit,
+    verifyValue: String,
+    passwordValue: String,
+    confirmPasswordValue: String,
+    onNavigateLoginScreen: () -> Unit,
+    deviceType: MobileServiceType,
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    onSendCodeClick: () -> Unit,
+    resetState: () -> Unit
 ) {
     when (verifyForgotPasswordState) {
         is VerifyForgotPasswordState.Nothing -> {
-            SendVerifyCode(modifier = modifier, viewModel = viewModel)
+            SendVerifyCode(
+                emailValue = emailValue,
+                onEmailValChange = onEmailValChange,
+                onSendCodeClick = onSendCodeClick
+            )
             ShowInputFieldErrors(forgotPasswordInputFieldState = forgotPasswordInputFieldState)
         }
+
         is VerifyForgotPasswordState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxSize())
+            LoadingSpinner(modifier = Modifier.fillMaxSize())
         }
+
         is VerifyForgotPasswordState.Success -> {
             ChangePasswordSection(
-                modifier = modifier,
                 forgotPasswordState = forgotPasswordState,
-                viewModel = viewModel,
-                navController = navController,
-                forgotPasswordInputFieldState = forgotPasswordInputFieldState
+                forgotPasswordInputFieldState = forgotPasswordInputFieldState,
+                onVerifyCodeValChange = onVerifyCodeValChange,
+                onPasswordValChange = onPasswordValChange,
+                onConfirmPasswordValChange = onConfirmPasswordValChange,
+                onSaveNewPasswordClick = onSaveNewPasswordClick,
+                verifyValue = verifyValue,
+                passwordValue = passwordValue,
+                confirmPasswordValue = confirmPasswordValue,
+                onNavigateLoginScreen = onNavigateLoginScreen,
+                deviceType = deviceType,
+                resetState = resetState
             )
         }
+
         is VerifyForgotPasswordState.Error -> {
-            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 ErrorCard(
                     errorDescription = verifyForgotPasswordState.errorMessage ?: ERROR.UNKNOWN,
                     isButtonAvailable = true,
-                    onClick = { viewModel.resetState() }
+                    onClick = resetState
                 )
             }
         }
@@ -105,44 +132,95 @@ private fun ForgotPasswordSection(
 
 @Composable
 private fun ChangePasswordSection(
-    modifier: Modifier,
     forgotPasswordState: ForgotPasswordState,
-    viewModel: ForgotPasswordViewModel,
-    navController: NavController,
-    forgotPasswordInputFieldState: ForgotPasswordInputFieldState
+    forgotPasswordInputFieldState: ForgotPasswordInputFieldState,
+    onVerifyCodeValChange: (String) -> Unit,
+    onPasswordValChange: (String) -> Unit,
+    onConfirmPasswordValChange: (String) -> Unit,
+    onSaveNewPasswordClick: () -> Unit,
+    verifyValue: String,
+    passwordValue: String,
+    confirmPasswordValue: String,
+    onNavigateLoginScreen: () -> Unit,
+    deviceType: MobileServiceType,
+    resetState: () -> Unit
 ) {
     when (forgotPasswordState) {
         is ForgotPasswordState.Nothing -> {
-            if (viewModel.device == MobileServiceType.HMS) {
-                PasswordChangeInputSection(modifier = modifier, viewModel = viewModel)
+            if (deviceType == MobileServiceType.HMS) {
+                InputSection(
+                    onVerifyCodeValChange = onVerifyCodeValChange,
+                    onPasswordValChange = onPasswordValChange,
+                    onConfirmPasswordValChange = onConfirmPasswordValChange,
+                    onSaveNewPasswordClick = onSaveNewPasswordClick,
+                    verifyValue = verifyValue,
+                    passwordValue = passwordValue,
+                    confirmPasswordValue = confirmPasswordValue
+                )
                 ShowInputFieldErrors(forgotPasswordInputFieldState = forgotPasswordInputFieldState)
             } else {
-                LoadingSpinner(modifier = modifier.fillMaxSize())
+                LoadingSpinner(modifier = Modifier.fillMaxSize())
             }
         }
+
         is ForgotPasswordState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxSize())
+            LoadingSpinner(modifier = Modifier.fillMaxSize())
         }
+
         is ForgotPasswordState.Success -> {
-            if (viewModel.device == MobileServiceType.HMS) {
-                PasswordChangeSuccessView(modifier = modifier, navController = navController)
+            if (deviceType == MobileServiceType.HMS) {
+                SuccessView(onNavigateLoginScreen = onNavigateLoginScreen)
             } else {
                 SendPasswordResetMail(
-                    modifier = modifier,
-                    viewModel = viewModel,
-                    navController = navController
+                    onNavigateLoginScreen = onNavigateLoginScreen,
+                    deviceType = deviceType
                 )
             }
         }
+
         is ForgotPasswordState.Error -> {
-            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 ErrorCard(
                     errorDescription = forgotPasswordState.errorMessage ?: ERROR.UNKNOWN,
                     isButtonAvailable = true,
-                    onClick = { viewModel.resetState() }
+                    onClick = resetState
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun SuccessView(onNavigateLoginScreen: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 48.dp),
+            painter = painterResource(id = R.drawable.forgot_password_success),
+            contentDescription = null,
+            contentScale = ContentScale.Fit
+        )
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 24.dp),
+            text = ForgotPasswordScreenConstants.success_message,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall,
+            color = White
+        )
+        DefaultButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onNavigateLoginScreen,
+            contentText = ForgotPasswordScreenConstants.return_login_page
+        )
     }
 }
 
@@ -156,7 +234,7 @@ private fun ShowInputFieldErrors(forgotPasswordInputFieldState: ForgotPasswordIn
                 Toast.LENGTH_SHORT
             ).show()
         }
+
         is ForgotPasswordInputFieldState.Nothing -> {}
     }
 }
-

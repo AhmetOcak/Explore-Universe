@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,17 +21,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.DefaultButton
-import com.spaceapp.core.designsystem.component.DefaultOutlinedTextField
+import com.spaceapp.core.designsystem.components.DefaultButton
+import com.spaceapp.core.designsystem.components.DefaultOutlinedTextField
 import com.spaceapp.core.designsystem.theme.White
-import com.spaceapp.presentation.forgot_password.ForgotPasswordViewModel
 import com.spaceapp.presentation.utils.ForgotPasswordScreenConstants
 
 // For HMS
 @Composable
-fun SendVerifyCode(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
+fun SendVerifyCode(
+    emailValue: String,
+    onEmailValChange: (String) -> Unit,
+    onSendCodeClick: () -> Unit
+) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .imePadding()
             .navigationBarsPadding()
@@ -41,7 +44,7 @@ fun SendVerifyCode(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 48.dp),
             painter = painterResource(id = R.drawable.forgot_password_main),
@@ -49,31 +52,29 @@ fun SendVerifyCode(modifier: Modifier, viewModel: ForgotPasswordViewModel) {
             contentScale = ContentScale.Fit
         )
         Text(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 24.dp),
             text = ForgotPasswordScreenConstants.enter_email,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.h3,
+            style = MaterialTheme.typography.headlineSmall,
             color = White
         )
         DefaultOutlinedTextField(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 36.dp),
-            onValueChanged = { viewModel.updateUserEmailField(newValue = it) },
+            onValueChanged = onEmailValChange,
             labelText = ForgotPasswordScreenConstants.email,
             keyboardType = KeyboardType.Email,
             leadingIconId = R.drawable.ic_baseline_email,
-            value = viewModel.userEmail
+            value = emailValue
         )
         DefaultButton(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
-            onClick = {
-                viewModel.verifyForgotPassword()
-            },
+            onClick = onSendCodeClick,
             contentText = ForgotPasswordScreenConstants.send_email_hms
         )
     }

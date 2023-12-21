@@ -1,6 +1,6 @@
 package com.spaceapp.core.designsystem.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -13,45 +13,57 @@ val fonts = FontFamily(
 )
 
 val Typography = Typography(
-    h1 = TextStyle(
+    headlineLarge = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
         fontSize = 28.sp,
-        letterSpacing = 1.15.sp
+        letterSpacing = 1.15.sp,
+        color = White
     ),
-    h2 = TextStyle(
+    headlineMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Light,
         fontSize = 22.sp,
-        letterSpacing = 1.15.sp
+        letterSpacing = 1.15.sp,
+        color = White
     ),
-    h3 = TextStyle(
+    headlineSmall = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
-        letterSpacing = 1.15.sp
+        letterSpacing = 1.15.sp,
+        color = White
     ),
-    h4 = TextStyle(
+    displayMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
-        letterSpacing = 1.15.sp
+        letterSpacing = 1.15.sp,
+        color = White
     ),
-    body1 = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 0.sp,
+        color = White
     ),
-    body2 = TextStyle(
+    bodySmall = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
-        letterSpacing = 1.15.sp
-    ) ,
-    button = TextStyle(
+        letterSpacing = 1.15.sp,
+        color = White
+    ),
+    labelMedium = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
-        letterSpacing = 1.15.sp
+        letterSpacing = 1.15.sp,
+        color = White
+    ),
+    labelSmall = TextStyle(
+        fontFamily = fonts,
+        fontSize = 10.sp,
+        color = White
     )
 )

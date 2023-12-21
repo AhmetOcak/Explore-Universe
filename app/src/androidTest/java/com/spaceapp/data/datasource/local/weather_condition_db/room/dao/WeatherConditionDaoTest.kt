@@ -8,14 +8,12 @@ import com.google.common.truth.Truth.assertThat
 import com.spaceapp.data.datasource.local.db.room.SpaceDatabase
 import com.spaceapp.data.datasource.local.weather_condition.db.entity.WeatherConditionEntity
 import com.spaceapp.data.datasource.local.weather_condition.db.room.dao.WeatherConditionDao
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class WeatherConditionDaoTest {
 

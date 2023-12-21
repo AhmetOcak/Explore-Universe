@@ -55,7 +55,7 @@ object AppModule {
     @Provides
     fun provideSpaceNewsApi(): SpaceNewsApi {
         return Retrofit.Builder()
-            .baseUrl("https://spacefo.p.rapidapi.com")
+            .baseUrl("https://newsapi.org")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SpaceNewsApi::class.java)
@@ -83,7 +83,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideFusedLocationProviderClient(application: Application): FusedLocationProviderClient {
+    fun provideFusedLocationProviderClientHMS(application: Application): FusedLocationProviderClient {
         return LocationServices.getFusedLocationProviderClient(application)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFusedLocationProviderClientGMS(application: Application): com.google.android.gms.location.FusedLocationProviderClient {
+        return com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(application)
     }
 }

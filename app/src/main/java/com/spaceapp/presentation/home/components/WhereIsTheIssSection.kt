@@ -8,9 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,58 +19,54 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.spaceapp.R
 import com.spaceapp.core.common.helper.EpochConverter
-import com.spaceapp.core.designsystem.component.ErrorCard
-import com.spaceapp.core.designsystem.component.Gif
-import com.spaceapp.core.designsystem.component.LoadingSpinner
-import com.spaceapp.core.designsystem.component.Underline
-import com.spaceapp.domain.model.where_is_the_iss.Iss
-import com.spaceapp.presentation.home.HomeViewModel
-import com.spaceapp.presentation.home.state.WhereIsTheIssState
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.Gif
+import com.spaceapp.core.designsystem.components.LoadingSpinner
+import com.spaceapp.core.designsystem.components.Underline
+import com.spaceapp.core.designsystem.theme.TransparentKimberly
+import com.spaceapp.presentation.home.state.IssState
 import com.spaceapp.presentation.utils.HomeScreenConstants
 
 @Composable
 fun WhereIsTheIssSection(
-    modifier: Modifier,
-    whereIsTheIssState: WhereIsTheIssState,
-    viewModel: HomeViewModel
+    issState: IssState,
+    retryIssPositionInfo: () -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(top = 32.dp, start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = HomeScreenConstants.where_is_the_iss_title,
-            style = MaterialTheme.typography.h1
+            style = MaterialTheme.typography.headlineLarge
         )
-        when (whereIsTheIssState) {
-            is WhereIsTheIssState.Loading -> {
+        when (issState) {
+            is IssState.Loading -> {
                 LoadingSpinner(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 48.dp)
                 )
             }
-            is WhereIsTheIssState.Success -> {
+            is IssState.Success -> {
                 Card(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp)
+                        .padding(top = 16.dp),
+                    colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
                 ) {
-                    IssPositionInfo(
-                        modifier = modifier,
-                        data = whereIsTheIssState.data!!,
-                    )
+                    IssPositionInfo(data = issState.data!!)
                 }
             }
-            is WhereIsTheIssState.Error -> {
+            is IssState.Error -> {
                 ErrorCard(
-                    errorDescription = whereIsTheIssState.errorMessage!!,
+                    errorDescription = issState.errorMessage!!,
                     paddingValues = PaddingValues(top = 16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
-                    onClick = { viewModel.getIssPositionFromNetwork() }
+                    onClick = retryIssPositionInfo
                 )
             }
         }
@@ -77,33 +74,33 @@ fun WhereIsTheIssSection(
 }
 
 @Composable
-private fun IssPositionInfo(modifier: Modifier, data: Iss) {
+private fun IssPositionInfo(data: com.spaceapp.domain.model.where_is_the_iss.Iss) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.SpaceAround
     ) {
         Gif(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp),
             gifId = R.drawable.iss
         )
         Text(
-            modifier = modifier.padding(start = 16.dp, top = 16.dp),
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp),
             text = EpochConverter.readTimestamp(data.date),
-            style = MaterialTheme.typography.h4
+            style = MaterialTheme.typography.displayMedium
         )
         Text(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp),
             text = "The ISS is ${data.altitude.toInt()}km above the Earth",
-            style = MaterialTheme.typography.body1,
+            style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceAround,
@@ -112,25 +109,25 @@ private fun IssPositionInfo(modifier: Modifier, data: Iss) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = HomeScreenConstants.iss_speed,
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.displayMedium
                 )
                 Underline(width = 64.dp)
                 Text(
-                    modifier = modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = 8.dp),
                     text = "${data.velocity.toInt()}km",
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = HomeScreenConstants.iss_visibility,
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.displayMedium
                 )
                 Underline(width = 64.dp)
                 Text(
-                    modifier = modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = 8.dp),
                     text = data.visibility,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }

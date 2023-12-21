@@ -1,5 +1,6 @@
 package com.spaceapp.data.datasource.local.space_news
 
+import com.spaceapp.data.datasource.local.space_news.db.entity.ScienceNewsEntity
 import com.spaceapp.data.datasource.local.space_news.db.entity.SpaceNewsEntity
 
 interface SpaceNewsLocalDataSource {
@@ -8,5 +9,11 @@ interface SpaceNewsLocalDataSource {
 
     suspend fun getSpaceNews() : List<SpaceNewsEntity>
 
-    suspend fun deleteAll()
+    suspend fun deleteAllSpaceNews()
+
+    suspend fun addScienceNews(spaceNewsEntity: ScienceNewsEntity)
+
+    suspend fun getScienceNews() : List<ScienceNewsEntity>
+
+    suspend fun deleteAllScienceNews()
 }

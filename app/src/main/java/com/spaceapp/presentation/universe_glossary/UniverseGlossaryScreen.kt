@@ -1,25 +1,29 @@
 package com.spaceapp.presentation.universe_glossary
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.spaceapp.R
-import com.spaceapp.core.designsystem.component.*
+import com.spaceapp.core.designsystem.components.DefaultOutlinedTextField
+import com.spaceapp.core.designsystem.components.ErrorCard
+import com.spaceapp.core.designsystem.components.LoadingSpinner
 import com.spaceapp.domain.model.glossary_data.GlossaryContent
-import com.spaceapp.presentation.universe_glossary.components.SearchField
-import com.spaceapp.presentation.universe_glossary.components.SearchResultEmpty
 import com.spaceapp.presentation.universe_glossary.components.StatefulGlossaryCard
-import com.spaceapp.presentation.universe_glossary.state.GlossaryState
 import com.spaceapp.presentation.utils.GlossaryImageType
 import com.spaceapp.presentation.utils.UniverseGlossaryScreenConstants
 
@@ -30,78 +34,101 @@ fun UniverseGlossaryScreen(
     modifier: Modifier = Modifier,
     viewModel: UniverseGlossaryViewModel = hiltViewModel()
 ) {
-    val glossaryState by viewModel.glossaryState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val activity = LocalContext.current as Activity
     OnBackPressed(activity = activity)
 
     UniverseGlossaryContent(
         modifier = modifier,
-        glossaryState = glossaryState,
-        viewModel = viewModel
+        glossaryState = uiState.glossaryState,
+        searchValue = viewModel.search,
+        onSearchValChange = {
+            viewModel.updateSearchField(it)
+        }
     )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun UniverseGlossaryContent(
     modifier: Modifier,
     glossaryState: GlossaryState,
-    viewModel: UniverseGlossaryViewModel
+    searchValue: String,
+    onSearchValChange: (String) -> Unit
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) {
-        BackgroundImage(modifier = modifier.fillMaxSize(), imageId = R.drawable.background_image)
-        Column(
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(top = 16.dp)
+            .statusBarsPadding(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            modifier = modifier.padding(start = 16.dp, end = 16.dp),
+            text = constants.title,
+            style = MaterialTheme.typography.headlineLarge
+        )
+        DefaultOutlinedTextField(
             modifier = modifier
-                .fillMaxSize()
-                .padding(top = 16.dp)
-                .statusBarsPadding(),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                modifier = modifier.padding(start = 16.dp, end = 16.dp),
-                text = constants.title,
-                style = MaterialTheme.typography.h1
-            )
-            SearchField(
-                modifier = modifier,
-                viewModel = viewModel
-            )
-            when (glossaryState) {
-                is GlossaryState.Loading -> {
-                    LoadingSpinner(modifier = modifier.fillMaxSize())
+                .fillMaxWidth()
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+            onValueChanged = onSearchValChange,
+            labelText = UniverseGlossaryScreenConstants.search_field_text,
+            keyboardType = KeyboardType.Text,
+            leadingIconId = R.drawable.ic_baseline_search,
+            value = searchValue
+        )
+        when (glossaryState) {
+            is GlossaryState.Loading -> {
+                LoadingSpinner(modifier = modifier.fillMaxSize())
+            }
+
+            is GlossaryState.Success -> {
+                glossaryState.data?.glossary?.let { list ->
+                    TermList(
+                        filteredGlossaryList = list.filter {
+                            it.name.contains(
+                                searchValue,
+                                ignoreCase = true
+                            )
+                        }
+                    )
                 }
-                is GlossaryState.Success -> {
-                    glossaryState.data?.glossary?.let { list ->
-                        TermList(
-                            modifier = modifier,
-                            filteredGlossaryList = list.filter {
-                                it.name.contains(
-                                    viewModel.search,
-                                    ignoreCase = true
-                                )
-                            }
-                        )
-                    }
-                }
-                is GlossaryState.Error -> {
-                    ErrorCard(errorDescription = glossaryState.errorMessage.toString())
-                }
+            }
+
+            is GlossaryState.Error -> {
+                ErrorCard(errorDescription = glossaryState.errorMessage.toString())
             }
         }
     }
 }
 
 @Composable
-private fun TermList(
-    modifier: Modifier,
-    filteredGlossaryList: List<GlossaryContent>
-) {
+private fun TermList(filteredGlossaryList: List<GlossaryContent>) {
     if (filteredGlossaryList.isEmpty()) {
-        SearchResultEmpty(modifier = modifier)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                modifier = Modifier.size(72.dp),
+                painter = painterResource(id = R.drawable.empty_list),
+                contentDescription = null,
+                contentScale = ContentScale.Fit
+            )
+            Text(
+                modifier = Modifier.padding(top = 16.dp),
+                text = UniverseGlossaryScreenConstants.no_result,
+                style = MaterialTheme.typography.headlineSmall,
+                textAlign = TextAlign.Center
+            )
+        }
     } else {
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
             contentPadding = PaddingValues(vertical = 32.dp),
