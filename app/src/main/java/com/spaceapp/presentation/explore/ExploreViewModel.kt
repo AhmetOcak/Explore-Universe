@@ -68,9 +68,9 @@ class ExploreViewModel @Inject constructor(
         }
     }
 
-    fun getExploreGalaxyData(applicationContext: Context) =
+    private fun getExploreGalaxyData(applicationContext: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            getExploreGalaxyDataUseCase(applicationContext = applicationContext).collect() { result ->
+            getExploreGalaxyDataUseCase(applicationContext = applicationContext).collect { result ->
                 when (result) {
                     is Result.Loading -> {
                         _exploreGalaxyState.value = ExploreGalaxyState.Loading
@@ -84,38 +84,44 @@ class ExploreViewModel @Inject constructor(
                 }
             }
         }
+    }
 
-    fun getApodFromNetwork() = viewModelScope.launch(Dispatchers.IO) {
-        getApodFromNetworkUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _apodState.value = ApodState.Loading
-                }
-                is Result.Success -> {
-                    _apodState.value = ApodState.Success(apodData = result.data)
-                    if (result.data != null) {
-                        clearLocalApodUseCase()
-                        addApodToDatabaseUseCase(apod = result.data)
+
+    private fun getApodFromNetwork() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getApodFromNetworkUseCase().collect { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        _apodState.value = ApodState.Loading
                     }
-                }
-                is Result.Error -> {
-                    getApodFromLocal()
+                    is Result.Success -> {
+                        _apodState.value = ApodState.Success(apodData = result.data)
+                        if (result.data != null) {
+                            clearLocalApodUseCase()
+                            addApodToDatabaseUseCase(apod = result.data)
+                        }
+                    }
+                    is Result.Error -> {
+                        getApodFromLocal()
+                    }
                 }
             }
         }
     }
 
-    fun getApodFromLocal() = viewModelScope.launch(Dispatchers.IO) {
-        getApodFromLocalUseCase().collect() { result ->
-            when (result) {
-                is Result.Loading -> {
-                    _apodState.value = ApodState.Loading
-                }
-                is Result.Success -> {
-                    _apodState.value = ApodState.Success(apodData = result.data)
-                }
-                is Result.Error -> {
-                    _apodState.value = ApodState.Error(errorMessage = result.message)
+    private fun getApodFromLocal() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getApodFromLocalUseCase().collect { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        _apodState.value = ApodState.Loading
+                    }
+                    is Result.Success -> {
+                        _apodState.value = ApodState.Success(apodData = result.data)
+                    }
+                    is Result.Error -> {
+                        _apodState.value = ApodState.Error(errorMessage = result.message)
+                    }
                 }
             }
         }

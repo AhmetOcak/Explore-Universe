@@ -42,55 +42,57 @@ class LoginViewModel @Inject constructor(
     var password by mutableStateOf("")
         private set
 
-    fun login() = viewModelScope.launch(Dispatchers.IO) {
-        if (checkLoginInfo()) {
-            if(device == MobileServiceType.HMS) {
-                loginUseCase.hmsAuth(
-                    login = Login(
-                        userEmail = email,
-                        userPassword = password
-                    )
-                ).collect() { result ->
-                    when (result) {
-                        is TaskResult.Success -> {
-                            _loginState.value = LoginState.Loading
-                            result.data
-                                ?.addOnSuccessListener {
-                                    _loginState.value = LoginState.Success
-                                }
-                                ?.addOnFailureListener {
-                                    _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
-                                }
-                        }
-                        is TaskResult.Error -> {
-                            _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+    fun login() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (checkLoginInfo()) {
+                if(device == MobileServiceType.HMS) {
+                    loginUseCase.hmsAuth(
+                        login = Login(
+                            userEmail = email,
+                            userPassword = password
+                        )
+                    ).collect { result ->
+                        when (result) {
+                            is TaskResult.Success -> {
+                                _loginState.value = LoginState.Loading
+                                result.data
+                                    ?.addOnSuccessListener {
+                                        _loginState.value = LoginState.Success
+                                    }
+                                    ?.addOnFailureListener {
+                                        _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
+                                    }
+                            }
+                            is TaskResult.Error -> {
+                                _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                            }
                         }
                     }
-                }
-            } else {
-                loginUseCase.firebaseAuth(
-                    login = Login(
-                        userEmail = email,
-                        userPassword = password
-                    )
-                ).collect() { result ->
-                    when (result) {
-                        is TaskResult.Success -> {
-                            _loginState.value = LoginState.Loading
-                            result.data
-                                ?.addOnSuccessListener {
-                                    if (checkUserEmailIsVerified()) {
-                                        _loginState.value = LoginState.Success
-                                    } else {
-                                        _loginState.value = LoginState.Error(errorMessage = SignUpResponseMessages.unverified_email)
+                } else {
+                    loginUseCase.firebaseAuth(
+                        login = Login(
+                            userEmail = email,
+                            userPassword = password
+                        )
+                    ).collect { result ->
+                        when (result) {
+                            is TaskResult.Success -> {
+                                _loginState.value = LoginState.Loading
+                                result.data
+                                    ?.addOnSuccessListener {
+                                        if (checkUserEmailIsVerified()) {
+                                            _loginState.value = LoginState.Success
+                                        } else {
+                                            _loginState.value = LoginState.Error(errorMessage = SignUpResponseMessages.unverified_email)
+                                        }
                                     }
-                                }
-                                ?.addOnFailureListener {
-                                    _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
-                                }
-                        }
-                        is TaskResult.Error -> {
-                            _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                                    ?.addOnFailureListener {
+                                        _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
+                                    }
+                            }
+                            is TaskResult.Error -> {
+                                _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                            }
                         }
                     }
                 }

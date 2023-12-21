@@ -59,7 +59,7 @@ class ForgotPasswordViewModel @Inject constructor(
     var verifyCode by mutableStateOf("")
         private set
 
-    fun verifyForgotPassword() =
+    fun verifyForgotPassword() {
         viewModelScope.launch(Dispatchers.IO) {
             if (checkEmail()) {
                 if (device == MobileServiceType.HMS) {
@@ -68,7 +68,7 @@ class ForgotPasswordViewModel @Inject constructor(
                             userEmail = userEmail,
                             action = VerifyCodeSettings.ACTION_RESET_PASSWORD
                         )
-                    ).collect() { result ->
+                    ).collect { result ->
                         when (result) {
                             is TaskResult.Success -> {
                                 _verifyForgotPasswordState.value = VerifyForgotPasswordState.Loading
@@ -95,7 +95,7 @@ class ForgotPasswordViewModel @Inject constructor(
                             newPassword = "",
                             verifyCode = ""
                         )
-                    ).collect() { result ->
+                    ).collect { result ->
                         when (result) {
                             is TaskResult.Success -> {
                                 _forgotPasswordState.value = ForgotPasswordState.Loading
@@ -115,30 +115,33 @@ class ForgotPasswordViewModel @Inject constructor(
                 }
             }
         }
+    }
 
-    fun changePassword() = viewModelScope.launch(Dispatchers.IO) {
-        if(device == MobileServiceType.HMS) {
-            forgotPasswordUseCase.hmsAuth(
-                forgotPassword = ForgotPassword(
-                    email = userEmail,
-                    newPassword = userPassword,
-                    verifyCode = verifyCode
-                )
-            ).collect() { result ->
-                if (confirmPassword() && checkPassword()) {
-                    when (result) {
-                        is TaskResult.Success -> {
-                            _forgotPasswordState.value = ForgotPasswordState.Loading
-                            result.data
-                                ?.addOnSuccessListener {
-                                    _forgotPasswordState.value = ForgotPasswordState.Success
-                                }
-                                ?.addOnFailureListener {
-                                    _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
-                                }
-                        }
-                        is TaskResult.Error -> {
-                            _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
+    fun changePassword() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if(device == MobileServiceType.HMS) {
+                forgotPasswordUseCase.hmsAuth(
+                    forgotPassword = ForgotPassword(
+                        email = userEmail,
+                        newPassword = userPassword,
+                        verifyCode = verifyCode
+                    )
+                ).collect { result ->
+                    if (confirmPassword() && checkPassword()) {
+                        when (result) {
+                            is TaskResult.Success -> {
+                                _forgotPasswordState.value = ForgotPasswordState.Loading
+                                result.data
+                                    ?.addOnSuccessListener {
+                                        _forgotPasswordState.value = ForgotPasswordState.Success
+                                    }
+                                    ?.addOnFailureListener {
+                                        _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = it.message)
+                                    }
+                            }
+                            is TaskResult.Error -> {
+                                _forgotPasswordState.value = ForgotPasswordState.Error(errorMessage = result.message)
+                            }
                         }
                     }
                 }

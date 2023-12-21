@@ -56,7 +56,7 @@ class SignUpViewModel @Inject constructor(
     var verifyCode by mutableStateOf("")
         private set
 
-    fun verifyEmail() =
+    fun verifyEmail() {
         viewModelScope.launch(Dispatchers.IO) {
             if (checkSignUpInfo()) {
                 if (device == MobileServiceType.HMS) {
@@ -65,7 +65,7 @@ class SignUpViewModel @Inject constructor(
                             userEmail = userEmail,
                             action = VerifyCodeSettings.ACTION_REGISTER_LOGIN
                         )
-                    ).collect() { result ->
+                    ).collect { result ->
                         when (result) {
                             is TaskResult.Success -> {
                                 _verifyEmailState.value = VerifyEmailState.Loading
@@ -85,7 +85,7 @@ class SignUpViewModel @Inject constructor(
                         }
                     }
                 } else {
-                    verifyUserEmailUseCase.firebaseAuth().collect() { result ->
+                    verifyUserEmailUseCase.firebaseAuth().collect { result ->
                         when (result) {
                             is TaskResult.Success -> {
                                 //_verifyEmailState.value = VerifyEmailState.Loading
@@ -108,56 +108,24 @@ class SignUpViewModel @Inject constructor(
                 }
             }
         }
+    }
 
-    fun signUp() = viewModelScope.launch(Dispatchers.IO) {
-        if (device == MobileServiceType.HMS) {
-            signUpUseCase.hmsAuth(
-                signUp = SignUp(
-                    email = userEmail,
-                    password = userPassword,
-                    verifyCode = verifyCode
-                )
-            ).collect() { result ->
-                when (result) {
-                    is TaskResult.Success -> {
-                        _signUpState.value = SignUpState.Loading
-                        result.data
-                            ?.addOnSuccessListener {
-                                _signUpState.value = SignUpState.Success
-                            }
-                            ?.addOnFailureListener {
-                                _signUpState.value = SignUpState.Error(
-                                    errorMessage = it.localizedMessage ?: SignUpResponseMessages.error
-                                )
-                            }
-                    }
-                    is TaskResult.Error -> {
-                        _signUpState.value = SignUpState.Error(
-                            errorMessage = result.message ?: SignUpResponseMessages.error
-                        )
-                    }
-                }
-            }
-        } else {
-            if(checkSignUpInfo()) {
-                // In firebase we send email verification link
-                // We do not receive any verification codes
-                _verifyEmailState.value = VerifyEmailState.Success
-
-                signUpUseCase.firebaseAuth(
+    fun signUp() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (device == MobileServiceType.HMS) {
+                signUpUseCase.hmsAuth(
                     signUp = SignUp(
                         email = userEmail,
                         password = userPassword,
-                        verifyCode = ""
+                        verifyCode = verifyCode
                     )
-                ).collect() { result ->
+                ).collect { result ->
                     when (result) {
                         is TaskResult.Success -> {
-                            //_verifyEmailState.value = VerifyEmailState.Loading
+                            _signUpState.value = SignUpState.Loading
                             result.data
                                 ?.addOnSuccessListener {
-                                    // if signup success we send a email verification link
-                                    verifyEmail()
+                                    _signUpState.value = SignUpState.Success
                                 }
                                 ?.addOnFailureListener {
                                     _signUpState.value = SignUpState.Error(
@@ -169,6 +137,41 @@ class SignUpViewModel @Inject constructor(
                             _signUpState.value = SignUpState.Error(
                                 errorMessage = result.message ?: SignUpResponseMessages.error
                             )
+                        }
+                    }
+                }
+            } else {
+                if(checkSignUpInfo()) {
+                    // In firebase we send email verification link
+                    // We do not receive any verification codes
+                    _verifyEmailState.value = VerifyEmailState.Success
+
+                    signUpUseCase.firebaseAuth(
+                        signUp = SignUp(
+                            email = userEmail,
+                            password = userPassword,
+                            verifyCode = ""
+                        )
+                    ).collect { result ->
+                        when (result) {
+                            is TaskResult.Success -> {
+                                //_verifyEmailState.value = VerifyEmailState.Loading
+                                result.data
+                                    ?.addOnSuccessListener {
+                                        // if signup success we send a email verification link
+                                        verifyEmail()
+                                    }
+                                    ?.addOnFailureListener {
+                                        _signUpState.value = SignUpState.Error(
+                                            errorMessage = it.localizedMessage ?: SignUpResponseMessages.error
+                                        )
+                                    }
+                            }
+                            is TaskResult.Error -> {
+                                _signUpState.value = SignUpState.Error(
+                                    errorMessage = result.message ?: SignUpResponseMessages.error
+                                )
+                            }
                         }
                     }
                 }

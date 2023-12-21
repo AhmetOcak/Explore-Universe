@@ -33,17 +33,19 @@ class UniverseGlossaryViewModel @Inject constructor(
         getGlossary(applicationContext = applicationContext)
     }
 
-    private fun getGlossary(applicationContext: Context) = viewModelScope.launch(Dispatchers.IO) {
-        getGlossaryUseCase(applicationContext = applicationContext).collect() { result ->
-            when(result) {
-                is Result.Loading -> {
-                    _glossaryState.value = GlossaryState.Loading
-                }
-                is Result.Success -> {
-                    _glossaryState.value = GlossaryState.Success(data = result.data)
-                }
-                is Result.Error -> {
-                    _glossaryState.value = GlossaryState.Error(errorMessage = result.message)
+    private fun getGlossary(applicationContext: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            getGlossaryUseCase(applicationContext = applicationContext).collect { result ->
+                when(result) {
+                    is Result.Loading -> {
+                        _glossaryState.value = GlossaryState.Loading
+                    }
+                    is Result.Success -> {
+                        _glossaryState.value = GlossaryState.Success(data = result.data)
+                    }
+                    is Result.Error -> {
+                        _glossaryState.value = GlossaryState.Error(errorMessage = result.message)
+                    }
                 }
             }
         }

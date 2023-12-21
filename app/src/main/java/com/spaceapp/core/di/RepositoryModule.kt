@@ -31,7 +31,6 @@ import com.spaceapp.data.repository.space_objects.SpaceObjectsRepository
 import com.spaceapp.data.repository.space_objects.SpaceObjectsRepositoryImpl
 import com.spaceapp.data.repository.weather.WeatherConditionRepository
 import com.spaceapp.data.repository.weather.WeatherConditionRepositoryImpl
-import com.spaceapp.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
