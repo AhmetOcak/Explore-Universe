@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +47,6 @@ fun ApodCard(
             modifier = Modifier
                 .width(LocalConfiguration.current.screenWidthDp.dp - 96.dp)
                 .height(320.dp),
-            shape = RoundedCornerShape(32.dp),
             colors = CardDefaults.cardColors(containerColor = backgroundColor)
         ) {
             Column(

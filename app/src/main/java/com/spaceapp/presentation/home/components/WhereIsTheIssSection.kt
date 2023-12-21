@@ -57,7 +57,7 @@ fun WhereIsTheIssSection(
                         .padding(top = 16.dp),
                     colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
                 ) {
-                    IssPositionInfo(data = issState.data!!,)
+                    IssPositionInfo(data = issState.data!!)
                 }
             }
             is IssState.Error -> {
