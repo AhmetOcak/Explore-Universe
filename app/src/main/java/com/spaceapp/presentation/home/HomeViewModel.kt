@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spaceapp.core.common.Result
+import com.spaceapp.core.common.Response
 import com.spaceapp.domain.usecase.mars_photo.*
 import com.spaceapp.domain.usecase.people_in_space.*
 import com.spaceapp.domain.usecase.where_is_the_iss.*
@@ -54,10 +54,10 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getLatestMarsPhotoFromNetworkUseCase().collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _marsPhotoState.value = MarsPhotoState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         isMarsPhotoDataTakenFromDatabase = false
                         _marsPhotoState.value = MarsPhotoState.Success(data = result.data)
                         if (!result.data.isNullOrEmpty()) {
@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
                             addMarsPhotoToDatabaseUseCase(marsPhoto = result.data[0])
                         }
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         getMarsPhotosFromDatabase()
                     }
                 }
@@ -77,14 +77,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getMarsPhotoFromDatabaseUseCase().collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _marsPhotoState.value = MarsPhotoState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         isMarsPhotoDataTakenFromDatabase = true
                         _marsPhotoState.value = MarsPhotoState.Success(data = result.data)
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         _marsPhotoState.value = MarsPhotoState.Error(errorMessage = result.message)
                     }
                 }
@@ -96,18 +96,18 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getIssPositionFromNetworkUseCase().collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _whereIsTheIssState.value = WhereIsTheIssState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         _whereIsTheIssState.value = WhereIsTheIssState.Success(data = result.data)
                         if (result.data != null) {
                             getIssPositionFromDatabaseUseCase().collect {
                                 when (it) {
-                                    is Result.Success -> {
+                                    is Response.Success -> {
                                         updateIssPositionUseCase(iss = result.data)
                                     }
-                                    is Result.Error -> {
+                                    is Response.Error -> {
                                         addIssPositionToDatabaseUseCase(iss = result.data)
                                     }
                                     else -> {}
@@ -115,7 +115,7 @@ class HomeViewModel @Inject constructor(
                             }
                         }
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         getIssPositionFromDatabase()
                     }
                 }
@@ -127,13 +127,13 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getIssPositionFromDatabaseUseCase().collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _whereIsTheIssState.value = WhereIsTheIssState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         _whereIsTheIssState.value = WhereIsTheIssState.Success(data = result.data)
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         _whereIsTheIssState.value =
                             WhereIsTheIssState.Error(errorMessage = result.message)
                     }
@@ -146,10 +146,10 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getPeopleInSpaceRightNowUseCase().collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _peopleInSpaceState.value = PeopleInSpaceState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         isPeopleInSpaceDataTakenFromDatabase = false
                         _peopleInSpaceState.value = PeopleInSpaceState.Success(data = result.data)
                         if (!result.data.isNullOrEmpty()) {
@@ -157,7 +157,7 @@ class HomeViewModel @Inject constructor(
                             addPeopleInSpaceToDatabaseUseCase(peopleInSpace = result.data[0])
                         }
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         getPeopleInSpaceFromDatabase()
                     }
                 }
@@ -169,14 +169,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getPeopleInSpaceFromDatabaseUseCase().collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _peopleInSpaceState.value = PeopleInSpaceState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         isPeopleInSpaceDataTakenFromDatabase = true
                         _peopleInSpaceState.value = PeopleInSpaceState.Success(data = result.data)
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         _peopleInSpaceState.value = PeopleInSpaceState.Error(errorMessage = result.message)
                     }
                 }

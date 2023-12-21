@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spaceapp.core.common.Result
+import com.spaceapp.core.common.Response
 import com.spaceapp.domain.usecase.glossary.GetGlossaryUseCase
 import com.spaceapp.presentation.universe_glossary.state.GlossaryState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,13 +37,13 @@ class UniverseGlossaryViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getGlossaryUseCase(applicationContext = applicationContext).collect { result ->
                 when(result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _glossaryState.value = GlossaryState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         _glossaryState.value = GlossaryState.Success(data = result.data)
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         _glossaryState.value = GlossaryState.Error(errorMessage = result.message)
                     }
                 }

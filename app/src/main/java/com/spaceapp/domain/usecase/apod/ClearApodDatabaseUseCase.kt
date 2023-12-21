@@ -9,7 +9,7 @@ class ClearApodDatabaseUseCase @Inject constructor(private val nasaRepository: N
     suspend operator fun invoke() {
         try {
             nasaRepository.deleteLocalApod()
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Log.e("apod delete", e.message.toString())
         }
     }

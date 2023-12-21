@@ -3,7 +3,7 @@ package com.spaceapp.presentation.explore
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spaceapp.core.common.Result
+import com.spaceapp.core.common.Response
 import com.spaceapp.domain.usecase.apod.AddApodToDatabaseUseCase
 import com.spaceapp.domain.usecase.apod.ClearApodDatabaseUseCase
 import com.spaceapp.domain.usecase.apod.GetApodFromDatabaseUseCase
@@ -72,13 +72,13 @@ class ExploreViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getExploreGalaxyDataUseCase(applicationContext = applicationContext).collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _exploreGalaxyState.value = ExploreGalaxyState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         _exploreGalaxyState.value = ExploreGalaxyState.Success(data = result.data)
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         _exploreGalaxyState.value = ExploreGalaxyState.Error(errorMessage = result.message)
                     }
                 }
@@ -91,17 +91,17 @@ class ExploreViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getApodFromNetworkUseCase().collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _apodState.value = ApodState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         _apodState.value = ApodState.Success(apodData = result.data)
                         if (result.data != null) {
                             clearLocalApodUseCase()
                             addApodToDatabaseUseCase(apod = result.data)
                         }
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         getApodFromLocal()
                     }
                 }
@@ -113,13 +113,13 @@ class ExploreViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getApodFromLocalUseCase().collect { result ->
                 when (result) {
-                    is Result.Loading -> {
+                    is Response.Loading -> {
                         _apodState.value = ApodState.Loading
                     }
-                    is Result.Success -> {
+                    is Response.Success -> {
                         _apodState.value = ApodState.Success(apodData = result.data)
                     }
-                    is Result.Error -> {
+                    is Response.Error -> {
                         _apodState.value = ApodState.Error(errorMessage = result.message)
                     }
                 }
