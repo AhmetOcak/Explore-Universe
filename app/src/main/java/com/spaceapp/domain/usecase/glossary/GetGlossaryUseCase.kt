@@ -3,7 +3,7 @@ package com.spaceapp.domain.usecase.glossary
 import android.content.Context
 import com.spaceapp.core.common.Result
 import com.spaceapp.domain.model.glossary_data.Glossary
-import com.spaceapp.domain.repository.SpaceObjectsRepository
+import com.spaceapp.data.repository.space_objects.SpaceObjectsRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

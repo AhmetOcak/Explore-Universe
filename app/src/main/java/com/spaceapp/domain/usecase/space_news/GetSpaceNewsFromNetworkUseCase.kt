@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 import okio.IOException
 import javax.inject.Inject
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.repository.SpaceNewsRepository
+import com.spaceapp.data.repository.space_news.SpaceNewsRepository
 import com.spaceapp.domain.utils.ERROR
 
 class GetSpaceNewsFromNetworkUseCase @Inject constructor(private val spaceNewsRepository: SpaceNewsRepository) {

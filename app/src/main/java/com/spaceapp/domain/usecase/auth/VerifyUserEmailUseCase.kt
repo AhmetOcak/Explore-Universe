@@ -5,7 +5,7 @@ import com.huawei.hmf.tasks.Task as hmsTask
 import com.huawei.agconnect.auth.VerifyCodeResult
 import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.VerifyEmail
-import com.spaceapp.domain.repository.AuthRepository
+import com.spaceapp.data.repository.auth.AuthRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

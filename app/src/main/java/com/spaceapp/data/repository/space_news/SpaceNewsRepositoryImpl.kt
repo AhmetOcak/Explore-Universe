@@ -1,11 +1,10 @@
-package com.spaceapp.data.repository
+package com.spaceapp.data.repository.space_news
 
 import com.spaceapp.data.datasource.local.space_news.SpaceNewsLocalDataSource
 import com.spaceapp.data.datasource.remote.space_news.SpaceNewsRemoteDataSource
 import com.spaceapp.data.mappers.toSpaceNews
 import com.spaceapp.data.mappers.toSpaceNewsEntity
 import com.spaceapp.domain.model.space_news.SpaceNews
-import com.spaceapp.domain.repository.SpaceNewsRepository
 import javax.inject.Inject
 
 class SpaceNewsRepositoryImpl @Inject constructor(

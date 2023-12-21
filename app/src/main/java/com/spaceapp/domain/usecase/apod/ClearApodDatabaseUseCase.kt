@@ -1,7 +1,7 @@
 package com.spaceapp.domain.usecase.apod
 
 import android.util.Log
-import com.spaceapp.domain.repository.NasaRepository
+import com.spaceapp.data.repository.nasa.NasaRepository
 import javax.inject.Inject
 
 class ClearApodDatabaseUseCase @Inject constructor(private val nasaRepository: NasaRepository) {

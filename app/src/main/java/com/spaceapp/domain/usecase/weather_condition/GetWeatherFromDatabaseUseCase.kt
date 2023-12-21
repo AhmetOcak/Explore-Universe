@@ -2,7 +2,7 @@ package com.spaceapp.domain.usecase.weather_condition
 
 import com.spaceapp.core.common.Result
 import com.spaceapp.domain.model.weather_condition.WeatherCondition
-import com.spaceapp.domain.repository.WeatherConditionRepository
+import com.spaceapp.data.repository.weather.WeatherConditionRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

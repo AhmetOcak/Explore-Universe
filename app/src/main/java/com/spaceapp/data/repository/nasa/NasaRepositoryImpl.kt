@@ -1,4 +1,4 @@
-package com.spaceapp.data.repository
+package com.spaceapp.data.repository.nasa
 
 import com.spaceapp.data.datasource.local.apod.ApodLocalDataSource
 import com.spaceapp.data.datasource.local.mars_photos.MarsPhotosLocalDataSource
@@ -10,7 +10,6 @@ import com.spaceapp.data.mappers.toMarsPhoto
 import com.spaceapp.data.mappers.toMarsPhotoEntity
 import com.spaceapp.domain.model.apod.Apod
 import com.spaceapp.domain.model.mars_photos.MarsPhoto
-import com.spaceapp.domain.repository.NasaRepository
 import javax.inject.Inject
 
 class NasaRepositoryImpl @Inject constructor(

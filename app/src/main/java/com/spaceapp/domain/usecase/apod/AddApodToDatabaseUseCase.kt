@@ -1,7 +1,7 @@
 package com.spaceapp.domain.usecase.apod
 
 import com.spaceapp.domain.model.apod.Apod
-import com.spaceapp.domain.repository.NasaRepository
+import com.spaceapp.data.repository.nasa.NasaRepository
 import javax.inject.Inject
 
 class AddApodToDatabaseUseCase @Inject constructor(private val nasaRepository: NasaRepository) {

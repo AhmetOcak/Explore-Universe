@@ -1,4 +1,4 @@
-package com.spaceapp.domain.repository
+package com.spaceapp.data.repository.space_news
 
 import com.spaceapp.domain.model.space_news.SpaceNews
 

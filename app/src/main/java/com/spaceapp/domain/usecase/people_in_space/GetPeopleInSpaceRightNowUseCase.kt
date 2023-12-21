@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 import com.spaceapp.core.common.Result
-import com.spaceapp.domain.repository.PeopleInSpaceRepository
+import com.spaceapp.data.repository.people_in_space.PeopleInSpaceRepository
 import com.spaceapp.domain.utils.ERROR
 
 class GetPeopleInSpaceRightNowUseCase @Inject constructor(private val peopleInSpaceRepository: PeopleInSpaceRepository) {

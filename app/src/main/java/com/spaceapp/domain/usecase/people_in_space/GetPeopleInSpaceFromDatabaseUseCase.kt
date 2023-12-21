@@ -2,7 +2,7 @@ package com.spaceapp.domain.usecase.people_in_space
 
 import com.spaceapp.core.common.Result
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
-import com.spaceapp.domain.repository.PeopleInSpaceRepository
+import com.spaceapp.data.repository.people_in_space.PeopleInSpaceRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

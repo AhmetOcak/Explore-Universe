@@ -1,7 +1,7 @@
 package com.spaceapp.domain.usecase.people_in_space
 
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
-import com.spaceapp.domain.repository.PeopleInSpaceRepository
+import com.spaceapp.data.repository.people_in_space.PeopleInSpaceRepository
 import javax.inject.Inject
 
 class AddPeopleInSpaceToDatabaseUseCase @Inject constructor(private val peopleInSpaceRepository: PeopleInSpaceRepository) {
