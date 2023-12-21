@@ -186,7 +186,7 @@ private fun NewsSection(
                         NewsCard(
                             onClick = {
                                 val encodedUrl = URLEncoder.encode(
-                                    it.source.name,
+                                    it.url,
                                     StandardCharsets.UTF_8.toString()
                                 )
                                 navController.navigate("${NavName.news_detail_screen}/${encodedUrl}") {
