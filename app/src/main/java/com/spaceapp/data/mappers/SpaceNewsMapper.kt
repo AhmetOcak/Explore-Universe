@@ -1,5 +1,6 @@
 package com.spaceapp.data.mappers
 
+import com.spaceapp.data.datasource.local.space_news.db.entity.ScienceNewsEntity
 import com.spaceapp.data.datasource.local.space_news.db.entity.SpaceNewsEntity
 import com.spaceapp.data.datasource.remote.space_news.entity.SpaceNewsDto
 import com.spaceapp.domain.model.space_news.Articles
@@ -34,7 +35,34 @@ fun Articles.toSpaceNewsEntity(): SpaceNewsEntity {
     )
 }
 
+@JvmName("spaceNewsEntity")
 fun List<SpaceNewsEntity>.toSpaceNews(): SpaceNews {
+    return SpaceNews(
+        articles = map {
+            Articles(
+                source = Source(name = it.sourceName),
+                title = it.title,
+                url = it.newsUrl,
+                publishedAt = it.date,
+                urlToImage = it.image,
+                author = it.author
+            )
+        }
+    )
+}
+
+fun Articles.toScienceNewsEntity(): ScienceNewsEntity {
+    return ScienceNewsEntity(
+        title = title,
+        author = author,
+        image = urlToImage,
+        newsUrl = url,
+        date = publishedAt,
+        sourceName = source.name
+    )
+}
+
+fun List<ScienceNewsEntity>.toSpaceNews(): SpaceNews {
     return SpaceNews(
         articles = map {
             Articles(

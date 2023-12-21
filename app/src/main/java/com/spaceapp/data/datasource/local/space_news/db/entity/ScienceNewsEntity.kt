@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.spaceapp.data.utils.RoomTables
 
-@Entity(tableName = RoomTables.SPACE_NEWS_TABLE)
-data class SpaceNewsEntity(
+@Entity(tableName = RoomTables.SCIENCE_NEWS_TABLE)
+data class ScienceNewsEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

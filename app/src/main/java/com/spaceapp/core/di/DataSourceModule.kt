@@ -9,6 +9,7 @@ import com.spaceapp.data.datasource.local.mars_photos.db.room.dao.MarsPhotoDao
 import com.spaceapp.data.datasource.local.people_in_space.*
 import com.spaceapp.data.datasource.local.people_in_space.db.room.dao.PeopleInSpaceDao
 import com.spaceapp.data.datasource.local.space_news.*
+import com.spaceapp.data.datasource.local.space_news.db.room.dao.ScienceNewsDao
 import com.spaceapp.data.datasource.local.space_news.db.room.dao.SpaceNewsDao
 import com.spaceapp.data.datasource.local.weather_condition.*
 import com.spaceapp.data.datasource.local.weather_condition.db.room.dao.WeatherConditionDao
@@ -88,8 +89,11 @@ object DataSourceModule {
 
     @Singleton
     @Provides
-    fun provideLocalSpaceNewsDataSource(dao: SpaceNewsDao): SpaceNewsLocalDataSource {
-        return SpaceNewsLocalDataSourceImpl(dao)
+    fun provideLocalSpaceNewsDataSource(
+        spaceNewsDao: SpaceNewsDao,
+        scienceNewsDao: ScienceNewsDao
+    ): SpaceNewsLocalDataSource {
+        return SpaceNewsLocalDataSourceImpl(spaceNewsDao, scienceNewsDao)
     }
 
     @Singleton

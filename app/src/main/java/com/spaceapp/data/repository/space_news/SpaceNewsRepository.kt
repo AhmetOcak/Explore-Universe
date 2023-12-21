@@ -13,4 +13,10 @@ interface SpaceNewsRepository {
     suspend fun getSpaceNewsFromNetwork(): SpaceNews
 
     suspend fun getLatestScienceNewsFromNetwork(): SpaceNews
+
+    suspend fun addScienceNews(spaceNews: SpaceNews)
+
+    suspend fun getScienceNewsFromLocal() : SpaceNews
+
+    suspend fun deleteAllScienceNews()
 }

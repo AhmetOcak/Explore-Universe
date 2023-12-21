@@ -8,7 +8,9 @@ import com.spaceapp.data.datasource.local.mars_photos.db.entity.MarsPhotoEntity
 import com.spaceapp.data.datasource.local.mars_photos.db.room.dao.MarsPhotoDao
 import com.spaceapp.data.datasource.local.people_in_space.db.entity.PeopleInSpaceEntity
 import com.spaceapp.data.datasource.local.people_in_space.db.room.dao.PeopleInSpaceDao
+import com.spaceapp.data.datasource.local.space_news.db.entity.ScienceNewsEntity
 import com.spaceapp.data.datasource.local.space_news.db.entity.SpaceNewsEntity
+import com.spaceapp.data.datasource.local.space_news.db.room.dao.ScienceNewsDao
 import com.spaceapp.data.datasource.local.space_news.db.room.dao.SpaceNewsDao
 import com.spaceapp.data.datasource.local.weather_condition.db.entity.WeatherConditionEntity
 import com.spaceapp.data.datasource.local.weather_condition.db.room.dao.WeatherConditionDao
@@ -19,7 +21,8 @@ import com.spaceapp.data.datasource.local.where_is_the_iss.db.room.dao.IssDao
     entities = [
         ApodEntity::class, MarsPhotoEntity::class,
         PeopleInSpaceEntity::class, SpaceNewsEntity::class,
-        WeatherConditionEntity::class, IssEntity::class
+        WeatherConditionEntity::class, IssEntity::class,
+        ScienceNewsEntity::class
     ],
     version = 1
 )
@@ -31,4 +34,5 @@ abstract class SpaceDatabase : RoomDatabase() {
     abstract fun spaceNewsDao(): SpaceNewsDao
     abstract fun weatherConditionDao(): WeatherConditionDao
     abstract fun issDao(): IssDao
+    abstract fun scienceNewsDao(): ScienceNewsDao
 }

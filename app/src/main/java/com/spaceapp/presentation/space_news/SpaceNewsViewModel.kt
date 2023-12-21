@@ -27,7 +27,10 @@ class SpaceNewsViewModel @Inject constructor(
     private val addWeatherToDatabaseUseCase: AddWeatherToDatabaseUseCase,
     private val updateWeatherUseCase: UpdateWeatherUseCase,
     private val getLocationUseCase: GetLocationUseCase,
-    private val getLatestScienceNewsFromNetworkUseCase: GetLatestScienceNewsFromNetworkUseCase
+    private val getLatestScienceNewsFromNetworkUseCase: GetLatestScienceNewsFromNetworkUseCase,
+    private val addScienceNewsToDatabaseUseCase: AddScienceNewsToDatabaseUseCase,
+    private val clearScienceNewsDbUseCase: ClearScienceNewsDbUseCase,
+    private val getScienceNewsFromDb: GetScienceNewsFromLocal
 ) : ViewModel() {
 
     private val _spaceNewsState = MutableStateFlow<SpaceNewsState>(SpaceNewsState.Loading)
@@ -84,10 +87,14 @@ class SpaceNewsViewModel @Inject constructor(
                     is Response.Success -> {
                         _scienceNewsState.value =
                             ScienceNewsState.Success(response.data?.articles ?: listOf())
+                        if (response.data != null) {
+                            clearScienceNewsDbUseCase()
+                            addScienceNewsToDatabaseUseCase(spaceNews = response.data)
+                        }
                     }
 
                     is Response.Error -> {
-                        _scienceNewsState.value = ScienceNewsState.Error(response.message ?: "ERROR")
+                        getScienceNewsFromLocal()
                     }
                 }
             }
@@ -101,11 +108,37 @@ class SpaceNewsViewModel @Inject constructor(
                     is Response.Loading -> {
                         _spaceNewsState.value = SpaceNewsState.Loading
                     }
+
                     is Response.Success -> {
-                        _spaceNewsState.value = SpaceNewsState.Success(data = result.data?.articles ?: listOf())
+                        _spaceNewsState.value =
+                            SpaceNewsState.Success(data = result.data?.articles ?: listOf())
                     }
+
                     is Response.Error -> {
-                        _spaceNewsState.value = SpaceNewsState.Error(errorMessage = result.message ?: "error")
+                        _spaceNewsState.value =
+                            SpaceNewsState.Error(errorMessage = result.message ?: "error")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getScienceNewsFromLocal() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getScienceNewsFromDb().collect { result ->
+                when (result) {
+                    is Response.Loading -> {
+                        _scienceNewsState.value = ScienceNewsState.Loading
+                    }
+
+                    is Response.Success -> {
+                        _scienceNewsState.value =
+                            ScienceNewsState.Success(data = result.data?.articles ?: listOf())
+                    }
+
+                    is Response.Error -> {
+                        _scienceNewsState.value =
+                            ScienceNewsState.Error(errorMessage = result.message ?: "error")
                     }
                 }
             }
