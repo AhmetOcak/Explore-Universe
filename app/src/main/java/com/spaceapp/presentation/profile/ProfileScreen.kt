@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.AGConnectAuth
 import com.spaceapp.R
 import com.spaceapp.core.designsystem.components.Gif
+import com.spaceapp.core.designsystem.theme.BlueHaze
 import com.spaceapp.core.navigation.NavScreen
 
 @Composable
@@ -66,7 +67,8 @@ private fun ProfileScreenContent(
         IconButton(onClick = onLogOutClick) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_logout),
-                contentDescription = null
+                contentDescription = null,
+                tint = BlueHaze
             )
         }
         ProfilePreviewSection(profileName = profileName)

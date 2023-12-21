@@ -21,12 +21,9 @@ import com.spaceapp.presentation.space_news.state.WeatherConditionState
 import com.spaceapp.presentation.utils.NewsScreenConstants
 
 @Composable
-fun WelcomeSection(
-    modifier: Modifier,
-    weatherConditionState: WeatherConditionState
-) {
+fun WelcomeSection(weatherConditionState: WeatherConditionState) {
     Row(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -35,24 +32,24 @@ fun WelcomeSection(
             Text(text = "HELLO EXPLORER", style = MaterialTheme.typography.headlineLarge)
             Text(text = NewsScreenConstants.welcome_subtitle, style = MaterialTheme.typography.displayMedium)
         }
-        CurrentWeatherInfo(modifier = modifier, weatherConditionState = weatherConditionState)
+        CurrentWeatherInfo(weatherConditionState = weatherConditionState)
     }
 }
 
 @Composable
-private fun CurrentWeatherInfo(modifier: Modifier, weatherConditionState: WeatherConditionState) {
+private fun CurrentWeatherInfo(weatherConditionState: WeatherConditionState) {
     when (weatherConditionState) {
         is WeatherConditionState.Loading -> {
-            LoadingSpinner(modifier = modifier.fillMaxWidth())
+            LoadingSpinner(modifier = Modifier.fillMaxWidth())
         }
         is WeatherConditionState.Success -> {
             Row(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.Bottom,
             ) {
                 Image(
-                    modifier = modifier
+                    modifier = Modifier
                         .size(32.dp)
                         .padding(end = 4.dp),
                     painter = painterResource(id = R.drawable.broken_clouds_day),

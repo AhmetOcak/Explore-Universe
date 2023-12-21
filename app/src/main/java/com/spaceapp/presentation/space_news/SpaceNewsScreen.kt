@@ -75,11 +75,9 @@ private fun NewsContent(
         verticalArrangement = Arrangement.Top
     ) {
         WelcomeSection(
-            modifier = modifier,
             weatherConditionState = weatherConditionState
         )
         LatestNewsSection(
-            modifier = modifier,
             viewModel = viewModel,
             scienceNewsState = scienceNewsState,
             navController = navController
@@ -95,26 +93,25 @@ private fun NewsContent(
 
 @Composable
 private fun LatestNewsSection(
-    modifier: Modifier,
     viewModel: SpaceNewsViewModel,
     scienceNewsState: ScienceNewsState,
     navController: NavController
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(top = 32.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            modifier = modifier.padding(bottom = 16.dp, start = 16.dp),
+            modifier = Modifier.padding(bottom = 16.dp, start = 16.dp),
             text = constants.latest_news_title,
             style = MaterialTheme.typography.headlineMedium
         )
         when (scienceNewsState) {
             is ScienceNewsState.Loading -> {
                 LoadingSpinner(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .height(125.dp)
                 )
@@ -138,8 +135,7 @@ private fun LatestNewsSection(
                             },
                             newsImageUrl = it.urlToImage,
                             newsTitle = it.title,
-                            newsAuthor = it.author,
-                            context = LocalContext.current
+                            newsAuthor = it.author
                         )
                     }
                 }
@@ -182,7 +178,7 @@ private fun NewsSection(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     contentPadding = PaddingValues(top = 16.dp, bottom = 32.dp)
                 ) {
-                    items(spaceNewsState.data.asReversed()) {
+                    items(spaceNewsState.data) {
                         NewsCard(
                             onClick = {
                                 val encodedUrl = URLEncoder.encode(
@@ -196,8 +192,7 @@ private fun NewsSection(
                             newsImageUrl = it.urlToImage,
                             newsTime = DateFormatter.dateFormatter(date = it.publishedAt),
                             newsTitle = it.title,
-                            newsAuthor = it.author,
-                            context = LocalContext.current
+                            newsAuthor = it.author
                         )
                     }
                 }

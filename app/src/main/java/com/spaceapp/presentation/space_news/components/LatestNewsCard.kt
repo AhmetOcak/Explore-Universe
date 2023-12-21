@@ -1,6 +1,5 @@
 package com.spaceapp.presentation.space_news.components
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -39,46 +39,44 @@ import com.spaceapp.core.designsystem.theme.White
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LatestNewsCard(
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     newsImageUrl: String,
     newsTitle: String,
-    newsAuthor: String,
-    context: Context
+    newsAuthor: String
 ) {
-    val imageRequest = ImageRequest.Builder(context = context)
+    val imageRequest = ImageRequest.Builder(context = LocalContext.current)
         .data(newsImageUrl)
         .memoryCacheKey(newsImageUrl)
         .diskCacheKey(newsImageUrl)
         .build()
 
     Card(
-        modifier = modifier
+        modifier = Modifier
             .height(200.dp)
             .width(LocalConfiguration.current.screenWidthDp.dp - 64.dp),
         shape = RoundedCornerShape(8.dp),
         onClick = onClick
     ) {
-        Box(modifier = modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize()) {
             Box {
                 AsyncImage(
-                    modifier = modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     model = imageRequest,
-                    imageLoader = context.imageLoader,
+                    imageLoader = LocalContext.current.imageLoader,
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
             }
             Box {
                 Column(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
                     verticalArrangement = Arrangement.Bottom,
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        modifier = modifier
+                        modifier = Modifier
                             .padding(bottom = 16.dp)
                             .background(color = Color(0x4D000000), shape = RoundedCornerShape(8.dp))
                             .padding(2.dp),
@@ -93,11 +91,11 @@ fun LatestNewsCard(
                         )
                     )
                     Row(
-                        modifier = modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.Bottom
                     ) {
                         Icon(
-                            modifier = modifier
+                            modifier = Modifier
                                 .padding(end = 4.dp, top = 8.dp)
                                 .size(18.dp),
                             painter = painterResource(id = R.drawable.ic_baseline_create),
@@ -105,7 +103,7 @@ fun LatestNewsCard(
                             tint = White,
                         )
                         Text(
-                            modifier = modifier,
+                            modifier = Modifier,
                             text = newsAuthor,
                             style = MaterialTheme.typography.labelMedium.copy(
                                 fontSize = 16.sp,
