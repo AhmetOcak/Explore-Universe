@@ -180,7 +180,7 @@ private fun NewsSection(
             is SpaceNewsState.Success -> {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(vertical = 16.dp)
+                    contentPadding = PaddingValues(top = 16.dp, bottom = 32.dp)
                 ) {
                     items(spaceNewsState.data.asReversed()) {
                         NewsCard(

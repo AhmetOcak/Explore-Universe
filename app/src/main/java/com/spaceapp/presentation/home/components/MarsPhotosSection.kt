@@ -42,14 +42,7 @@ fun MarsPhotosSection(
     retryMarsPhotoData: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        MarsPhotosTitle(
-            modifier = Modifier.padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 32.dp,
-                bottom = 16.dp
-            )
-        )
+        MarsPhotosTitle(modifier = Modifier.padding(16.dp))
         when (marsPhotoState) {
             is MarsPhotoState.Loading -> {
                 LoadingSpinner(
@@ -69,7 +62,7 @@ fun MarsPhotosSection(
             is MarsPhotoState.Error -> {
                 ErrorCard(
                     errorDescription = marsPhotoState.errorMessage!!,
-                    paddingValues = PaddingValues(top = 16.dp),
+                    paddingValues = PaddingValues(16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
                     onClick = retryMarsPhotoData
@@ -95,8 +88,7 @@ private fun MarsPhotoList(
 ) {
     LazyRow(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 32.dp),
+            .fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {

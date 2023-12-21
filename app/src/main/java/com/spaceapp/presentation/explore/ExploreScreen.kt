@@ -121,7 +121,7 @@ fun UniverseImageSection(apodState: ApodState) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp),
+            .padding(bottom = 32.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
