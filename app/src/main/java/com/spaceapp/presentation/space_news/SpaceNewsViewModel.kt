@@ -1,6 +1,5 @@
 package com.spaceapp.presentation.space_news
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spaceapp.core.common.Response
@@ -14,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -62,21 +60,20 @@ class SpaceNewsViewModel @Inject constructor(
                         _spaceNewsState.value =
                             SpaceNewsState.Success(data = result.data?.articles ?: listOf())
                         if (result.data != null) {
-                            //clearLocalSpaceNews()
-                            //addSpaceNewsToDatabaseUseCase(spaceNews = result.data)
+                            clearLocalSpaceNews()
+                            addSpaceNewsToDatabaseUseCase(spaceNews = result.data)
                         }
                     }
 
                     is Response.Error -> {
-                        //getSpaceNewsFromLocal()
-                        Log.d("ERROR", result.message ?: "ERROR")
+                        getSpaceNewsFromLocal()
                     }
                 }
             }
         }
     }
 
-    fun getScienceNewsFromNetwork() {
+    private fun getScienceNewsFromNetwork() {
         viewModelScope.launch(Dispatchers.IO) {
             getLatestScienceNewsFromNetworkUseCase().collect { response ->
                 when (response) {
@@ -97,7 +94,7 @@ class SpaceNewsViewModel @Inject constructor(
         }
     }
 
-    /*private fun getSpaceNewsFromLocal() {
+    private fun getSpaceNewsFromLocal() {
         viewModelScope.launch(Dispatchers.IO) {
             getSpaceNewsFromDatabaseUseCase().collect { result ->
                 when (result) {
@@ -105,15 +102,15 @@ class SpaceNewsViewModel @Inject constructor(
                         _spaceNewsState.value = SpaceNewsState.Loading
                     }
                     is Response.Success -> {
-                        _spaceNewsState.value = SpaceNewsState.Success(data = result.data)
+                        _spaceNewsState.value = SpaceNewsState.Success(data = result.data?.articles ?: listOf())
                     }
                     is Response.Error -> {
-                        _spaceNewsState.value = SpaceNewsState.Error(errorMessage = result.message)
+                        _spaceNewsState.value = SpaceNewsState.Error(errorMessage = result.message ?: "error")
                     }
                 }
             }
         }
-    }*/
+    }
 
     private fun loadLocation() {
         viewModelScope.launch(Dispatchers.IO) {

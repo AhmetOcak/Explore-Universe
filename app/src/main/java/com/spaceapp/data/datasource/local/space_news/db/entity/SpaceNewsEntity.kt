@@ -24,6 +24,9 @@ data class SpaceNewsEntity(
     @ColumnInfo(name = "image_url")
     var image: String,
 
+    @ColumnInfo(name = "source")
+    var sourceName: String,
+
     @ColumnInfo(name = "news_url")
-    var newsSource: String
+    var newsUrl: String
 )
