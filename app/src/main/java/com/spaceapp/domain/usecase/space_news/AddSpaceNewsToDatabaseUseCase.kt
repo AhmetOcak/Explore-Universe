@@ -1,13 +1,12 @@
 package com.spaceapp.domain.usecase.space_news
 
-import com.spaceapp.domain.model.space_news.NewsImage
-import com.spaceapp.domain.model.space_news.SpaceNews
+
 import com.spaceapp.data.repository.space_news.SpaceNewsRepository
 import javax.inject.Inject
 
 class AddSpaceNewsToDatabaseUseCase @Inject constructor(private val spaceNewsRepository: SpaceNewsRepository) {
 
-    suspend operator fun invoke(spaceNews: List<SpaceNews>) {
+/*    suspend operator fun invoke(spaceNews: List<SpaceNews>) {
         spaceNews.forEach {
             spaceNewsRepository.addSpaceToLocal(
                 spaceNews = SpaceNews(
@@ -21,5 +20,5 @@ class AddSpaceNewsToDatabaseUseCase @Inject constructor(private val spaceNewsRep
                 )
             )
         }
-    }
+    }*/
 }

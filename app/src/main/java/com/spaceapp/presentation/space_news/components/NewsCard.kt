@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,7 @@ import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.request.ImageRequest
 import com.spaceapp.R
+import com.spaceapp.core.designsystem.theme.TransparentKimberly
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +48,8 @@ fun NewsCard(
             .fillMaxWidth()
             .height(125.dp),
         shape = RoundedCornerShape(8.dp),
-        onClick = onClick
+        onClick = onClick,
+        colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
     ) {
         Row(modifier = modifier.fillMaxSize(), horizontalArrangement = Arrangement.Start) {
             AsyncImage(

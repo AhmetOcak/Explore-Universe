@@ -28,7 +28,7 @@ android {
         properties.load(project.rootProject.file("local.properties").inputStream())
 
         buildConfigField("String", "NASA_API_KEY", "\"${properties.getProperty("NASA_API_KEY")}\"")
-        buildConfigField("String", "SPACE_NEWS_API_KEY", "\"${properties.getProperty("SPACE_NEWS_API_KEY")}\"")
+        buildConfigField("String", "NEWS_API_KEY", "\"${properties.getProperty("NEWS_API_KEY")}\"")
         buildConfigField("String", "WEATHER_API_KEY", "\"${properties.getProperty("WEATHER_API_KEY")}\"")
     }
 

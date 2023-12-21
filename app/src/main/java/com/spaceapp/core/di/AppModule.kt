@@ -55,7 +55,7 @@ object AppModule {
     @Provides
     fun provideSpaceNewsApi(): SpaceNewsApi {
         return Retrofit.Builder()
-            .baseUrl("https://spacefo.p.rapidapi.com")
+            .baseUrl("https://newsapi.org")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SpaceNewsApi::class.java)

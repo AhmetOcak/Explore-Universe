@@ -9,7 +9,7 @@ import com.spaceapp.data.repository.space_news.SpaceNewsRepository
 
 class GetSpaceNewsFromDatabaseUseCase @Inject constructor(private val spaceNewsRepository: SpaceNewsRepository) {
 
-    suspend operator fun invoke(): Flow<Response<List<SpaceNews>>> = dbCall {
+    /*suspend operator fun invoke(): Flow<Response<List<SpaceNews>>> = dbCall {
         spaceNewsRepository.getSpaceNewsFromLocal()
-    }
+    }*/
 }

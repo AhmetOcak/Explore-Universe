@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class ClearSpaceNewsDatabaseUseCase @Inject constructor(private val spaceNewsRepository: SpaceNewsRepository) {
 
-    suspend operator fun invoke() = spaceNewsRepository.deleteLocalSpaceNews()
+    /*suspend operator fun invoke() = spaceNewsRepository.deleteLocalSpaceNews()*/
 }

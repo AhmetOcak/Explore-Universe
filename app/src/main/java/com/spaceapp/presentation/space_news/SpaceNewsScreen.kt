@@ -25,6 +25,7 @@ import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.presentation.space_news.components.LatestNewsCard
 import com.spaceapp.presentation.space_news.components.NewsCard
 import com.spaceapp.presentation.space_news.components.WelcomeSection
+import com.spaceapp.presentation.space_news.state.ScienceNewsState
 import com.spaceapp.presentation.space_news.state.SpaceNewsState
 import com.spaceapp.presentation.space_news.state.WeatherConditionState
 import com.spaceapp.presentation.utils.NewsScreenConstants
@@ -41,6 +42,7 @@ fun NewsScreen(
 ) {
     val spaceNewsState by viewModel.spaceNewsState.collectAsState()
     val weatherConditionState by viewModel.weatherConditionState.collectAsState()
+    val scienceNewsState by viewModel.scienceNewsState.collectAsState()
 
     val activity = LocalContext.current as Activity
     OnBackPressed(activity = activity)
@@ -49,6 +51,7 @@ fun NewsScreen(
         modifier = modifier,
         spaceNewsState = spaceNewsState,
         weatherConditionState = weatherConditionState,
+        scienceNewsState = scienceNewsState,
         navController = navController,
         viewModel = viewModel
     )
@@ -60,7 +63,8 @@ private fun NewsContent(
     spaceNewsState: SpaceNewsState,
     weatherConditionState: WeatherConditionState,
     navController: NavController,
-    viewModel: SpaceNewsViewModel
+    viewModel: SpaceNewsViewModel,
+    scienceNewsState: ScienceNewsState
 ) {
     Column(
         modifier = modifier
@@ -76,9 +80,9 @@ private fun NewsContent(
         )
         LatestNewsSection(
             modifier = modifier,
-            spaceNewsState = spaceNewsState,
-            navController = navController,
-            viewModel = viewModel
+            viewModel = viewModel,
+            scienceNewsState = scienceNewsState,
+            navController = navController
         )
         NewsSection(
             modifier = modifier,
@@ -92,9 +96,9 @@ private fun NewsContent(
 @Composable
 private fun LatestNewsSection(
     modifier: Modifier,
-    spaceNewsState: SpaceNewsState,
-    navController: NavController,
-    viewModel: SpaceNewsViewModel
+    viewModel: SpaceNewsViewModel,
+    scienceNewsState: ScienceNewsState,
+    navController: NavController
 ) {
     Column(
         modifier = modifier
@@ -107,8 +111,8 @@ private fun LatestNewsSection(
             text = constants.latest_news_title,
             style = MaterialTheme.typography.headlineMedium
         )
-        when (spaceNewsState) {
-            is SpaceNewsState.Loading -> {
+        when (scienceNewsState) {
+            is ScienceNewsState.Loading -> {
                 LoadingSpinner(
                     modifier = modifier
                         .fillMaxWidth()
@@ -116,23 +120,23 @@ private fun LatestNewsSection(
                 )
             }
 
-            is SpaceNewsState.Success -> {
+            is ScienceNewsState.Success -> {
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     contentPadding = PaddingValues(horizontal = 16.dp)
                 ) {
-                    items(spaceNewsState.data!!.take(10)) {
+                    items(scienceNewsState.data) {
                         LatestNewsCard(
                             onClick = {
                                 val encodedUrl = URLEncoder.encode(
-                                    it.newsSource,
+                                    it.url,
                                     StandardCharsets.UTF_8.toString()
                                 )
                                 navController.navigate("${NavName.news_detail_screen}/${encodedUrl}") {
                                     popUpTo(NavScreen.NewsScreen.route)
                                 }
                             },
-                            newsImageUrl = it.image.image,
+                            newsImageUrl = it.urlToImage,
                             newsTitle = it.title,
                             newsAuthor = it.author,
                             context = LocalContext.current
@@ -141,9 +145,9 @@ private fun LatestNewsSection(
                 }
             }
 
-            is SpaceNewsState.Error -> {
+            is ScienceNewsState.Error -> {
                 ErrorCard(
-                    errorDescription = spaceNewsState.errorMessage.toString(),
+                    errorDescription = scienceNewsState.errorMessage,
                     paddingValues = PaddingValues(16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
@@ -178,19 +182,19 @@ private fun NewsSection(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     contentPadding = PaddingValues(vertical = 16.dp)
                 ) {
-                    items(spaceNewsState.data!!.asReversed()) {
+                    items(spaceNewsState.data.asReversed()) {
                         NewsCard(
                             onClick = {
                                 val encodedUrl = URLEncoder.encode(
-                                    it.newsSource,
+                                    it.source.name,
                                     StandardCharsets.UTF_8.toString()
                                 )
                                 navController.navigate("${NavName.news_detail_screen}/${encodedUrl}") {
                                     popUpTo(NavScreen.NewsScreen.route)
                                 }
                             },
-                            newsImageUrl = it.image.image,
-                            newsTime = DateFormatter.dateFormatter(date = it.date),
+                            newsImageUrl = it.urlToImage,
+                            newsTime = DateFormatter.dateFormatter(date = it.publishedAt),
                             newsTitle = it.title,
                             newsAuthor = it.author,
                             context = LocalContext.current
@@ -201,7 +205,7 @@ private fun NewsSection(
 
             is SpaceNewsState.Error -> {
                 ErrorCard(
-                    errorDescription = spaceNewsState.errorMessage.toString(),
+                    errorDescription = spaceNewsState.errorMessage,
                     paddingValues = PaddingValues(vertical = 16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
