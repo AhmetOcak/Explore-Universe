@@ -14,6 +14,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.AGConnectAuth
 import com.spaceapp.core.common.helper.ImageLoader
@@ -22,34 +25,49 @@ import com.spaceapp.core.navigation.NavGraph
 import com.spaceapp.core.navigation.NavScreen
 import com.spaceapp.presentation.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
     private val homeViewModel: HomeViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ImageLoader.load(context = applicationContext)
 
-        // load home screen's data
-        homeViewModel.loadAllData()
-
         // permission launcher for location
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {}
-        permissionLauncher.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-            )
-        )
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.uiState.collect { uiState ->
+                    if (uiState.consumableUiEvents.isNotEmpty()) {
+                        when (uiState.consumableUiEvents.first()) {
+                            UiEvent.INIT -> {
+                                // load home screen's data
+                                homeViewModel.loadAllData()
+                                permissionLauncher.launch(
+                                    arrayOf(
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    )
+                                )
+                                mainViewModel.consumedUiEvent()
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         // we are getting current user
-        val currentUser: Any? = if(AGConnectAuth.getInstance().currentUser != null) {
+        val currentUser: Any? = if (AGConnectAuth.getInstance().currentUser != null) {
             AGConnectAuth.getInstance().currentUser
         } else {
             FirebaseAuth.getInstance().currentUser
