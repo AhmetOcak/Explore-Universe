@@ -60,7 +60,7 @@ private fun CurrentWeatherInfo(modifier: Modifier, weatherConditionState: Weathe
                 )
                 Text(
                     text = "${weatherConditionState.data!!.temp.temp.toInt()}°C",
-                    fontSize = 24.sp
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 24.sp)
                 )
             }
         }

@@ -48,7 +48,7 @@ class SpaceNewsViewModel @Inject constructor(
     init {
         getScienceNewsFromNetwork()
         getSpaceNewsFromNetwork()
-        //loadLocation()
+        loadLocation()
     }
 
     fun getSpaceNewsFromNetwork() {
