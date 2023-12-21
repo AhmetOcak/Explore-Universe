@@ -1,4 +1,4 @@
-package com.spaceapp.core.common.helper.caller
+package com.spaceapp.core.common.helper
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

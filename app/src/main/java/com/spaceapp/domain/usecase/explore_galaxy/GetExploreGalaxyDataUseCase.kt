@@ -5,7 +5,7 @@ import com.spaceapp.domain.model.explore_galaxy_data.SpaceObject
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import com.spaceapp.core.common.Response
-import com.spaceapp.core.common.helper.caller.call
+import com.spaceapp.core.common.helper.call
 import com.spaceapp.data.repository.space_objects.SpaceObjectsRepository
 
 class GetExploreGalaxyDataUseCase @Inject constructor(private val repository: SpaceObjectsRepository) {

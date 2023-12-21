@@ -4,7 +4,7 @@ import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import com.spaceapp.core.common.Response
-import com.spaceapp.core.common.helper.caller.call
+import com.spaceapp.core.common.helper.call
 import com.spaceapp.data.repository.people_in_space.PeopleInSpaceRepository
 
 class GetPeopleInSpaceRightNowUseCase @Inject constructor(private val peopleInSpaceRepository: PeopleInSpaceRepository) {
