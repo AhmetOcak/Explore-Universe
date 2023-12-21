@@ -1,6 +1,5 @@
 package com.spaceapp.presentation.explore.components
 
-import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.imageLoader
@@ -30,11 +30,10 @@ fun ApodCard(
     imagePadding: PaddingValues = PaddingValues(0.dp),
     contentScale: ContentScale = ContentScale.Fit,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
-    context: Context,
     title: String,
     imageUrl: String
 ) {
-    val imageRequest = ImageRequest.Builder(context = context)
+    val imageRequest = ImageRequest.Builder(context = LocalContext.current)
         .data(imageUrl)
         .memoryCacheKey(imageUrl)
         .diskCacheKey(imageUrl)
@@ -59,7 +58,7 @@ fun ApodCard(
                         .weight(6f)
                         .padding(imagePadding),
                     model = imageRequest,
-                    imageLoader = context.imageLoader,
+                    imageLoader = LocalContext.current.imageLoader,
                     contentDescription = null,
                     contentScale = contentScale
                 )

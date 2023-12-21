@@ -142,10 +142,9 @@ fun UniverseImageSection(apodState: ApodState) {
                     contentPadding = PaddingValues(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(apodState.apodData!!) {
+                    items(apodState.apodData!!, key = { it.image }) {
                         ApodCard(
                             title = it.title,
-                            context = LocalContext.current,
                             imageUrl = it.image,
                             contentScale = ContentScale.Crop
                         )
@@ -170,7 +169,7 @@ private fun CategorySection(onCategoryClick: (String) -> Unit) {
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        itemsIndexed(categories) { index, item ->
+        itemsIndexed(categories, key = { _, item -> item }) { index, item ->
             DefaultTextButton(
                 category = item,
                 index = index,

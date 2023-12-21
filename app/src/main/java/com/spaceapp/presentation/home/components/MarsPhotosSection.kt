@@ -92,7 +92,7 @@ private fun MarsPhotoList(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (dataComingFromDb) {
-            items(photoList) {
+            items(photoList, key = { it.photos[0].image }) {
                 MarsCard(
                     modifier = Modifier
                         .width(LocalConfiguration.current.screenWidthDp.dp - 96.dp)
@@ -103,7 +103,7 @@ private fun MarsPhotoList(
                 )
             }
         } else {
-            items(photoList[0].photos) {
+            items(photoList[0].photos, key = { it.image }) {
                 MarsCard(
                     modifier = Modifier
                         .width(LocalConfiguration.current.screenWidthDp.dp - 96.dp)
