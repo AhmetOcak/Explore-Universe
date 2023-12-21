@@ -24,13 +24,12 @@ import com.spaceapp.core.designsystem.components.Gif
 import com.spaceapp.core.designsystem.components.LoadingSpinner
 import com.spaceapp.core.designsystem.components.Underline
 import com.spaceapp.core.designsystem.theme.TransparentKimberly
-import com.spaceapp.domain.model.where_is_the_iss.Iss
-import com.spaceapp.presentation.home.state.WhereIsTheIssState
+import com.spaceapp.presentation.home.state.IssState
 import com.spaceapp.presentation.utils.HomeScreenConstants
 
 @Composable
 fun WhereIsTheIssSection(
-    whereIsTheIssState: WhereIsTheIssState,
+    issState: IssState,
     retryIssPositionInfo: () -> Unit
 ) {
     Column(
@@ -43,27 +42,27 @@ fun WhereIsTheIssSection(
             text = HomeScreenConstants.where_is_the_iss_title,
             style = MaterialTheme.typography.headlineLarge
         )
-        when (whereIsTheIssState) {
-            is WhereIsTheIssState.Loading -> {
+        when (issState) {
+            is IssState.Loading -> {
                 LoadingSpinner(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 48.dp)
                 )
             }
-            is WhereIsTheIssState.Success -> {
+            is IssState.Success -> {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
                     colors = CardDefaults.cardColors(containerColor = TransparentKimberly)
                 ) {
-                    IssPositionInfo(data = whereIsTheIssState.data!!,)
+                    IssPositionInfo(data = issState.data!!,)
                 }
             }
-            is WhereIsTheIssState.Error -> {
+            is IssState.Error -> {
                 ErrorCard(
-                    errorDescription = whereIsTheIssState.errorMessage!!,
+                    errorDescription = issState.errorMessage!!,
                     paddingValues = PaddingValues(top = 16.dp),
                     isButtonAvailable = true,
                     buttonText = "Try Again",
@@ -75,7 +74,7 @@ fun WhereIsTheIssSection(
 }
 
 @Composable
-private fun IssPositionInfo(data: Iss) {
+private fun IssPositionInfo(data: com.spaceapp.domain.model.where_is_the_iss.Iss) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,

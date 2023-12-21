@@ -42,17 +42,15 @@ fun SignUpScreen(
     navController: NavController,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
-    val verifyEmailState by viewModel.verifyEmailState.collectAsState()
-    val inputFieldState by viewModel.inputFieldState.collectAsState()
-    val signUpState by viewModel.signUpState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     SignUpContent(
         modifier = modifier,
         navController = navController,
-        verifyEmailState = verifyEmailState,
+        verifyEmailState = uiState.verifyEmailState,
         viewModel = viewModel,
-        signUpInputFieldState = inputFieldState,
-        signUpState = signUpState,
+        signUpInputFieldState = uiState.inputFieldState,
+        signUpState = uiState.signUpState,
         emailValue = viewModel.userEmail,
         onEmailValChange = {
             viewModel.updateUserEmailField(it)

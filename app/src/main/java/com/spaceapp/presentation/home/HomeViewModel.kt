@@ -11,11 +11,13 @@ import com.spaceapp.domain.usecase.people_in_space.*
 import com.spaceapp.domain.usecase.where_is_the_iss.*
 import com.spaceapp.presentation.home.state.MarsPhotoState
 import com.spaceapp.presentation.home.state.PeopleInSpaceState
-import com.spaceapp.presentation.home.state.WhereIsTheIssState
+import com.spaceapp.presentation.home.state.IssState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,14 +37,8 @@ class HomeViewModel @Inject constructor(
     private val clearPeopleInSpaceDatabaseUseCase: ClearPeopleInSpaceDatabaseUseCase,
 ) : ViewModel() {
 
-    private val _marsPhotoState = MutableStateFlow<MarsPhotoState>(MarsPhotoState.Loading)
-    val marsPhotoState = _marsPhotoState.asStateFlow()
-
-    private val _whereIsTheIssState = MutableStateFlow<WhereIsTheIssState>(WhereIsTheIssState.Loading)
-    val whereIsTheIssState = _whereIsTheIssState.asStateFlow()
-
-    private val _peopleInSpaceState = MutableStateFlow<PeopleInSpaceState>(PeopleInSpaceState.Loading)
-    val peopleInSpaceState = _peopleInSpaceState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     var isMarsPhotoDataTakenFromDatabase by mutableStateOf(false)
         private set
@@ -55,16 +51,22 @@ class HomeViewModel @Inject constructor(
             getLatestMarsPhotoFromNetworkUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _marsPhotoState.value = MarsPhotoState.Loading
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Loading)
+                        }
                     }
+
                     is Response.Success -> {
                         isMarsPhotoDataTakenFromDatabase = false
-                        _marsPhotoState.value = MarsPhotoState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Success(data = result.data))
+                        }
                         if (!result.data.isNullOrEmpty()) {
                             clearMarsPhotoDatabaseUseCase()
                             addMarsPhotoToDatabaseUseCase(marsPhoto = result.data[0])
                         }
                     }
+
                     is Response.Error -> {
                         getMarsPhotosFromDatabase()
                     }
@@ -78,14 +80,22 @@ class HomeViewModel @Inject constructor(
             getMarsPhotoFromDatabaseUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _marsPhotoState.value = MarsPhotoState.Loading
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Loading)
+                        }
                     }
+
                     is Response.Success -> {
                         isMarsPhotoDataTakenFromDatabase = true
-                        _marsPhotoState.value = MarsPhotoState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Success(data = result.data))
+                        }
                     }
+
                     is Response.Error -> {
-                        _marsPhotoState.value = MarsPhotoState.Error(errorMessage = result.message)
+                        _uiState.update {
+                            it.copy(marsPhotoState = MarsPhotoState.Error(errorMessage = result.message))
+                        }
                     }
                 }
             }
@@ -97,24 +107,32 @@ class HomeViewModel @Inject constructor(
             getIssPositionFromNetworkUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _whereIsTheIssState.value = WhereIsTheIssState.Loading
+                        _uiState.update {
+                            it.copy(issState = IssState.Loading)
+                        }
                     }
+
                     is Response.Success -> {
-                        _whereIsTheIssState.value = WhereIsTheIssState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(issState = IssState.Success(data = result.data))
+                        }
                         if (result.data != null) {
                             getIssPositionFromDatabaseUseCase().collect {
                                 when (it) {
                                     is Response.Success -> {
                                         updateIssPositionUseCase(iss = result.data)
                                     }
+
                                     is Response.Error -> {
                                         addIssPositionToDatabaseUseCase(iss = result.data)
                                     }
+
                                     else -> {}
                                 }
                             }
                         }
                     }
+
                     is Response.Error -> {
                         getIssPositionFromDatabase()
                     }
@@ -128,14 +146,21 @@ class HomeViewModel @Inject constructor(
             getIssPositionFromDatabaseUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _whereIsTheIssState.value = WhereIsTheIssState.Loading
+                        _uiState.update {
+                            it.copy(issState = IssState.Loading)
+                        }
                     }
+
                     is Response.Success -> {
-                        _whereIsTheIssState.value = WhereIsTheIssState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(issState = IssState.Success(data = result.data))
+                        }
                     }
+
                     is Response.Error -> {
-                        _whereIsTheIssState.value =
-                            WhereIsTheIssState.Error(errorMessage = result.message)
+                        _uiState.update {
+                            it.copy(issState = IssState.Error(errorMessage = result.message))
+                        }
                     }
                 }
             }
@@ -147,16 +172,22 @@ class HomeViewModel @Inject constructor(
             getPeopleInSpaceRightNowUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _peopleInSpaceState.value = PeopleInSpaceState.Loading
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Loading)
+                        }
                     }
+
                     is Response.Success -> {
                         isPeopleInSpaceDataTakenFromDatabase = false
-                        _peopleInSpaceState.value = PeopleInSpaceState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Success(data = result.data))
+                        }
                         if (!result.data.isNullOrEmpty()) {
                             clearPeopleInSpaceDatabaseUseCase()
                             addPeopleInSpaceToDatabaseUseCase(peopleInSpace = result.data[0])
                         }
                     }
+
                     is Response.Error -> {
                         getPeopleInSpaceFromDatabase()
                     }
@@ -170,14 +201,22 @@ class HomeViewModel @Inject constructor(
             getPeopleInSpaceFromDatabaseUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _peopleInSpaceState.value = PeopleInSpaceState.Loading
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Loading)
+                        }
                     }
+
                     is Response.Success -> {
                         isPeopleInSpaceDataTakenFromDatabase = true
-                        _peopleInSpaceState.value = PeopleInSpaceState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Success(data = result.data))
+                        }
                     }
+
                     is Response.Error -> {
-                        _peopleInSpaceState.value = PeopleInSpaceState.Error(errorMessage = result.message)
+                        _uiState.update {
+                            it.copy(peopleInSpace = PeopleInSpaceState.Error(errorMessage = result.message))
+                        }
                     }
                 }
             }
@@ -192,8 +231,14 @@ class HomeViewModel @Inject constructor(
 
     // created for splash screen
     fun isDataReady(): Boolean {
-        return _marsPhotoState.value != MarsPhotoState.Loading &&
-                _whereIsTheIssState.value != WhereIsTheIssState.Loading &&
-                _peopleInSpaceState.value != PeopleInSpaceState.Loading
+        return _uiState.value.marsPhotoState != MarsPhotoState.Loading &&
+                _uiState.value.issState != IssState.Loading &&
+                _uiState.value.peopleInSpace != PeopleInSpaceState.Loading
     }
 }
+
+data class UiState(
+    val marsPhotoState: MarsPhotoState = MarsPhotoState.Loading,
+    val peopleInSpace: PeopleInSpaceState = PeopleInSpaceState.Loading,
+    val issState: IssState = IssState.Loading
+)

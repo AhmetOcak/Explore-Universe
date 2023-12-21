@@ -19,7 +19,9 @@ import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,13 +31,11 @@ class LoginViewModel @Inject constructor(
     application: Application
 ) : ViewModel() {
 
-    var device : MobileServiceType = Device.mobileServiceType(context = application.applicationContext)
+    var device: MobileServiceType =
+        Device.mobileServiceType(context = application.applicationContext)
 
-    private val _loginInputFieldState = MutableStateFlow<LoginInputFieldState>(LoginInputFieldState.Nothing)
-    val loginInputFieldState = _loginInputFieldState.asStateFlow()
-
-    private val _loginState = MutableStateFlow<LoginState>(LoginState.Nothing)
-    val loginState = _loginState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     var email by mutableStateOf("")
         private set
@@ -45,7 +45,7 @@ class LoginViewModel @Inject constructor(
     fun login() {
         viewModelScope.launch(Dispatchers.IO) {
             if (checkLoginInfo()) {
-                if(device == MobileServiceType.HMS) {
+                if (device == MobileServiceType.HMS) {
                     loginUseCase.hmsAuth(
                         login = Login(
                             userEmail = email,
@@ -54,17 +54,36 @@ class LoginViewModel @Inject constructor(
                     ).collect { result ->
                         when (result) {
                             is TaskResult.Success -> {
-                                _loginState.value = LoginState.Loading
+                                _uiState.update {
+                                    it.copy(loginState = LoginState.Loading)
+                                }
                                 result.data
                                     ?.addOnSuccessListener {
-                                        _loginState.value = LoginState.Success
+                                        _uiState.update {
+                                            it.copy(loginState = LoginState.Success)
+                                        }
                                     }
-                                    ?.addOnFailureListener {
-                                        _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
+                                    ?.addOnFailureListener { exception ->
+                                        _uiState.update {
+                                            it.copy(
+                                                loginState = LoginState.Error(
+                                                    errorMessage = exception.message
+                                                        ?: SignUpResponseMessages.error
+                                                )
+                                            )
+                                        }
                                     }
                             }
+
                             is TaskResult.Error -> {
-                                _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                                _uiState.update {
+                                    it.copy(
+                                        loginState = LoginState.Error(
+                                            errorMessage = result.message
+                                                ?: SignUpResponseMessages.error
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
@@ -77,21 +96,42 @@ class LoginViewModel @Inject constructor(
                     ).collect { result ->
                         when (result) {
                             is TaskResult.Success -> {
-                                _loginState.value = LoginState.Loading
+                                _uiState.update {
+                                    it.copy(loginState = LoginState.Loading)
+                                }
                                 result.data
                                     ?.addOnSuccessListener {
                                         if (checkUserEmailIsVerified()) {
-                                            _loginState.value = LoginState.Success
+                                            _uiState.update {
+                                                it.copy(loginState = LoginState.Success)
+                                            }
                                         } else {
-                                            _loginState.value = LoginState.Error(errorMessage = SignUpResponseMessages.unverified_email)
+                                            _uiState.update {
+                                                it.copy(loginState = LoginState.Error(errorMessage = SignUpResponseMessages.unverified_email))
+                                            }
                                         }
                                     }
-                                    ?.addOnFailureListener {
-                                        _loginState.value = LoginState.Error(errorMessage = it.message ?: SignUpResponseMessages.error)
+                                    ?.addOnFailureListener { exception ->
+                                        _uiState.update {
+                                            it.copy(
+                                                loginState = LoginState.Error(
+                                                    errorMessage = exception.message
+                                                        ?: SignUpResponseMessages.error
+                                                )
+                                            )
+                                        }
                                     }
                             }
+
                             is TaskResult.Error -> {
-                                _loginState.value = LoginState.Error(errorMessage = result.message ?: SignUpResponseMessages.error)
+                                _uiState.update {
+                                    it.copy(
+                                        loginState = LoginState.Error(
+                                            errorMessage = result.message
+                                                ?: SignUpResponseMessages.error
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
@@ -101,7 +141,7 @@ class LoginViewModel @Inject constructor(
     }
 
     // created for firebase auth
-    private fun checkUserEmailIsVerified() : Boolean {
+    private fun checkUserEmailIsVerified(): Boolean {
         return FirebaseAuth.getInstance().currentUser?.isEmailVerified == true
     }
 
@@ -109,20 +149,30 @@ class LoginViewModel @Inject constructor(
 
     private fun checkEmail(): Boolean {
         return if (EmailController.emailController(email)) {
-            _loginInputFieldState.value = LoginInputFieldState.Nothing
+            _uiState.update {
+                it.copy(inputFieldsState = LoginInputFieldState.Nothing)
+            }
             true
         } else {
-            _loginInputFieldState.value = LoginInputFieldState.Error(errorMessage = SignUpResponseMessages.valid_email)
+            _uiState.update {
+                it.copy(inputFieldsState =
+                LoginInputFieldState.Error(errorMessage = SignUpResponseMessages.valid_email))
+            }
             false
         }
     }
 
     private fun checkPassword(): Boolean {
         return if (password.length < 8) {
-            _loginInputFieldState.value = LoginInputFieldState.Error(errorMessage = SignUpResponseMessages.password_length)
+            _uiState.update {
+                it.copy(inputFieldsState =
+                LoginInputFieldState.Error(errorMessage = SignUpResponseMessages.password_length))
+            }
             false
         } else {
-            _loginInputFieldState.value = LoginInputFieldState.Nothing
+            _uiState.update {
+                it.copy(inputFieldsState = LoginInputFieldState.Nothing)
+            }
             true
         }
     }
@@ -136,13 +186,22 @@ class LoginViewModel @Inject constructor(
     }
 
     fun resetLoginInputFieldState() {
-        _loginInputFieldState.value = LoginInputFieldState.Nothing
+        _uiState.update {
+            it.copy(inputFieldsState = LoginInputFieldState.Nothing)
+        }
     }
 
     // created for error card
     fun resetState() {
-        _loginState.value = LoginState.Nothing
+        _uiState.update {
+            it.copy(loginState = LoginState.Nothing)
+        }
         email = ""
         password = ""
     }
 }
+
+data class UiState(
+    val inputFieldsState: LoginInputFieldState = LoginInputFieldState.Nothing,
+    val loginState: LoginState = LoginState.Nothing
+)

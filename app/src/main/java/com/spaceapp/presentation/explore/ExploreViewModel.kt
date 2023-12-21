@@ -17,7 +17,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,14 +33,8 @@ class ExploreViewModel @Inject constructor(
     @ApplicationContext applicationContext: Context
 ) : ViewModel() {
 
-    private val _apodState = MutableStateFlow<ApodState>(ApodState.Loading)
-    val apodState = _apodState.asStateFlow()
-
-    private val _exploreGalaxyState = MutableStateFlow<ExploreGalaxyState>(ExploreGalaxyState.Loading)
-    val exploreGalaxyState = _exploreGalaxyState.asStateFlow()
-
-    private val _exploreCategoryState = MutableStateFlow<ExploreCategoryState>(ExploreCategoryState.ALL)
-    val exploreCategoryState = _exploreCategoryState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
         getApodFromNetwork()
@@ -48,22 +44,34 @@ class ExploreViewModel @Inject constructor(
     fun exploreCategoryOnClick(categoryName: String) {
         when (categoryName) {
             ExploreCategories.all -> {
-                _exploreCategoryState.value = ExploreCategoryState.ALL
+                _uiState.update {
+                    it.copy(exploreCategoryState = ExploreCategoryState.ALL)
+                }
             }
             ExploreCategories.meteors -> {
-                _exploreCategoryState.value = ExploreCategoryState.METEORS
+                _uiState.update {
+                    it.copy(exploreCategoryState = ExploreCategoryState.METEORS)
+                }
             }
             ExploreCategories.planets -> {
-                _exploreCategoryState.value = ExploreCategoryState.PLANETS
+                _uiState.update {
+                    it.copy(exploreCategoryState = ExploreCategoryState.PLANETS)
+                }
             }
             ExploreCategories.moons -> {
-                _exploreCategoryState.value = ExploreCategoryState.MOONS
+                _uiState.update {
+                    it.copy(exploreCategoryState = ExploreCategoryState.MOONS)
+                }
             }
             ExploreCategories.comets -> {
-                _exploreCategoryState.value = ExploreCategoryState.COMETS
+                _uiState.update {
+                    it.copy(exploreCategoryState = ExploreCategoryState.COMETS)
+                }
             }
             ExploreCategories.stars -> {
-                _exploreCategoryState.value = ExploreCategoryState.STARS
+                _uiState.update {
+                    it.copy(exploreCategoryState = ExploreCategoryState.STARS)
+                }
             }
         }
     }
@@ -73,13 +81,19 @@ class ExploreViewModel @Inject constructor(
             getExploreGalaxyDataUseCase(applicationContext = applicationContext).collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _exploreGalaxyState.value = ExploreGalaxyState.Loading
+                        _uiState.update {
+                            it.copy(exploreGalaxyState = ExploreGalaxyState.Loading)
+                        }
                     }
                     is Response.Success -> {
-                        _exploreGalaxyState.value = ExploreGalaxyState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(exploreGalaxyState = ExploreGalaxyState.Success(data = result.data))
+                        }
                     }
                     is Response.Error -> {
-                        _exploreGalaxyState.value = ExploreGalaxyState.Error(errorMessage = result.message)
+                        _uiState.update {
+                            it.copy(exploreGalaxyState = ExploreGalaxyState.Error(errorMessage = result.message))
+                        }
                     }
                 }
             }
@@ -92,10 +106,14 @@ class ExploreViewModel @Inject constructor(
             getApodFromNetworkUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _apodState.value = ApodState.Loading
+                        _uiState.update {
+                            it.copy(apodState = ApodState.Loading)
+                        }
                     }
                     is Response.Success -> {
-                        _apodState.value = ApodState.Success(apodData = result.data)
+                        _uiState.update {
+                            it.copy(apodState = ApodState.Success(apodData = result.data))
+                        }
                         if (result.data != null) {
                             clearLocalApodUseCase()
                             addApodToDatabaseUseCase(apod = result.data)
@@ -114,16 +132,28 @@ class ExploreViewModel @Inject constructor(
             getApodFromLocalUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _apodState.value = ApodState.Loading
+                        _uiState.update {
+                            it.copy(apodState = ApodState.Loading)
+                        }
                     }
                     is Response.Success -> {
-                        _apodState.value = ApodState.Success(apodData = result.data)
+                        _uiState.update {
+                            it.copy(apodState = ApodState.Success(apodData = result.data))
+                        }
                     }
                     is Response.Error -> {
-                        _apodState.value = ApodState.Error(errorMessage = result.message)
+                        _uiState.update {
+                            it.copy(apodState = ApodState.Error(errorMessage = result.message))
+                        }
                     }
                 }
             }
         }
     }
 }
+
+data class UiState(
+    val apodState: ApodState = ApodState.Loading,
+    val exploreGalaxyState: ExploreGalaxyState = ExploreGalaxyState.Loading,
+    val exploreCategoryState: ExploreCategoryState = ExploreCategoryState.ALL
+)

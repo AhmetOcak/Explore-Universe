@@ -18,22 +18,20 @@ import com.spaceapp.presentation.home.components.WhereIsTheIssSection
 import com.spaceapp.presentation.home.components.WordOfCarlSagan
 import com.spaceapp.presentation.home.state.MarsPhotoState
 import com.spaceapp.presentation.home.state.PeopleInSpaceState
-import com.spaceapp.presentation.home.state.WhereIsTheIssState
+import com.spaceapp.presentation.home.state.IssState
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
-    val marsPhotoState by viewModel.marsPhotoState.collectAsState()
-    val whereIsTheIssState by viewModel.whereIsTheIssState.collectAsState()
-    val peopleInSpaceState by viewModel.peopleInSpaceState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val activity = LocalContext.current as Activity
     OnBackPressed(activity = activity)
 
     HomeScreenContent(
         modifier = modifier,
-        marsPhotoState = marsPhotoState,
-        whereIsTheIssState = whereIsTheIssState,
-        peopleInSpaceState = peopleInSpaceState,
+        marsPhotoState = uiState.marsPhotoState,
+        issState = uiState.issState,
+        peopleInSpaceState = uiState.peopleInSpace,
         marsPhotoComingFromDb = viewModel.isMarsPhotoDataTakenFromDatabase,
         peopleComingFromDb = viewModel.isPeopleInSpaceDataTakenFromDatabase,
         retryAstronautsInfo = viewModel::getPeopleInSpaceFromNetwork,
@@ -46,7 +44,7 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel) {
 private fun HomeScreenContent(
     modifier: Modifier,
     marsPhotoState: MarsPhotoState,
-    whereIsTheIssState: WhereIsTheIssState,
+    issState: IssState,
     peopleInSpaceState: PeopleInSpaceState,
     marsPhotoComingFromDb: Boolean,
     peopleComingFromDb: Boolean,
@@ -65,7 +63,7 @@ private fun HomeScreenContent(
     ) {
         WordOfCarlSagan()
         WhereIsTheIssSection(
-            whereIsTheIssState = whereIsTheIssState,
+            issState = issState,
             retryIssPositionInfo = retryIssPositionInfo
         )
         PeopleInSpaceRightNowSection(

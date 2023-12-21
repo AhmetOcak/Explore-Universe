@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
-class IssDaoTest {
+class IssStateDaoTest {
 
     private lateinit var dao: IssDao
     private lateinit var db: SpaceDatabase

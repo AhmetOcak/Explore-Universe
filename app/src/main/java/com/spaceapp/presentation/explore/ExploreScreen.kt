@@ -35,18 +35,16 @@ fun ExploreScreen(
     viewModel: ExploreViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val apodState by viewModel.apodState.collectAsState()
-    val exploreGalaxyState by viewModel.exploreGalaxyState.collectAsState()
-    val exploreGalaxyCategoryState by viewModel.exploreCategoryState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val activity = LocalContext.current as Activity
     OnBackPressed(activity = activity)
 
     ExploreScreenContent(
         modifier = modifier,
-        apodState = apodState,
-        exploreGalaxyState = exploreGalaxyState,
-        exploreCategoryState = exploreGalaxyCategoryState,
+        apodState = uiState.apodState,
+        exploreGalaxyState = uiState.exploreGalaxyState,
+        exploreCategoryState = uiState.exploreCategoryState,
         navController = navController,
         onCategoryClick = {
             viewModel.exploreCategoryOnClick(it)

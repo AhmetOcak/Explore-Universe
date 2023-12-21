@@ -34,14 +34,12 @@ fun ForgotPasswordScreen(
     navController: NavController,
     viewModel: ForgotPasswordViewModel = hiltViewModel()
 ) {
-    val verifyForgotPasswordState by viewModel.verifyForgotPasswordState.collectAsState()
-    val forgotPasswordState by viewModel.forgotPasswordState.collectAsState()
-    val forgotPasswordInputFieldState by viewModel.forgotPasswordInputFieldState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     ForgotPasswordScreenContent(
-        verifyForgotPasswordState = verifyForgotPasswordState,
-        forgotPasswordState = forgotPasswordState,
-        forgotPasswordInputFieldState = forgotPasswordInputFieldState,
+        verifyForgotPasswordState = uiState.verifyForgotPasswordState,
+        forgotPasswordState = uiState.forgotPasswordState,
+        forgotPasswordInputFieldState = uiState.inputFieldState,
         onVerifyCodeValChange = {
             viewModel.updateVerifyCodeField(it)
         },

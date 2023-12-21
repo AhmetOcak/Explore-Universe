@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.spaceapp.core.designsystem.components.DefaultTextButton
-import com.spaceapp.presentation.explore_detail.state.CategoryState
 import com.spaceapp.presentation.utils.*
 
 @Composable
@@ -29,12 +28,12 @@ fun ExploreDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: ExploreDetailViewModel = hiltViewModel()
 ) {
-    val categoryState by viewModel.categoryState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     ExploreDetailScreenContent(
         modifier = modifier,
         viewModel = viewModel,
-        categoryState = categoryState,
+        categoryState = uiState.categoryState,
         objectName = viewModel.name,
         objectInfo1 = viewModel.info1,
         objectInfo2 = viewModel.info2,

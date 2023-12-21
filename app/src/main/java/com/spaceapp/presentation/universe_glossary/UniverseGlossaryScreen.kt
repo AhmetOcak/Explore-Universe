@@ -24,7 +24,6 @@ import com.spaceapp.core.designsystem.components.ErrorCard
 import com.spaceapp.core.designsystem.components.LoadingSpinner
 import com.spaceapp.domain.model.glossary_data.GlossaryContent
 import com.spaceapp.presentation.universe_glossary.components.StatefulGlossaryCard
-import com.spaceapp.presentation.universe_glossary.state.GlossaryState
 import com.spaceapp.presentation.utils.GlossaryImageType
 import com.spaceapp.presentation.utils.UniverseGlossaryScreenConstants
 
@@ -35,14 +34,14 @@ fun UniverseGlossaryScreen(
     modifier: Modifier = Modifier,
     viewModel: UniverseGlossaryViewModel = hiltViewModel()
 ) {
-    val glossaryState by viewModel.glossaryState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val activity = LocalContext.current as Activity
     OnBackPressed(activity = activity)
 
     UniverseGlossaryContent(
         modifier = modifier,
-        glossaryState = glossaryState,
+        glossaryState = uiState.glossaryState,
         searchValue = viewModel.search,
         onSearchValChange = {
             viewModel.updateSearchField(it)

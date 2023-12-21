@@ -34,14 +34,13 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val loginInputFieldState by viewModel.loginInputFieldState.collectAsState()
-    val loginState by viewModel.loginState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     LoginContent(
         modifier = modifier,
         navController = navController,
-        loginState = loginState,
-        loginInputFieldState = loginInputFieldState,
+        loginState = uiState.loginState,
+        loginInputFieldState = uiState.inputFieldsState,
         emailValue = viewModel.email,
         onEmailValChange = {
             viewModel.updateEmailField(it)

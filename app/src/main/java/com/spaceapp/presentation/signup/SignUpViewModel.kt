@@ -23,7 +23,9 @@ import com.spaceapp.presentation.utils.SignUpResponseMessages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,17 +36,11 @@ class SignUpViewModel @Inject constructor(
     application: Application
 ) : ViewModel() {
 
-    var device: MobileServiceType = Device.mobileServiceType(context = application.applicationContext)
+    var device: MobileServiceType =
+        Device.mobileServiceType(context = application.applicationContext)
 
-    private val _verifyEmailState = MutableStateFlow<VerifyEmailState>(VerifyEmailState.Nothing)
-    val verifyEmailState = _verifyEmailState.asStateFlow()
-
-    private val _signUpInputFieldState = MutableStateFlow<SignUpInputFieldState>(
-        SignUpInputFieldState.Nothing)
-    val inputFieldState = _signUpInputFieldState.asStateFlow()
-
-    private val _signUpState = MutableStateFlow<SignUpState>(SignUpState.Nothing)
-    val signUpState = _signUpState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     var userEmail by mutableStateOf("")
         private set
@@ -68,19 +64,33 @@ class SignUpViewModel @Inject constructor(
                     ).collect { result ->
                         when (result) {
                             is TaskResult.Success -> {
-                                _verifyEmailState.value = VerifyEmailState.Loading
+                                _uiState.update {
+                                    it.copy(verifyEmailState = VerifyEmailState.Loading)
+                                }
                                 result.data
                                     ?.addOnSuccessListener {
-                                        _verifyEmailState.value = VerifyEmailState.Success
+                                        _uiState.update {
+                                            it.copy(verifyEmailState = VerifyEmailState.Success)
+                                        }
                                     }
-                                    ?.addOnFailureListener {
-                                        _verifyEmailState.value = VerifyEmailState.Error(
-                                            errorMessage = it.message ?: SignUpResponseMessages.error
-                                        )
+                                    ?.addOnFailureListener { exception ->
+                                        _uiState.update {
+                                            it.copy(
+                                                verifyEmailState = VerifyEmailState.Error(
+                                                    errorMessage = exception.message
+                                                        ?: SignUpResponseMessages.error
+                                                )
+                                            )
+                                        }
                                     }
                             }
+
                             is TaskResult.Error -> {
-                                _verifyEmailState.value = VerifyEmailState.Error(errorMessage = result.message)
+                                _uiState.update {
+                                    it.copy(
+                                        verifyEmailState = VerifyEmailState.Error(errorMessage = result.message)
+                                    )
+                                }
                             }
                         }
                     }
@@ -92,16 +102,28 @@ class SignUpViewModel @Inject constructor(
                                 result.data
                                     ?.addOnSuccessListener {
                                         FirebaseAuth.getInstance().signOut()
-                                        _verifyEmailState.value = VerifyEmailState.Success
+                                        _uiState.update {
+                                            it.copy(verifyEmailState = VerifyEmailState.Success)
+                                        }
                                     }
-                                    ?.addOnFailureListener {
-                                        _verifyEmailState.value = VerifyEmailState.Error(
-                                            errorMessage = it.message ?: SignUpResponseMessages.error
-                                        )
+                                    ?.addOnFailureListener { exception ->
+                                        _uiState.update {
+                                            it.copy(
+                                                verifyEmailState = VerifyEmailState.Error(
+                                                    errorMessage = exception.message
+                                                        ?: SignUpResponseMessages.error
+                                                )
+                                            )
+                                        }
                                     }
                             }
+
                             is TaskResult.Error -> {
-                                _verifyEmailState.value = VerifyEmailState.Error(errorMessage = result.message)
+                                _uiState.update {
+                                    it.copy(
+                                        verifyEmailState = VerifyEmailState.Error(errorMessage = result.message)
+                                    )
+                                }
                             }
                         }
                     }
@@ -122,29 +144,46 @@ class SignUpViewModel @Inject constructor(
                 ).collect { result ->
                     when (result) {
                         is TaskResult.Success -> {
-                            _signUpState.value = SignUpState.Loading
+                            _uiState.update {
+                                it.copy(signUpState = SignUpState.Loading)
+                            }
                             result.data
                                 ?.addOnSuccessListener {
-                                    _signUpState.value = SignUpState.Success
+                                    _uiState.update {
+                                        it.copy(signUpState = SignUpState.Success)
+                                    }
                                 }
-                                ?.addOnFailureListener {
-                                    _signUpState.value = SignUpState.Error(
-                                        errorMessage = it.localizedMessage ?: SignUpResponseMessages.error
-                                    )
+                                ?.addOnFailureListener { exception ->
+                                    _uiState.update {
+                                        it.copy(
+                                            signUpState = SignUpState.Error(
+                                                errorMessage = exception.localizedMessage
+                                                    ?: SignUpResponseMessages.error
+                                            )
+                                        )
+                                    }
                                 }
                         }
+
                         is TaskResult.Error -> {
-                            _signUpState.value = SignUpState.Error(
-                                errorMessage = result.message ?: SignUpResponseMessages.error
-                            )
+                            _uiState.update {
+                                it.copy(
+                                    signUpState = SignUpState.Error(
+                                        errorMessage = result.message
+                                            ?: SignUpResponseMessages.error
+                                    )
+                                )
+                            }
                         }
                     }
                 }
             } else {
-                if(checkSignUpInfo()) {
+                if (checkSignUpInfo()) {
                     // In firebase we send email verification link
                     // We do not receive any verification codes
-                    _verifyEmailState.value = VerifyEmailState.Success
+                    _uiState.update {
+                        it.copy(verifyEmailState = VerifyEmailState.Success)
+                    }
 
                     signUpUseCase.firebaseAuth(
                         signUp = SignUp(
@@ -161,16 +200,27 @@ class SignUpViewModel @Inject constructor(
                                         // if signup success we send a email verification link
                                         verifyEmail()
                                     }
-                                    ?.addOnFailureListener {
-                                        _signUpState.value = SignUpState.Error(
-                                            errorMessage = it.localizedMessage ?: SignUpResponseMessages.error
-                                        )
+                                    ?.addOnFailureListener { exception ->
+                                        _uiState.update {
+                                            it.copy(
+                                                signUpState = SignUpState.Error(
+                                                    errorMessage = exception.localizedMessage
+                                                        ?: SignUpResponseMessages.error
+                                                )
+                                            )
+                                        }
                                     }
                             }
+
                             is TaskResult.Error -> {
-                                _signUpState.value = SignUpState.Error(
-                                    errorMessage = result.message ?: SignUpResponseMessages.error
-                                )
+                                _uiState.update {
+                                    it.copy(
+                                        signUpState = SignUpState.Error(
+                                            errorMessage = result.message
+                                                ?: SignUpResponseMessages.error
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
@@ -181,37 +231,51 @@ class SignUpViewModel @Inject constructor(
 
     private fun checkFields(): Boolean {
         return if (userEmail != "" && userPassword != "" && userConfirmPassword != "") {
-            _signUpInputFieldState.value = SignUpInputFieldState.Nothing
+            _uiState.update {
+                it.copy(inputFieldState = SignUpInputFieldState.Nothing)
+            }
             true
         } else {
-            _signUpInputFieldState.value = SignUpInputFieldState.Error(errorMessage = SignUpResponseMessages.fill_fields)
+            _uiState.update {
+                it.copy(inputFieldState = SignUpInputFieldState.Error(errorMessage = SignUpResponseMessages.fill_fields))
+            }
             false
         }
     }
 
     private fun checkEmail(): Boolean {
         return if (EmailController.emailController(userEmail)) {
-            _signUpInputFieldState.value = SignUpInputFieldState.Nothing
+            _uiState.update {
+                it.copy(inputFieldState = SignUpInputFieldState.Nothing)
+            }
             true
         } else {
-            _signUpInputFieldState.value = SignUpInputFieldState.Error(errorMessage = SignUpResponseMessages.valid_email)
+            _uiState.update {
+                it.copy(inputFieldState = SignUpInputFieldState.Error(errorMessage = SignUpResponseMessages.valid_email))
+            }
             false
         }
     }
 
     private fun checkPassword(): Boolean {
         return if (userPassword.length < 8) {
-            _signUpInputFieldState.value = SignUpInputFieldState.Error(errorMessage = SignUpResponseMessages.password_length)
+            _uiState.update {
+                it.copy(inputFieldState = SignUpInputFieldState.Error(errorMessage = SignUpResponseMessages.password_length))
+            }
             false
         } else {
-            _signUpInputFieldState.value = SignUpInputFieldState.Nothing
+            _uiState.update {
+                it.copy(inputFieldState = SignUpInputFieldState.Nothing)
+            }
             true
         }
     }
 
     private fun confirmPassword(): Boolean {
         return if (userPassword != userConfirmPassword) {
-            _signUpInputFieldState.value = SignUpInputFieldState.Error(errorMessage = SignUpResponseMessages.password_match)
+            _uiState.update {
+                it.copy(inputFieldState = SignUpInputFieldState.Error(errorMessage = SignUpResponseMessages.password_match))
+            }
             false
         } else {
             true
@@ -239,11 +303,18 @@ class SignUpViewModel @Inject constructor(
 
     // created for error card
     fun resetState() {
-        _signUpState.value = SignUpState.Nothing
-        _verifyEmailState.value = VerifyEmailState.Nothing
+        _uiState.update {
+            it.copy(signUpState = SignUpState.Nothing, verifyEmailState = VerifyEmailState.Nothing)
+        }
         userEmail = ""
         userPassword = ""
         userConfirmPassword = ""
         verifyCode = ""
     }
 }
+
+data class UiState(
+    val inputFieldState: SignUpInputFieldState = SignUpInputFieldState.Nothing,
+    val signUpState: SignUpState = SignUpState.Nothing,
+    val verifyEmailState: VerifyEmailState = VerifyEmailState.Nothing
+)
