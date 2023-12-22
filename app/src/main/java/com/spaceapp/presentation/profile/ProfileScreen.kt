@@ -2,13 +2,19 @@ package com.spaceapp.presentation.profile
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,37 +24,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
-import com.huawei.agconnect.auth.AGConnectAuth
 import com.spaceapp.R
 import com.spaceapp.core.designsystem.components.Gif
 import com.spaceapp.core.designsystem.theme.BlueHaze
-import com.spaceapp.core.navigation.NavScreen
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
-    navController: NavController,
+    onLogOutClick: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     val activity = LocalContext.current as Activity
     OnBackPressed(activity = activity)
 
     ProfileScreenContent(
         modifier = modifier,
         onLogOutClick = {
-            navController.navigate(NavScreen.LoginScreen.route) {
-                popUpTo(0)
-            }
-            if (viewModel.currentUserGms != null) {
-                FirebaseAuth.getInstance().signOut()
-            } else {
-                AGConnectAuth.getInstance().signOut()
-            }
+            viewModel.logOut()
+            onLogOutClick()
         },
-        profileName = if (viewModel.currentUserGms != null) viewModel.currentUserGms.email!! else
-            viewModel.currentUserHms?.email!!
+        profileName = uiState.profileName ?: "Space Traveler"
     )
 }
 

@@ -94,7 +94,11 @@ fun NavGraph(
                 startDestination = startDestination
             ) {
                 composable(route = NavScreen.ProfileScreen.route) {
-                    ProfileScreen(navController = navController)
+                    ProfileScreen(onLogOutClick = {
+                        navController.navigate(NavScreen.LoginScreen.route) {
+                            popUpTo(0)
+                        }
+                    })
                     showFab = true
                 }
                 composable(NavScreen.LoginScreen.route) {

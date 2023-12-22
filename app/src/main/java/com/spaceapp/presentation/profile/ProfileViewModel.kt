@@ -2,19 +2,61 @@ package com.spaceapp.presentation.profile
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.huawei.agconnect.auth.AGConnectAuth
-import com.huawei.agconnect.auth.AGConnectUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor() : ViewModel(){
+class ProfileViewModel @Inject constructor() : ViewModel() {
 
-    private val _currentUserHms = AGConnectAuth.getInstance().currentUser
-    val currentUserHms: AGConnectUser? = _currentUserHms
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val _currentUserGms = FirebaseAuth.getInstance().currentUser
-    val currentUserGms: FirebaseUser? = _currentUserGms
+    init {
+        setUserType()
+    }
 
+    private fun setUserType() {
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            _uiState.update {
+                it.copy(
+                    currentUserType = UserType.GMS,
+                    profileName = FirebaseAuth.getInstance().currentUser?.email
+                )
+            }
+        } else if (AGConnectAuth.getInstance().currentUser != null) {
+            _uiState.update {
+                it.copy(
+                    currentUserType = UserType.HMS,
+                    profileName = AGConnectAuth.getInstance().currentUser.email
+                )
+            }
+        }
+    }
+
+    fun logOut() {
+        when (_uiState.value.currentUserType) {
+            UserType.GMS -> {
+                FirebaseAuth.getInstance().signOut()
+            }
+            UserType.HMS -> {
+                AGConnectAuth.getInstance().signOut()
+            }
+            else -> {}
+        }
+    }
+}
+
+data class UiState(
+    val currentUserType: UserType? = null,
+    val profileName: String? = null
+)
+
+sealed interface UserType {
+    data object GMS : UserType
+    data object HMS : UserType
 }
