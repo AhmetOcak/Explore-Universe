@@ -6,4 +6,5 @@ sealed interface SpaceNewsState {
     data class Success(val data: List<Articles>): SpaceNewsState
     data class Error(val errorMessage: String): SpaceNewsState
     data object Loading: SpaceNewsState
+    data object Nothing: SpaceNewsState
 }

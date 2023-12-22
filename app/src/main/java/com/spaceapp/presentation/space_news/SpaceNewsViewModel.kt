@@ -12,7 +12,9 @@ import com.spaceapp.presentation.space_news.state.WeatherConditionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,17 +35,8 @@ class SpaceNewsViewModel @Inject constructor(
     private val getScienceNewsFromDb: GetScienceNewsFromLocal
 ) : ViewModel() {
 
-    private val _spaceNewsState = MutableStateFlow<SpaceNewsState>(SpaceNewsState.Loading)
-    val spaceNewsState = _spaceNewsState.asStateFlow()
-
-    private val _weatherConditionState = MutableStateFlow<WeatherConditionState>(
-        WeatherConditionState.Loading
-    )
-
-    private val _scienceNewsState = MutableStateFlow<ScienceNewsState>(ScienceNewsState.Loading)
-    val scienceNewsState = _scienceNewsState.asStateFlow()
-
-    val weatherConditionState = _weatherConditionState.asStateFlow()
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
         getScienceNewsFromNetwork()
@@ -56,12 +49,19 @@ class SpaceNewsViewModel @Inject constructor(
             getSpaceNewsFromNetworkUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _spaceNewsState.value = SpaceNewsState.Loading
+                        _uiState.update {
+                            it.copy(spaceNewsState = SpaceNewsState.Loading)
+                        }
                     }
 
                     is Response.Success -> {
-                        _spaceNewsState.value =
-                            SpaceNewsState.Success(data = result.data?.articles ?: listOf())
+                        _uiState.update {
+                            it.copy(
+                                spaceNewsState = SpaceNewsState.Success(
+                                    data = result.data?.articles ?: listOf()
+                                )
+                            )
+                        }
                         if (result.data != null) {
                             clearLocalSpaceNews()
                             addSpaceNewsToDatabaseUseCase(spaceNews = result.data)
@@ -81,12 +81,19 @@ class SpaceNewsViewModel @Inject constructor(
             getLatestScienceNewsFromNetworkUseCase().collect { response ->
                 when (response) {
                     is Response.Loading -> {
-                        _scienceNewsState.value = ScienceNewsState.Loading
+                        _uiState.update {
+                            it.copy(scienceNewsState = ScienceNewsState.Loading)
+                        }
                     }
 
                     is Response.Success -> {
-                        _scienceNewsState.value =
-                            ScienceNewsState.Success(response.data?.articles ?: listOf())
+                        _uiState.update {
+                            it.copy(
+                                scienceNewsState = ScienceNewsState.Success(
+                                    response.data?.articles ?: listOf()
+                                )
+                            )
+                        }
                         if (response.data != null) {
                             clearScienceNewsDbUseCase()
                             addScienceNewsToDatabaseUseCase(spaceNews = response.data)
@@ -106,17 +113,29 @@ class SpaceNewsViewModel @Inject constructor(
             getSpaceNewsFromDatabaseUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _spaceNewsState.value = SpaceNewsState.Loading
+                        _uiState.update {
+                            it.copy(spaceNewsState = SpaceNewsState.Loading)
+                        }
                     }
 
                     is Response.Success -> {
-                        _spaceNewsState.value =
-                            SpaceNewsState.Success(data = result.data?.articles ?: listOf())
+                        _uiState.update {
+                            it.copy(
+                                spaceNewsState = SpaceNewsState.Success(
+                                    data = result.data?.articles ?: listOf()
+                                )
+                            )
+                        }
                     }
 
                     is Response.Error -> {
-                        _spaceNewsState.value =
-                            SpaceNewsState.Error(errorMessage = result.message ?: "error")
+                        _uiState.update {
+                            it.copy(
+                                spaceNewsState = SpaceNewsState.Error(
+                                    errorMessage = result.message ?: "error"
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -128,17 +147,29 @@ class SpaceNewsViewModel @Inject constructor(
             getScienceNewsFromDb().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _scienceNewsState.value = ScienceNewsState.Loading
+                        _uiState.update {
+                            it.copy(scienceNewsState = ScienceNewsState.Loading)
+                        }
                     }
 
                     is Response.Success -> {
-                        _scienceNewsState.value =
-                            ScienceNewsState.Success(data = result.data?.articles ?: listOf())
+                        _uiState.update {
+                            it.copy(
+                                scienceNewsState = ScienceNewsState.Success(
+                                    data = result.data?.articles ?: listOf()
+                                )
+                            )
+                        }
                     }
 
                     is Response.Error -> {
-                        _scienceNewsState.value =
-                            ScienceNewsState.Error(errorMessage = result.message ?: "error")
+                        _uiState.update {
+                            it.copy(
+                                scienceNewsState = ScienceNewsState.Error(
+                                    errorMessage = result.message ?: "error"
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -150,7 +181,9 @@ class SpaceNewsViewModel @Inject constructor(
             getLocationUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _weatherConditionState.value = WeatherConditionState.Loading
+                        _uiState.update {
+                            it.copy(weatherConditionState = WeatherConditionState.Loading)
+                        }
                     }
 
                     is Response.Success -> {
@@ -159,11 +192,17 @@ class SpaceNewsViewModel @Inject constructor(
                                 latitude = result.data.latitude,
                                 longitude = result.data.longitude
                             )
+                        } else {
+                            _uiState.update {
+                                it.copy(weatherConditionState = WeatherConditionState.Nothing)
+                            }
                         }
                     }
 
                     is Response.Error -> {
-                        _weatherConditionState.value = WeatherConditionState.Nothing
+                        _uiState.update {
+                            it.copy(weatherConditionState = WeatherConditionState.Nothing)
+                        }
                     }
                 }
             }
@@ -178,12 +217,15 @@ class SpaceNewsViewModel @Inject constructor(
             ).collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _weatherConditionState.value = WeatherConditionState.Loading
+                        _uiState.update {
+                            it.copy(weatherConditionState = WeatherConditionState.Loading)
+                        }
                     }
 
                     is Response.Success -> {
-                        _weatherConditionState.value =
-                            WeatherConditionState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(weatherConditionState = WeatherConditionState.Success(data = result.data))
+                        }
 
                         if (result.data != null) {
                             getWeatherFromDatabaseUseCase().collect {
@@ -215,19 +257,30 @@ class SpaceNewsViewModel @Inject constructor(
             getWeatherFromDatabaseUseCase().collect { result ->
                 when (result) {
                     is Response.Loading -> {
-                        _weatherConditionState.value = WeatherConditionState.Loading
+                        _uiState.update {
+                            it.copy(weatherConditionState = WeatherConditionState.Loading)
+                        }
                     }
 
                     is Response.Success -> {
-                        _weatherConditionState.value =
-                            WeatherConditionState.Success(data = result.data)
+                        _uiState.update {
+                            it.copy(weatherConditionState = WeatherConditionState.Success(data = result.data))
+                        }
                     }
 
                     is Response.Error -> {
-                        _weatherConditionState.value = WeatherConditionState.Nothing
+                        _uiState.update {
+                            it.copy(weatherConditionState = WeatherConditionState.Nothing)
+                        }
                     }
                 }
             }
         }
     }
 }
+
+data class UiState(
+    val scienceNewsState: ScienceNewsState = ScienceNewsState.Nothing,
+    val spaceNewsState: SpaceNewsState = SpaceNewsState.Nothing,
+    val weatherConditionState: WeatherConditionState = WeatherConditionState.Nothing
+)

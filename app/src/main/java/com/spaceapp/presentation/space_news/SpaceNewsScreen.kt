@@ -40,18 +40,16 @@ fun NewsScreen(
     viewModel: SpaceNewsViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val spaceNewsState by viewModel.spaceNewsState.collectAsState()
-    val weatherConditionState by viewModel.weatherConditionState.collectAsState()
-    val scienceNewsState by viewModel.scienceNewsState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val activity = LocalContext.current as Activity
     OnBackPressed(activity = activity)
 
     NewsContent(
         modifier = modifier,
-        spaceNewsState = spaceNewsState,
-        weatherConditionState = weatherConditionState,
-        scienceNewsState = scienceNewsState,
+        spaceNewsState = uiState.spaceNewsState,
+        weatherConditionState = uiState.weatherConditionState,
+        scienceNewsState = uiState.scienceNewsState,
         navController = navController,
         viewModel = viewModel
     )
@@ -109,6 +107,10 @@ private fun LatestNewsSection(
             style = MaterialTheme.typography.headlineMedium
         )
         when (scienceNewsState) {
+            is ScienceNewsState.Nothing -> {
+
+            }
+
             is ScienceNewsState.Loading -> {
                 LoadingSpinner(
                     modifier = Modifier
@@ -164,6 +166,10 @@ private fun NewsSection(
     Column(modifier = modifier.padding(top = 32.dp, start = 16.dp, end = 16.dp)) {
         Text(text = constants.news_title, style = MaterialTheme.typography.headlineMedium)
         when (spaceNewsState) {
+            is SpaceNewsState.Nothing -> {
+
+            }
+
             is SpaceNewsState.Loading -> {
                 LoadingSpinner(
                     modifier = modifier
