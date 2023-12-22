@@ -1,5 +1,8 @@
 package com.spaceapp.presentation.profile
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.huawei.agconnect.auth.AGConnectAuth
@@ -18,6 +21,20 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     init {
         setUserType()
+    }
+
+    var userName by mutableStateOf("")
+        private set
+
+    var password by mutableStateOf("")
+        private set
+
+    fun updateUserNameValue(newValue: String) {
+        userName = newValue
+    }
+
+    fun updatePasswordValue(newValue: String) {
+        password = newValue
     }
 
     private fun setUserType() {

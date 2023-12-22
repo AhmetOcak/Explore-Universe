@@ -3,6 +3,8 @@ package com.spaceapp.core.designsystem.components
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +19,8 @@ fun DefaultButton(
     contentText: String,
     shape: Shape = RoundedCornerShape(50),
     enabled: Boolean = true,
-    contentPadding: PaddingValues = PaddingValues(16.dp)
+    contentPadding: PaddingValues = PaddingValues(16.dp),
+    colors: ButtonColors = ButtonDefaults.buttonColors()
 ) {
     Button(
         modifier = modifier,
@@ -28,5 +31,6 @@ fun DefaultButton(
         },
         shape = shape,
         enabled = enabled,
+        colors = colors
     )
 }

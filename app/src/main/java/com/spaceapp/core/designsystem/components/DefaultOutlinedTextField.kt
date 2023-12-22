@@ -9,6 +9,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -48,6 +49,53 @@ fun DefaultOutlinedTextField(
         leadingIcon = {
             Icon(
                 painter = painterResource(id = leadingIconId),
+                contentDescription = null
+            )
+        },
+        textStyle = MaterialTheme.typography.bodyMedium,
+        colors = OutlinedTextFieldDefaults.colors(
+            cursorColor = MaterialTheme.colorScheme.secondary,
+            focusedBorderColor = MaterialTheme.colorScheme.secondary,
+            focusedLabelColor = MaterialTheme.colorScheme.secondary,
+            focusedLeadingIconColor = MaterialTheme.colorScheme.secondary,
+            unfocusedBorderColor = White500,
+            unfocusedLabelColor = White500,
+            unfocusedLeadingIconColor = White500
+        ),
+        singleLine = true
+    )
+}
+
+@Composable
+fun DefaultOutlinedTextField(
+    modifier: Modifier = Modifier,
+    value: String = "",
+    onValueChanged: (String) -> Unit,
+    labelText: String,
+    keyboardType: KeyboardType,
+    leadingIcon: ImageVector,
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChanged,
+        label = {
+            Text(
+                text = labelText,
+                fontFamily = fonts,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        keyboardActions = KeyboardActions(onNext = {}),
+        maxLines = 1,
+        visualTransformation = if (keyboardType == KeyboardType.Password) PasswordVisualTransformation(
+            mask = '*'
+        ) else VisualTransformation.None,
+        leadingIcon = {
+            Icon(
+                imageVector = leadingIcon,
                 contentDescription = null
             )
         },
