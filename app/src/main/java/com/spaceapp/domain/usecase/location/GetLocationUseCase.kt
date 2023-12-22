@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetLocationUseCase @Inject constructor(private val locationManager: ILocationManager) {
-    suspend operator fun invoke() : Flow<Response<Location>> = flow {
+    suspend operator fun invoke(): Flow<Response<Location>> = flow {
         try {
             emit(Response.Loading)
 
             emit(Response.Success(data = locationManager.getCurrentLocation()))
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             emit(Response.Error(message = e.localizedMessage ?: ERROR.UNKNOWN))
         }
     }

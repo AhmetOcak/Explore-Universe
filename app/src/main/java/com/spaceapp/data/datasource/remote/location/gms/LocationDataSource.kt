@@ -11,12 +11,19 @@ import javax.inject.Inject
 import android.Manifest
 import android.location.Location
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.Priority
 import kotlin.coroutines.resume
 
 class LocationTrackerGms @Inject constructor(
     private val locationClient: FusedLocationProviderClient,
     private val application: Application
 ) : ILocationTracker {
+
+    var location: Location? = null
+
     override suspend fun getCurrentLocation(): Location? {
         val hasAccessFineLocationPermission = ContextCompat.checkSelfPermission(
             application,
@@ -41,6 +48,16 @@ class LocationTrackerGms @Inject constructor(
             throw Exception("Gps Disabled")
         }
 
+
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).build()
+        val locationCallback: LocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                for (location in locationResult.locations) {
+                    this@LocationTrackerGms.location = location
+                }
+            }
+        }
+
         return suspendCancellableCoroutine { cont ->
             locationClient.lastLocation.apply {
                 if (isComplete) {
@@ -49,7 +66,22 @@ class LocationTrackerGms @Inject constructor(
                     return@suspendCancellableCoroutine
                 }
                 addOnSuccessListener {
-                    cont.resume(it)
+                    if (it == null) {
+                        locationClient.requestLocationUpdates(
+                            locationRequest,
+                            locationCallback,
+                            null
+                        ).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                cont.resume(location)
+                            } else {
+                                cont.cancel()
+                            }
+                        }
+
+                    } else {
+                        cont.resume(it)
+                    }
                 }
                 addOnFailureListener {
                     cont.cancel(it.cause)

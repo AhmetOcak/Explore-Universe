@@ -20,21 +20,24 @@ class LocationManager @Inject constructor(application: Application) : ILocationM
     private var location: ILocationTracker
 
     init {
-        hmsFusedLocationProviderClient = hmsServices.getFusedLocationProviderClient(application.applicationContext)
-        gmsFusedLocationProviderClient = gmsServices.getFusedLocationProviderClient(application.applicationContext)
+        hmsFusedLocationProviderClient =
+            hmsServices.getFusedLocationProviderClient(application.applicationContext)
+        gmsFusedLocationProviderClient =
+            gmsServices.getFusedLocationProviderClient(application.applicationContext)
 
-        location = if (Device.mobileServiceType(context = application.applicationContext) == MobileServiceType.HMS) {
-            LocationTrackerHms(
-                locationClient = hmsFusedLocationProviderClient,
-                application = application
-            )
-        } else {
-            LocationTrackerGms(
-                locationClient = gmsFusedLocationProviderClient,
-                application = application
-            )
-        }
+        location =
+            if (Device.mobileServiceType(context = application.applicationContext) == MobileServiceType.HMS) {
+                LocationTrackerHms(
+                    locationClient = hmsFusedLocationProviderClient,
+                    application = application
+                )
+            } else {
+                LocationTrackerGms(
+                    locationClient = gmsFusedLocationProviderClient,
+                    application = application
+                )
+            }
     }
 
-    override suspend fun getCurrentLocation() : Location? = location.getCurrentLocation()
+    override suspend fun getCurrentLocation(): Location? = location.getCurrentLocation()
 }
