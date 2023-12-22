@@ -12,7 +12,7 @@ Once you enter the application, all data retrieved from the internet is saved on
 * [People in Space Right Now](http://api.open-notify.org/astros.json)
 * [Astronomy Picture of the Day](https://github.com/nasa/apod-api)
 * [Mars Rover Photo](https://github.com/chrisccerami/mars-photo-api)
-* [Space News](https://rapidapi.com/ishanbagchi/api/spacefo)
+* [News](https://newsapi.org/)
 
 <!--
 
