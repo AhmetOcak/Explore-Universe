@@ -1,4 +1,4 @@
-package com.spaceapp.data.repository.auth
+package com.spaceapp.domain.repository
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult

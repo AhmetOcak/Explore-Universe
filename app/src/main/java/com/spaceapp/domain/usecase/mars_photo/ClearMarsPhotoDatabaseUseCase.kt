@@ -1,6 +1,6 @@
 package com.spaceapp.domain.usecase.mars_photo
 
-import com.spaceapp.data.repository.nasa.NasaRepository
+import com.spaceapp.domain.repository.NasaRepository
 import javax.inject.Inject
 
 class ClearMarsPhotoDatabaseUseCase @Inject constructor(private val nasaRepository: NasaRepository) {

@@ -1,4 +1,4 @@
-package com.spaceapp.data.repository.people_in_space
+package com.spaceapp.domain.repository
 
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
 

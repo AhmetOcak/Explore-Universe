@@ -2,7 +2,7 @@ package com.spaceapp.domain.usecase.where_is_the_iss
 
 import com.spaceapp.core.common.Response
 import com.spaceapp.domain.model.where_is_the_iss.Iss
-import com.spaceapp.data.repository.iss.WhereIsTheIssRepository
+import com.spaceapp.domain.repository.WhereIsTheIssRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

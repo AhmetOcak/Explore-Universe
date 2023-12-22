@@ -6,7 +6,7 @@ import com.google.firebase.auth.AuthResult
 import com.huawei.agconnect.auth.SignInResult
 import com.spaceapp.core.common.TaskResult
 import com.spaceapp.domain.model.auth.Login
-import com.spaceapp.data.repository.auth.AuthRepository
+import com.spaceapp.domain.repository.AuthRepository
 import com.spaceapp.domain.utils.ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

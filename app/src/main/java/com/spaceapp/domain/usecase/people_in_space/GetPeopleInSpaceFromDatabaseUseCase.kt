@@ -3,7 +3,7 @@ package com.spaceapp.domain.usecase.people_in_space
 import com.spaceapp.core.common.Response
 import com.spaceapp.core.common.helper.dbCall
 import com.spaceapp.domain.model.people_in_space.PeopleInSpace
-import com.spaceapp.data.repository.people_in_space.PeopleInSpaceRepository
+import com.spaceapp.domain.repository.PeopleInSpaceRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

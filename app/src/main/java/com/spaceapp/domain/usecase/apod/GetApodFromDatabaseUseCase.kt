@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import com.spaceapp.core.common.Response
 import com.spaceapp.core.common.helper.dbCall
-import com.spaceapp.data.repository.nasa.NasaRepository
+import com.spaceapp.domain.repository.NasaRepository
 
 class GetApodFromDatabaseUseCase @Inject constructor(private val nasaRepository: NasaRepository) {
 

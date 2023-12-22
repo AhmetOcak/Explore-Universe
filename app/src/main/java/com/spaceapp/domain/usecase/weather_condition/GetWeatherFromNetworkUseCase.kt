@@ -3,7 +3,7 @@ package com.spaceapp.domain.usecase.weather_condition
 import com.spaceapp.core.common.Response
 import com.spaceapp.core.common.helper.call
 import com.spaceapp.domain.model.weather_condition.WeatherCondition
-import com.spaceapp.data.repository.weather.WeatherConditionRepository
+import com.spaceapp.domain.repository.WeatherConditionRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

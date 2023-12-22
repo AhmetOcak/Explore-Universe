@@ -1,4 +1,4 @@
-package com.spaceapp.data.repository.nasa
+package com.spaceapp.domain.repository
 
 import com.spaceapp.domain.model.apod.Apod
 import com.spaceapp.domain.model.mars_photos.MarsPhoto

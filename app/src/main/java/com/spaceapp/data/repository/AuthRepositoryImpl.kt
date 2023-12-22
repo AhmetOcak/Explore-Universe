@@ -1,4 +1,4 @@
-package com.spaceapp.data.repository.auth
+package com.spaceapp.data.repository
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -14,6 +14,7 @@ import com.spaceapp.domain.model.auth.ForgotPassword
 import com.spaceapp.domain.model.auth.Login
 import com.spaceapp.domain.model.auth.SignUp
 import com.spaceapp.domain.model.auth.VerifyEmail
+import com.spaceapp.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(

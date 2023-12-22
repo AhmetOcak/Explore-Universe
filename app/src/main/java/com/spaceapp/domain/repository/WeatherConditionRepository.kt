@@ -1,4 +1,4 @@
-package com.spaceapp.data.repository.weather
+package com.spaceapp.domain.repository
 
 import com.spaceapp.domain.model.weather_condition.WeatherCondition
 

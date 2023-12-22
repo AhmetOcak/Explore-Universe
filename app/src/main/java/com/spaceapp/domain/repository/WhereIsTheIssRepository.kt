@@ -1,4 +1,4 @@
-package com.spaceapp.data.repository.iss
+package com.spaceapp.domain.repository
 
 import com.spaceapp.domain.model.where_is_the_iss.Iss
 

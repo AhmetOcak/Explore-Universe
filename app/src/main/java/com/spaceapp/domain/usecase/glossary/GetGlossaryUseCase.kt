@@ -4,7 +4,7 @@ import android.content.Context
 import com.spaceapp.core.common.Response
 import com.spaceapp.core.common.helper.call
 import com.spaceapp.domain.model.glossary_data.Glossary
-import com.spaceapp.data.repository.space_objects.SpaceObjectsRepository
+import com.spaceapp.domain.repository.SpaceObjectsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
